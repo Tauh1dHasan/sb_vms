@@ -16,14 +16,19 @@ class UserMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!session()->has('loggedUser') && ($request->path() != '/' && $request->path() != '/register'))
-        {
-            return redirect('/');
-        }
-        if(session()->has('loggedUser') && ($request->path() == '/' || $request->path() == '/register'))
-        {
+        // if(!session()->has('loggedUser') && !session('loggedUserType') != 4 && ($request->path() != '/' && $request->path() != '/register'))
+        // {
+        //     return redirect('/');
+        // }
+        // if(session()->has('loggedUser') && session('loggedUserType') == 4 && ($request->path() == '/' || $request->path() == '/register'))
+        // {
+        //     return back();
+        // }
+
+        if (session('loggedUserType') != 4) {
             return back();
         }
+        
         return $next($request);
     }
 }
