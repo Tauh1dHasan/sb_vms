@@ -2,10 +2,22 @@
 <div class="sidebar-wrapper sidebar-theme">
 
 <div class="theme-logo">
-    <a href="{{route('admin.index')}}">
-        <img src="{{asset('backend/assets/img/logo.svg')}}" class="navbar-logo" alt="logo">
-        <span class="admin-logo">SEBPO<span></span></span>
-    </a>
+    @if(session('loggedUserType') == 1)
+        <a href="{{route('admin.index')}}">
+            <img src="{{asset('backend/assets/img/logo.svg')}}" class="navbar-logo" alt="logo">
+            <span class="admin-logo">SEBPO<span></span></span>
+        </a>
+    @elseif(session('loggedUserType') == 2)
+        <a href="{{route('employee.index')}}">
+            <img src="{{asset('backend/assets/img/logo.svg')}}" class="navbar-logo" alt="logo">
+            <span class="admin-logo">SEBPO<span></span></span>
+        </a>
+    @elseif(session('loggedUserType') == 4)
+        <a href="{{route('visitor.index')}}">
+            <img src="{{asset('backend/assets/img/logo.svg')}}" class="navbar-logo" alt="logo">
+            <span class="admin-logo">SEBPO<span></span></span>
+        </a>
+    @endif
 </div>
 
 <div class="sidebarCollapseFixed">
