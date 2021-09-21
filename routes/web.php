@@ -16,6 +16,7 @@ use App\Http\Controllers\Backend\Employee\EmployeeController;
 
 /* Admin Controllers */
 use App\Http\Controllers\Backend\Admin\AdminIndexController;
+use App\Http\Controllers\Backend\Admin\EmployeeManageController;
 
 
 /*
@@ -98,15 +99,9 @@ Route::group(['middleware' => ['UserMiddleware'],'prefix' => '/visitor', 'as' =>
 
 
 
-<<<<<<< HEAD
 /* Backend Employee Routes */
 Route::group(['middleware' => ['EmployeeMiddleware'], 'prefix' => '/employee', 'as' => 'employee.'], function() {
     // Dashboard page for visitor
-=======
-/* Backend Employee/Host Routes */
-Route::group(['prefix' => '/employee', 'as' => 'employee.'], function() {
-    // Dashboard page for Host
->>>>>>> 3b0fd1c2b67c0241649cd3753b4f7c8d7c599a4f
     Route::get('/', [EmployeeController::class, 'dashboard'])->name('index');
 
     // Show all meeting of this host
@@ -149,5 +144,6 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
 
     Route::group(['middleware' => ['AdminMiddleware']], function() {
         Route::get('/dashboard', [AdminIndexController::class, 'index'])->name('index');
+        Route::get('/pending-employees', [EmployeeManageController::class, 'pending'])->name('pending.employee');
     }); 
 }); 

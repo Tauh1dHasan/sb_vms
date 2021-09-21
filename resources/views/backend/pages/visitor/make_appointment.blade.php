@@ -34,9 +34,9 @@
                                             <label for="meeting_purpose_id">Select Meeting Purpose</label>
                                             <select name="meeting_purpose_id" class="form-control" id="meeting_purpose_id" required>
                                                     <option value="">Select</option>
-                                                @foreach ($purpose as $item)
-                                                    <option value="{{ $item->purpose_id }}">{{ $item->purpose_name }}</option>    
-                                                @endforeach
+                                                    @foreach ($purpose as $item)
+                                                        <option value="{{ $item->purpose_id }}">{{ $item->purpose_name }}</option>    
+                                                    @endforeach
                                             </select>
                                         </div>
 
@@ -51,9 +51,9 @@
                                             <input name="meeting_datetime" type="datetime-local" class="form-control">
                                         </div>
 
-                                        <div class="form-group mb-4">
-                                            <label for="meeting_purpose_id">Do you have a vehicle ?</label>
-                                            <select name="meeting_purpose_id" class="form-control" id="meeting_purpose_id" required>
+                                        <div class="form-group mbhas_vehicle-4">
+                                            <label for="has_vehicle">Do you have a vehicle ?</label>
+                                            <select name="has_vehicle" class="form-control" id="has_vehicle" required>
                                                     <option value="">Select an Option</option>
                                                     <option value="1">Yes</option>
                                                     <option value="0">No</option>

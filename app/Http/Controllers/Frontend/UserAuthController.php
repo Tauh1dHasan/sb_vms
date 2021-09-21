@@ -98,37 +98,44 @@ class UserAuthController extends Controller
         
         if(!empty($user)){
             
-            $password = Hash::check($request->password, $user->password);
-            if($password)
-            {
-                Session::put(['loggedUser' => $user->user_id, 'loggedUserType' => $user->user_type_id]);
-                // return view('backend.pages.visitor.index');
-                
-                if($user->user_type_id == 1)
+            if($user->is_approved == 1){
+                $password = Hash::check($request->password, $user->password);
+
+                if($password)
                 {
-                    return redirect(route('admin.index'));
+                    Session::put(['loggedUser' => $user->user_id, 'loggedUserType' => $user->user_type_id]);
+                    // return view('backend.pages.visitor.index');
+                    
+                    if($user->user_type_id == 1)
+                    {
+                        return redirect(route('admin.index'));
+                    }
+                    if($user->user_type_id == 2)
+                    {
+                        return redirect(route('employee.index'));
+                    }
+                    if($user->user_type_id == 3)
+                    {
+                        return redirect(route('reception.index'));
+                    }
+                    if($user->user_type_id == 4)
+                    {
+                        return redirect(route('visitor.index'));
+                    }
+                    
                 }
-                if($user->user_type_id == 2)
-                {
-                    return redirect(route('employee.index'));
+                else{
+                    Session()->flash('sticky_error' , 'Username & Password didnot matched!');
+                    return redirect()->back();
                 }
-                if($user->user_type_id == 3)
-                {
-                    return redirect(route('reception.index'));
-                }
-                if($user->user_type_id == 4)
-                {
-                    return redirect(route('visitor.index'));
-                }
-                
             }
             else{
-                Session()->flash('sticky_error' , 'Username & Password didnot matched!');
+                Session()->flash('sticky_error' , 'User verification failed!');
                 return redirect()->back();
             }
         }
         else {
-            Session()->flash('sticky_error' , 'No approved user found by this username!');
+            Session()->flash('sticky_error' , 'No user found by this username!');
             return redirect()->back();
         }
         
