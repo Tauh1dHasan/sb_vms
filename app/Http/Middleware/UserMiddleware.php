@@ -25,9 +25,10 @@ class UserMiddleware
         //     return back();
         // }
 
-        if (session('loggedUserType') != 4 ) {
+        if (session('loggedUserType') != 4) {
             return back();
         }
+        
         
         return $next($request);
     }
