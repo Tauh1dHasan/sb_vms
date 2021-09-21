@@ -6,6 +6,18 @@
             
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
                 <div class="widget widget-one">
+
+                    @if (session('success'))
+                        <div class="alert alert-light-success border-0 mb-4" role="alert"> 
+                            <p class="text-success">{{ session('success') }}</p> 
+                        </div>
+                    @endif
+                    @if (session('fail'))
+                        <div class="alert alert-light-success border-0 mb-4" role="alert"> 
+                            <p class="text-success">{{ session('success') }}</p> 
+                        </div>
+                    @endif
+                    
                     <div class="widget-heading">
                         <h1 class="text-center pb-4">Welcome to VMS Employee Panel</h1>
                     </div>

@@ -94,6 +94,7 @@ class UserAuthController extends Controller
         $user = DB::table('users')
                 ->where('username', '=', $request->username)
                 ->first();
+            // dd($user);
         
         if(!empty($user)){
             

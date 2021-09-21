@@ -47,7 +47,7 @@ class VisitorController extends Controller
     // Show Visitor Profile Page
     public function profile(Request $req)
     {
-        $user_id = $req->session()->get('loggedUser');
+        $user_id = session('loggedUser');
         
         $visitor = DB::table('visitors')
                  ->join('visitor_types', 'visitors.visitor_type', '=', 'visitor_types.visitor_type_id')

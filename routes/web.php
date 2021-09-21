@@ -99,9 +99,33 @@ Route::group(['middleware' => ['UserMiddleware'],'prefix' => '/visitor', 'as' =>
 
 
 /* Backend Employee/Host Routes */
-Route::group(['middleware' => ['UserMiddleware'],'prefix' => '/employee', 'as' => 'employee.'], function() {
+Route::group(['prefix' => '/employee', 'as' => 'employee.'], function() {
     // Dashboard page for Host
     Route::get('/', [EmployeeController::class, 'dashboard'])->name('index');
+
+    // Show all meeting of this host
+    Route::get('/all-meetings', [EmployeeController::class, 'allMeetings'])->name('allMeetings');
+
+    // Show all today's meeting of this host
+    Route::get('/today-meetings', [EmployeeController::class, 'todayMeetings'])->name('todayMeetings');
+
+    // Show all pending meetings
+    Route::get('/pending-meetings', [EmployeeController::class, 'pendingMeetings'])->name('pendingMeetings');
+
+    // Show all approved meetings
+    Route::get('/approved-meetings', [EmployeeController::class, 'approvedMeetings'])->name('approvedMeetings');
+
+    // Show all declined meetings
+    Route::get('/rejected-meetings', [EmployeeController::class, 'rejectedMeetings'])->name('rejectedMeetings');
+
+    // Employee profile route
+    Route::get('/profile', [EmployeeController::class, 'profile'])->name('profile');
+
+    // Employee edit profile route
+    Route::get('/edit-profile/{user_id}', [EmployeeController::class, 'edit']);
+
+    // Updade host profile
+    Route::post('/update-profile', [EmployeeController::class, 'updateProfile'])->name('updateProfile');
 }); 
 
 
