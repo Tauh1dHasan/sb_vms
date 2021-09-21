@@ -11,7 +11,7 @@ use App\Http\Controllers\Frontend\EmployeeAuthController;
 use App\Http\Controllers\Backend\Visitor\VisitorController;
 use App\Http\Controllers\Backend\Visitor\MeetingController;
 
-// Visitor's Controller
+// Employee's Controller
 use App\Http\Controllers\Backend\Employee\EmployeeController;
 
 /* Admin Controllers */
