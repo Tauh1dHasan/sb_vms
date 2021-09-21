@@ -25,15 +25,17 @@ class MeetingController extends Controller
         $meeting->meeting_purpose_id = $req->meeting_purpose_id;
         $meeting->purpose_describe = $req->meeting_purpose_describe;
         $meeting->meeting_datetime = $req->meeting_datetime;
+        $meeting->has_vehicle = $req->has_vehicle;
+
         $done = $meeting->save();
 
         if($done)
         {
-            return redirect()->route('visitor.all_meetings')->with('success', 'Your meeting placed successfully');
+            return redirect()->route('visitor.pending_meetings')->with('success', 'Your meeting placed successfully');
         }
         else
         {
-            return redirect()->route('visitor.all_meetings')->with('fail', 'Sorry...! Something went wrong, Please try again');
+            return redirect()->back()->with('fail', 'Sorry...! Something went wrong, Please try again');
         }
     }
 

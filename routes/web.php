@@ -16,6 +16,7 @@ use App\Http\Controllers\Backend\Employee\EmployeeController;
 
 /* Admin Controllers */
 use App\Http\Controllers\Backend\Admin\AdminIndexController;
+use App\Http\Controllers\Backend\Admin\EmployeeManageController;
 
 
 /*
@@ -146,5 +147,6 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
 
     Route::group(['middleware' => ['AdminMiddleware']], function() {
         Route::get('/dashboard', [AdminIndexController::class, 'index'])->name('index');
+        Route::get('/pending-employees', [EmployeeManageController::class, 'pending'])->name('pending.employee');
     }); 
 }); 
