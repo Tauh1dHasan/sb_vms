@@ -17,3 +17,8 @@
     <link rel="stylesheet" type="text/css" href="{{asset('backend/plugins/table/datatable/custom_dt_custom.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('backend/plugins/select2/select2.min.css')}}">
     <link href="{{asset('backend/assets/css/users/user-profile.css')}}" rel="stylesheet" type="text/css" />
+
+    <link href="{{asset('backend/assets/css/authentication/form-2.css')}}" rel="stylesheet" type="text/css" />
+    <!-- END GLOBAL MANDATORY STYLES -->
+    <link rel="stylesheet" type="text/css" href="{{asset('backend/assets/css/forms/theme-checkbox-radio.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('backend/assets/css/forms/switches.css')}}">

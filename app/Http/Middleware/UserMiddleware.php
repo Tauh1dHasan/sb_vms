@@ -25,7 +25,7 @@ class UserMiddleware
         //     return back();
         // }
 
-        if (session('loggedUserType') != 1 || session('loggedUserType') != 2 || session('loggedUserType') != 3 || session('loggedUserType') != 4 ) {
+        if (session('loggedUserType') != 4 ) {
             return back();
         }
         

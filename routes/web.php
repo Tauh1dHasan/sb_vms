@@ -49,7 +49,7 @@ Route::group(['prefix' => '/', 'as' => 'frontend.'], function() {
     Route::post('/employee', [EmployeeAuthController::class, 'employee_login'])->name('employee.login');
 }); 
 
-/* Backend User/Visitor Routes */
+/* Backend Visitor Routes */
 Route::group(['middleware' => ['UserMiddleware'],'prefix' => '/visitor', 'as' => 'visitor.'], function() {
     // Dashboard page for visitor
     Route::get('/', [VisitorController::class, 'dashboard'])->name('index');
@@ -67,7 +67,7 @@ Route::group(['middleware' => ['UserMiddleware'],'prefix' => '/visitor', 'as' =>
     // Store a meeting routes for visitor
     Route::post('/create-meeting', [MeetingController::class, 'store'])->name('store');
     // search employees
-    Route::post('/search-employees', [MeetingController::class, 'search_employees'])->name('search-employees');
+    Route::get('/search-employees', [MeetingController::class, 'search_employees'])->name('search-employees');
 
     // Show all meeting status
     Route::get('/all-appointments', [MeetingController::class, 'index'])->name('all_meetings');
@@ -98,15 +98,26 @@ Route::group(['middleware' => ['UserMiddleware'],'prefix' => '/visitor', 'as' =>
 
 
 
-/* Backend User/Visitor Routes */
-Route::group(['prefix' => '/employee', 'as' => 'employee.'], function() {
+/* Backend Employee Routes */
+Route::group(['middleware' => ['EmployeeMiddleware'], 'prefix' => '/employee', 'as' => 'employee.'], function() {
     // Dashboard page for visitor
     Route::get('/', [EmployeeController::class, 'dashboard'])->name('index');
 }); 
 
 
+/* Backend Reception Routes */
+Route::group(['middleware' => ['ReceptionMiddleware'], 'prefix' => '/reception', 'as' => 'reception.'], function() {
+    // Dashboard page for visitor
+    Route::get('/', [EmployeeController::class, 'dashboard'])->name('index');
+});
+
+
 
 /* Backend Admin Routes */
 Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
-    Route::get('/', [AdminIndexController::class, 'index'])->name('index');
+    Route::get('/', [AdminIndexController::class, 'login'])->name('login');
+
+    Route::group(['middleware' => ['AdminMiddleware']], function() {
+        Route::get('/dashboard', [AdminIndexController::class, 'index'])->name('index');
+    }); 
 }); 

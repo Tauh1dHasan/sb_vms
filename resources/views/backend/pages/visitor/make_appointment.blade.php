@@ -25,8 +25,9 @@
                                                 <div id="employees"></div>
                                             </select> -->
 
-                                            <input name="employee_info" type="text" class="form-control" id="employee_id" placeholder="Type Employee Name">
-                                            <div class="" id="employees"></div>
+                                            <!-- <input name="employee_info" type="text" class="form-control" id="employee_id" placeholder="Type Employee Name"> -->
+                                            <select name="employee_id" id="employee_id" class="form-control"> 
+                                            </select>
                                         </div>
 
                                         <div class="form-group mb-4">

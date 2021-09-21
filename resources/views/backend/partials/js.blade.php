@@ -1,15 +1,16 @@
-	<!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
-	<script src="{{asset('backend/assets/js/libs/jquery-3.1.1.min.js')}}"></script>
-    <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
-    <script src="{{asset('backend/bootstrap/js/popper.min.js')}}"></script>
-    <script src="{{asset('backend/bootstrap/js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('backend/plugins/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
-    <script src="{{asset('backend/assets/js/app.js')}}"></script>
     <script>
         $(document).ready(function() {
             App.init();
         });
     </script>
+
+    <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
+	<script src="{{asset('backend/assets/js/libs/jquery-3.1.1.min.js')}}"></script>
+    <script src="{{asset('backend/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+    <script src="{{asset('backend/bootstrap/js/popper.min.js')}}"></script>
+    <script src="{{asset('backend/bootstrap/js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('backend/plugins/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
+    <script src="{{asset('backend/assets/js/app.js')}}"></script>
     <script src="{{asset('backend/assets/js/custom.js')}}"></script>
     <!-- END GLOBAL MANDATORY SCRIPTS -->
 
@@ -20,13 +21,6 @@
     <script src="{{asset('backend/plugins/select2/select2.min.js')}}"></script>
     <script src="{{asset('backend/plugins/select2/custom-select2.js')}}"></script>
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
-
-    <script> 
-        $(".select2").select2({
-            placeholder: "Make a Selection",
-            allowClear: true
-        });
-    </script>
 
     <script> 
 
@@ -49,7 +43,7 @@
         multiCheck(c3);
     </script>
 
-    <script>
+    <!-- <script>
         $(document).ready(function(){
 
             $('#employee_id').keyup(function(){ 
@@ -75,6 +69,30 @@
                 $('#employees').fadeOut();  
             });  
 
+        });
+    </script> -->
+
+
+    <script type="text/javascript">
+        $('#employee_id').select2({
+            placeholder: "Make a Selection",
+            allowClear: true,
+            ajax: {
+                url: '{{ route('visitor.search-employees') }}',
+                dataType: 'json',
+                delay: 250,
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {
+                                text: item.first_name+' '+item.last_name+' ('+item.designation+', '+item.department+')',
+                                id: item.employee_id
+                            }
+                        })
+                    };
+                },
+                cache: true
+            }
         });
     </script>
 

@@ -21,7 +21,7 @@ class MeetingController extends Controller
 
         $meeting->visitor_id = $req->visitor_id;
         $meeting->user_id = $user_id;
-        $meeting->employee_info = $req->employee_info;
+        $meeting->employee_id = $req->employee_id;
         $meeting->meeting_purpose_id = $req->meeting_purpose_id;
         $meeting->purpose_describe = $req->meeting_purpose_describe;
         $meeting->meeting_datetime = $req->meeting_datetime;
@@ -73,29 +73,47 @@ class MeetingController extends Controller
     // autocomplete employee
     public function search_employees(Request $request)
     {
-        if($request->get('query'))
-        {
-            $query = $request->get('query');
+        // if($request->get('query'))
+        // {
+        //     $query = $request->get('query');
+
+        //     $data = DB::table('employees')
+        //             ->join('departments', 'departments.dept_id', '=', 'employees.dept_id')
+        //             ->join('designations', 'designations.designation_id', '=', 'employees.designation_id')
+        //             ->select('employee_id', 'first_name', 'last_name', 'departments.department_name as department', 'designations.designation as designation', 'mobile_no')
+        //             ->where('first_name', 'LIKE', "%{$query}%")
+        //             ->orWhere('mobile_no', 'LIKE', "%{$query}%")
+        //             ->get();
+
+        //     $output = '<ul class="form-control" style="list-style: none; background: #C7E6E4; height: 100%;">';
+
+        //     foreach($data as $row)
+        //     {
+        //         $output = '<option style="cursor: pointer; color: #009688; border-bottom: 2px solid white; padding: 5px;" value="'.$row->employee_id.'">'.$row->first_name.' '.$row->last_name.' ('.$row->designation.', '.$row->department.')</option>';
+        //     }
+
+        //     // $output .= '</ul>';
+
+        //     echo $output;
+            
+        //     return $data;
+        // }
+
+        $data = [];
+
+        if($request->has('q')){
+
+            $query = $request->q;
 
             $data = DB::table('employees')
-                    ->join('departments', 'departments.dept_id', '=', 'employees.dept_id')
-                    ->join('designations', 'designations.designation_id', '=', 'employees.designation_id')
-                    ->select('first_name', 'last_name', 'departments.department_name as department', 'designations.designation as designation', 'mobile_no')
-                    ->where('first_name', 'LIKE', "%{$query}%")
-                    ->orWhere('mobile_no', 'LIKE', "%{$query}%")
-                    ->get();
-
-            $output = '<ul class="form-control" style="list-style: none; background: #C7E6E4; height: 100%;">';
-
-            foreach($data as $row)
-            {
-                $output .= '<li style="cursor: pointer; color: #009688; border-bottom: 2px solid white; padding: 5px;">'.$row->first_name.' '.$row->last_name.' ('.$row->designation.', '.$row->department.')</li>';
-            }
-
-            $output .= '</ul>';
-
-            echo $output;
+                ->join('departments', 'departments.dept_id', '=', 'employees.dept_id')
+                ->join('designations', 'designations.designation_id', '=', 'employees.designation_id')
+                ->select('employee_id', 'first_name', 'last_name', 'departments.department_name as department', 'designations.designation as designation', 'mobile_no')
+                ->where('first_name', 'LIKE', "%{$query}%")
+                ->orWhere('mobile_no', 'LIKE', "%{$query}%")
+                ->get();
         }
+        return response()->json($data);
     }
 
     // Show all approved meetings of a user

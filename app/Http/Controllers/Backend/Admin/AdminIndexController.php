@@ -9,6 +9,11 @@ class AdminIndexController extends Controller
 {
     public function index()
     {
-        return view('backend.index');
+        return view('backend.pages.admin.index');
+    }
+
+    public function login()
+    {
+        return view('backend.pages.admin.login');
     }
 }

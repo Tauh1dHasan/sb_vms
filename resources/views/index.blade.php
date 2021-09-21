@@ -47,11 +47,11 @@
 												<label class="form-label custom-control-label cur-pointer text-2" for="rememberme">Remember Me</label>
 											</div>
 										</div> -->
-										<div class="form-group col-md-auto">
+										<!-- <div class="form-group col-md-auto">
 											<a class="text-decoration-none text-color-dark text-color-hover-primary font-weight-semibold text-2" href="#">Forgot Password?</a>
-										</div>
+										</div> -->
 									</div>
-									<div class="row">
+									<div class="row mt-3">
 										<div class="form-group col">
 											<button type="submit" class="btn btn-dark btn-modern w-100 text-uppercase rounded-0 font-weight-bold text-3 py-3" data-loading-text="Loading...">Login</button>
 											<!-- <div class="divider">
