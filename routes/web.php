@@ -98,19 +98,16 @@ Route::group(['middleware' => ['UserMiddleware'],'prefix' => '/visitor', 'as' =>
 
 
 
-<<<<<<< HEAD
 /* Backend Employee Routes */
 Route::group(['middleware' => ['EmployeeMiddleware'], 'prefix' => '/employee', 'as' => 'employee.'], function() {
     // Dashboard page for visitor
-=======
-/* Backend Employee/Host Routes */
-Route::group(['prefix' => '/employee', 'as' => 'employee.'], function() {
-    // Dashboard page for Host
->>>>>>> 3b0fd1c2b67c0241649cd3753b4f7c8d7c599a4f
     Route::get('/', [EmployeeController::class, 'dashboard'])->name('index');
 
     // Show all meeting of this host
     Route::get('/all-meetings', [EmployeeController::class, 'allMeetings'])->name('allMeetings');
+
+    // Custom search for all appointments
+    Route::post('/custom-meeting-search', [EmployeeController::class, 'customMeetingSearch'])->name('customMeetingSearch');
 
     // Show all today's meeting of this host
     Route::get('/today-meetings', [EmployeeController::class, 'todayMeetings'])->name('todayMeetings');

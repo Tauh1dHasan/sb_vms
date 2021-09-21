@@ -43,7 +43,8 @@ class MeetingController extends Controller
     {
         $user_id = session('loggedUser');
 
-        $purpose = MeetingPurpose::orderBy('purpose_id', 'desc')->get();
+        $purpose = DB::table('meeting_purposes')->get();
+
         $visitor = DB::table('visitors')
                     ->select('visitors.*')
                     ->where('visitors.user_id', '=', $user_id)
@@ -59,10 +60,7 @@ class MeetingController extends Controller
     {
         $user_id = session('loggedUser');
         $meetings = DB::table('meetings')
-                    // ->join('employees', 'meetings.employee_id', '=', 'employees.employee_id')
                     ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
-                    // ->select('meetings.*', 'employees.first_name as fname', 'employees.last_name as lname', 'meeting_purposes.purpose_name as purpose_name')
-                    ->select('meetings.*', 'meeting_purposes.purpose_name as purpose_name')
                     ->where('meetings.user_id', '=', $user_id)
                     ->orderBy('meeting_id' , 'desc')
                     ->get();

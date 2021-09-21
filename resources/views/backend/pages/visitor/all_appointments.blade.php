@@ -7,11 +7,11 @@
             <div class="row">
             <div class="col-md-5 col-xl-5">
                 <label for="from_date">From Date</label>
-                <input type="datetime-local" class="form-control" name="from_date" id="from_date" required>
+                <input type="date" class="form-control" name="from_date" id="from_date" required>
             </div>
             <div class="col-md-5 col-xl-5">
                 <label for="to_date">To Date</label>
-                <input type="datetime-local" class="form-control" name="to_date" id="to_date" required>
+                <input type="date" class="form-control" name="to_date" id="to_date" required>
             </div>
             <div class="col-md-2 col-xl-2">
                 <button type="submit" class="form-control" class="btn btn-primary" style="margin-top: 30px">Submit</button>
@@ -44,6 +44,7 @@
                                             <th class="text-center">Meeting ID </th>
                                             <th class="text-center">Employee Info</th>
                                             <th class="text-center">Meeting Purpose</th>
+                                            <th class="text-center">Meeting Purpose</th>
                                             <th class="text-center">Meeting Date</th>
                                             <th class="text-center">Meeting Time</th>
                                             <th class="text-center">Has Vehicle</th>
@@ -54,8 +55,9 @@
                                         @foreach($meetings as $meeting)
                                             <tr>
                                                 <td class="text-center"> {{$meeting->meeting_id}} </td>
-                                                <td class="text-center"> {{$meeting->employee_info}} </td>
+                                                <td class="text-center"> {{$meeting->employee_id}} </td>
                                                 <td class="text-center"> {{$meeting->purpose_name}} </td>
+                                                <td class="text-center"> {{$meeting->purpose_describe}} </td>
                                                 <td class="text-center"> <?php echo date("d M, Y", strtotime($meeting->meeting_datetime)); ?> </td>
                                                 <td class="text-center"> <?php echo date("h:i a", strtotime($meeting->meeting_datetime)); ?> </td>
                                                 <td class="text-center"> 
