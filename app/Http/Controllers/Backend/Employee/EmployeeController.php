@@ -10,6 +10,6 @@ class EmployeeController extends Controller
     // Show Employee Dashboard
     public function dashboard()
     {
-        return view('backend.index');
+        return view('backend.pages.employee.index');
     }
 }

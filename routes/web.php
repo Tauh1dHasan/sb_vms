@@ -98,9 +98,9 @@ Route::group(['middleware' => ['UserMiddleware'],'prefix' => '/visitor', 'as' =>
 
 
 
-/* Backend User/Visitor Routes */
-Route::group(['prefix' => '/employee', 'as' => 'employee.'], function() {
-    // Dashboard page for visitor
+/* Backend Employee/Host Routes */
+Route::group(['middleware' => ['UserMiddleware'],'prefix' => '/employee', 'as' => 'employee.'], function() {
+    // Dashboard page for Host
     Route::get('/', [EmployeeController::class, 'dashboard'])->name('index');
 }); 
 
