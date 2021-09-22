@@ -76,7 +76,7 @@
 
     <script type="text/javascript">
         $('#employee_id').select2({
-            placeholder: "Make a Selection",
+            placeholder: "Write Host Name",
             allowClear: true,
             ajax: {
                 url: '{{ route('visitor.search-employees') }}',

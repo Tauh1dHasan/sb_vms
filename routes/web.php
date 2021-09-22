@@ -107,6 +107,9 @@ Route::group(['middleware' => ['EmployeeMiddleware'], 'prefix' => '/employee', '
     // Show all meeting of this host
     Route::get('/all-meetings', [EmployeeController::class, 'allMeetings'])->name('allMeetings');
 
+    // Custom search for all appointments
+    Route::post('/custom-meeting-search', [EmployeeController::class, 'customMeetingSearch'])->name('customMeetingSearch');
+
     // Show all today's meeting of this host
     Route::get('/today-meetings', [EmployeeController::class, 'todayMeetings'])->name('todayMeetings');
 
@@ -127,6 +130,15 @@ Route::group(['middleware' => ['EmployeeMiddleware'], 'prefix' => '/employee', '
 
     // Updade host profile
     Route::post('/update-profile', [EmployeeController::class, 'updateProfile'])->name('updateProfile');
+
+    // Meeting decline route
+    Route::post('/decline-meeting', [EmployeeController::class, 'declineMeeting'])->name('declineMeeting');
+
+    // Meeting approve route
+    Route::post('/approve-meeting', [EmployeeController::class, 'approveMeeting'])->name('approveMeeting');
+
+    // Meeting re-schedule route
+    Route::post('/reschedule-meeting', [EmployeeController::class, 'rescheduleMeeting'])->name('rescheduleMeeting');
 }); 
 
 

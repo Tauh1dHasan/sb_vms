@@ -25,31 +25,162 @@ class EmployeeController extends Controller
     {
         $user_id = session('loggedUser');
 
-        return "All appointment controller";
+        // get employee ID 
+        $employee = Employee::select('employee_id')->where('user_id', '=', $user_id)->first();
+        $employee_id = $employee->employee_id;
+
+        // Select all meeting for this employee
+        $meetings = DB::table('meetings')
+                    ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
+                    ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+                    ->where('meetings.employee_id', '=', $employee_id)
+                    ->get();
+
+        return view('backend.pages.employee.all_appointment', compact('meetings'));
+    }
+
+    // Custom meeting search by dates
+    public function customMeetingSearch(Request $request)
+    {
+        $user_id = session('loggedUser');
+
+        // get employee ID 
+        $employee = Employee::select('employee_id')->where('user_id', '=', $user_id)->first();
+        $employee_id = $employee->employee_id;
+
+        // Select all meeting for this employee
+        $meetings = DB::table('meetings')
+                    ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
+                    ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+                    ->where('meetings.meeting_datetime', '>', $request->from_date)
+                    ->where('meetings.meeting_datetime', '<', $request->to_date)
+                    ->where('meetings.employee_id', '=', $employee_id)
+                    ->get();
+
+        return view('backend.pages.employee.custom_meeting_search', compact('meetings'));
     }
 
     // Show today's meetings
     public function todayMeetings()
     {
-        return "Today's appointments controller";
+        $user_id = session('loggedUser');
+
+        // get employee ID 
+        $employee = Employee::select('employee_id')->where('user_id', '=', $user_id)->first();
+        $employee_id = $employee->employee_id;
+
+        // Get dates
+        $Y_date = date('Y-m-d',strtotime("-1 days"));
+        $T_date = date('Y-m-d',strtotime("+1 days"));
+
+        // Select all meeting for this employee
+        $meetings = DB::table('meetings')
+                        ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
+                        ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+                        ->where('meetings.meeting_datetime', '>', $Y_date)
+                        ->where('meetings.meeting_datetime', '<', $T_date)
+                        ->where('meetings.employee_id', '=', $employee_id)
+                        ->get();
+
+        return view('backend.pages.employee.today_meeting', compact('meetings'));
     }
 
-    // Show all pending meetings
+    // Show Only future pending meetings
     public function pendingMeetings()
     {
-        return "All time pending appointments";
+        $user_id = session('loggedUser');
+
+        // get employee ID 
+        $employee = Employee::select('employee_id')->where('user_id', '=', $user_id)->first();
+        $employee_id = $employee->employee_id;
+
+        // Current date
+        $Y_date = date('Y-m-d',strtotime("-1 days"));
+        
+        // Select all meeting for this employee
+        $meetings = DB::table('meetings')
+                        ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
+                        ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+                        ->where('meetings.meeting_datetime', '>', $Y_date)
+                        ->where('meetings.meeting_status', '=', 0)
+                        ->where('meetings.employee_id', '=', $employee_id)
+                        ->get();
+
+        return view('backend.pages.employee.pending_meeting', compact('meetings'));
     }
 
     // Show all approved meetings
     public function approvedMeetings()
     {
-        return "All time approved appointments";
+        $user_id = session('loggedUser');
+
+        // get employee ID 
+        $employee = Employee::select('employee_id')->where('user_id', '=', $user_id)->first();
+        $employee_id = $employee->employee_id;
+
+        // Select all meeting for this employee
+        $meetings = DB::table('meetings')
+                        ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
+                        ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+                        ->where('meetings.meeting_status', '=', 1)
+                        ->where('meetings.employee_id', '=', $employee_id)
+                        ->get();
+
+        return view('backend.pages.employee.approved_meeting', compact('meetings'));
     }
 
     // Show all rejected meetings
     public function rejectedMeetings()
     {
-        return "All time rejected appointments";
+        $user_id = session('loggedUser');
+
+        // get employee ID 
+        $employee = Employee::select('employee_id')->where('user_id', '=', $user_id)->first();
+        $employee_id = $employee->employee_id;
+
+        // Select all meeting for this employee
+        $meetings = DB::table('meetings')
+                        ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
+                        ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+                        ->where('meetings.meeting_status', '=', 2)
+                        ->where('meetings.employee_id', '=', $employee_id)
+                        ->get();
+
+        return view('backend.pages.employee.rejected_meeting', compact('meetings'));
+    }
+
+    // Meeting decline method
+    public function declineMeeting(Request $request)
+    {
+        $meeting_id = $request->meeting_id;
+        $meeting = Meeting::find($meeting_id);
+        $meeting->meeting_status = 2;
+        $meeting->save();
+
+        return redirect()->back();
+    }
+
+    // Meeting approval method
+    public function approveMeeting(Request $request)
+    {
+        $meeting_id = $request->meeting_id;
+        $meeting = Meeting::find($meeting_id);
+        $meeting->meeting_status = 1;
+        $meeting->save();
+
+        return redirect()->back();
+    }
+
+    // Meeting re-schedule method
+    public function rescheduleMeeting(Request $request)
+    {
+        $meeting_id = $request->meeting_id;
+        $meeting = Meeting::find($meeting_id);
+        $meeting->meeting_datetime = $request->meeting_datetime;
+        $meeting->meeting_status = 3;
+        $meeting->save();
+
+        return redirect()->back();
     }
 
     // Show host profile
