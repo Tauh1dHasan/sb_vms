@@ -55,7 +55,7 @@
                                         @foreach($meetings as $meeting)
                                             <tr>
                                                 <td class="text-center"> {{$meeting->meeting_id}} </td>
-                                                <td class="text-center"> {{$meeting->employee_id}} </td>
+                                                <td class="text-center"> {{$meeting->fname}} {{$meeting->lname}} </td>
                                                 <td class="text-center"> {{$meeting->purpose_name}} </td>
                                                 <td class="text-center"> {{$meeting->purpose_describe}} </td>
                                                 <td class="text-center"> <?php echo date("d M, Y", strtotime($meeting->meeting_datetime)); ?> </td>

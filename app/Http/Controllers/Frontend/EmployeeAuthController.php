@@ -41,7 +41,10 @@ class EmployeeAuthController extends Controller
 
         $user->username = $request->mobile_no;
         $user->password = bcrypt($request->password);
-        $user->user_type_id = $request->user_type_id;;
+        $user->user_type_id = $request->user_type_id;
+        $user->entry_datetime = now();
+
+        $user->save();
 
         $user_id = User::orderBy('user_id', 'desc')->first();
 
@@ -65,6 +68,7 @@ class EmployeeAuthController extends Controller
         $employee->passport_no = $request->passport_no;
         $employee->driving_license_no = $request->driving_license_no;
         $employee->slug = strtolower($request->first_name.'-'.$request->last_name);
+        $employee->entry_datetime = now();
 
         $employee->photo = $request->photo;
         
@@ -77,10 +81,9 @@ class EmployeeAuthController extends Controller
             $employee->photo = $imgName;
         }
 
-        $user->save();
         $employee->save();
 
-        Session()->flash('success' , 'Registration Successfull! Account approval status will be notified by email.');
+        Session()->flash('success' , 'Registration Successfull! Account approval will be notified by email.');
         return redirect()->route('index');
     }
 
@@ -93,7 +96,7 @@ class EmployeeAuthController extends Controller
             'dept_id' => 'required',
             'designation_id' => 'required',
             'mobile_no' => 'required|unique:employees|min:11',
-            'password' => 'required|confirmed|max:255',
+            'password' => 'required|confirmed|min:6|max:255',
             // 'email' => 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix',
             'photo' => 'mimes:jpeg,png,jpg|max:2048',
             '_answer'=>'required|simple_captcha',

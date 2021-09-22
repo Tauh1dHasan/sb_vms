@@ -42,9 +42,8 @@ class IndexController extends Controller
     /* employee register page */
     public function employee_create()
     {
-        $user_types = UserType::where('user_type_id' , '=', '2')
-                    ->where('user_type_status' , '=', '1')
-                    ->orWhere('user_type_id' , '=', '3')
+        $user_types = UserType::where('user_type_status' , '=', '1')
+                    ->where('user_type_id' , '=', '2')
                     ->get();
         $departments = Department::orderBy('dept_id' , 'asc')->get();
         $designations = Designation::orderBy('designation_id' , 'asc')->get();

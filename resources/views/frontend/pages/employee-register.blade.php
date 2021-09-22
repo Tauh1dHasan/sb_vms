@@ -79,8 +79,8 @@
 											<input type="text" value="{{old('mobile_no')}}" name="mobile_no" class="form-control form-control-lg text-4" required>
 										</div>
 										<div class="form-group col-6">
-											<label class="form-label text-color-dark text-3">Email</label>
-											<input type="email" value="{{old('email')}}" name="email" class="form-control form-control-lg text-4">
+											<label class="form-label text-color-dark text-3">Email <span class="text-color-danger">*</span></label>
+											<input type="email" value="{{old('email')}}" name="email" class="form-control form-control-lg text-4" required>
 										</div>
 									</div>
 

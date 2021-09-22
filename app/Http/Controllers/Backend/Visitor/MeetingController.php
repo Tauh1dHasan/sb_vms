@@ -120,8 +120,7 @@ class MeetingController extends Controller
     public function approved(Request $req)
     {
         // User session user_id
-        $user_id = session('loggedUser');
-        
+        $user_id = session('loggedUser');      
         
         $meetings = DB::table('meetings')
                     // ->join('employees', 'meetings.employee_id', '=', 'employees.employee_id')

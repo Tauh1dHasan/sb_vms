@@ -28,6 +28,7 @@ class UserAuthController extends Controller
         $user->username = $request->mobile_no;
         $user->password = bcrypt($request->password);
         $user->user_type_id = '4';
+        $user->entry_datetime = now();
 
         $user->save();
 
@@ -48,6 +49,7 @@ class UserAuthController extends Controller
         $visitor->passport_no = $request->passport_no;
         $visitor->driving_license_no = $request->driving_license_no;
         $visitor->slug = strtolower($request->first_name.'-'.$request->last_name);
+        $visitor->entry_datetime = now();
 
         $visitor->profile_photo = $request->profile_photo;
         
@@ -66,7 +68,7 @@ class UserAuthController extends Controller
             mail::to($visitor->email)->send(new RegisterMail($visitor));
         }
 
-        Session()->flash('success' , 'Registration Successfull! Please check your mail for verification.');
+        Session()->flash('success' , 'Registration Successfull! Please check your email for verification.');
         return redirect()->route('index');
     }
 
@@ -76,7 +78,7 @@ class UserAuthController extends Controller
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'mobile_no' => 'required|unique:visitors|min:11',
-            'password' => 'required|confirmed|max:255',
+            'password' => 'required|confirmed|min:6|max:255',
             // 'email' => 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix',
             'profile_photo' => 'mimes:jpeg,png,jpg|max:2048',
             '_answer'=>'required|simple_captcha',

@@ -177,7 +177,7 @@ class EmployeeManageController extends Controller
             mail::to($employees->email)->send(new EmployeeDeclinedMail($employees));
         }
 
-        Session()->flash('sticky_error' , 'Employee Account Declined Succesfully.');
+        Session()->flash('success' , 'Employee Account Declined Succesfully.');
         return redirect()->route('admin.declined.employees');
     }
 }
