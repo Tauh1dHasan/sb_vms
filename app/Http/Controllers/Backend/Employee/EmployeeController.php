@@ -69,9 +69,10 @@ class EmployeeController extends Controller
         $employee = Employee::select('employee_id')->where('user_id', '=', $user_id)->first();
         $employee_id = $employee->employee_id;
 
-        // Current date
+        // Get dates
         $Y_date = date('Y-m-d',strtotime("-1 days"));
         $T_date = date('Y-m-d',strtotime("+1 days"));
+
         // Select all meeting for this employee
         $meetings = DB::table('meetings')
                         ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
@@ -84,7 +85,7 @@ class EmployeeController extends Controller
         return view('backend.pages.employee.today_meeting', compact('meetings'));
     }
 
-    // Show all pending meetings
+    // Show Only future pending meetings
     public function pendingMeetings()
     {
         $user_id = session('loggedUser');
@@ -95,11 +96,12 @@ class EmployeeController extends Controller
 
         // Current date
         $Y_date = date('Y-m-d',strtotime("-1 days"));
-        $T_date = date('Y-m-d',strtotime("+1 days"));
+        
         // Select all meeting for this employee
         $meetings = DB::table('meetings')
                         ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
                         ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+                        ->where('meetings.meeting_datetime', '>', $Y_date)
                         ->where('meetings.meeting_status', '=', 0)
                         ->where('meetings.employee_id', '=', $employee_id)
                         ->get();
@@ -116,9 +118,6 @@ class EmployeeController extends Controller
         $employee = Employee::select('employee_id')->where('user_id', '=', $user_id)->first();
         $employee_id = $employee->employee_id;
 
-        // Current date
-        $Y_date = date('Y-m-d',strtotime("-1 days"));
-        $T_date = date('Y-m-d',strtotime("+1 days"));
         // Select all meeting for this employee
         $meetings = DB::table('meetings')
                         ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
@@ -139,9 +138,6 @@ class EmployeeController extends Controller
         $employee = Employee::select('employee_id')->where('user_id', '=', $user_id)->first();
         $employee_id = $employee->employee_id;
 
-        // Current date
-        $Y_date = date('Y-m-d',strtotime("-1 days"));
-        $T_date = date('Y-m-d',strtotime("+1 days"));
         // Select all meeting for this employee
         $meetings = DB::table('meetings')
                         ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
@@ -151,6 +147,40 @@ class EmployeeController extends Controller
                         ->get();
 
         return view('backend.pages.employee.rejected_meeting', compact('meetings'));
+    }
+
+    // Meeting decline method
+    public function declineMeeting(Request $request)
+    {
+        $meeting_id = $request->meeting_id;
+        $meeting = Meeting::find($meeting_id);
+        $meeting->meeting_status = 2;
+        $meeting->save();
+
+        return redirect()->back();
+    }
+
+    // Meeting approval method
+    public function approveMeeting(Request $request)
+    {
+        $meeting_id = $request->meeting_id;
+        $meeting = Meeting::find($meeting_id);
+        $meeting->meeting_status = 1;
+        $meeting->save();
+
+        return redirect()->back();
+    }
+
+    // Meeting re-schedule method
+    public function rescheduleMeeting(Request $request)
+    {
+        $meeting_id = $request->meeting_id;
+        $meeting = Meeting::find($meeting_id);
+        $meeting->meeting_datetime = $request->meeting_datetime;
+        $meeting->meeting_status = 3;
+        $meeting->save();
+
+        return redirect()->back();
     }
 
     // Show host profile

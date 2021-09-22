@@ -130,6 +130,15 @@ Route::group(['middleware' => ['EmployeeMiddleware'], 'prefix' => '/employee', '
 
     // Updade host profile
     Route::post('/update-profile', [EmployeeController::class, 'updateProfile'])->name('updateProfile');
+
+    // Meeting decline route
+    Route::post('/decline-meeting', [EmployeeController::class, 'declineMeeting'])->name('declineMeeting');
+
+    // Meeting approve route
+    Route::post('/approve-meeting', [EmployeeController::class, 'approveMeeting'])->name('approveMeeting');
+
+    // Meeting re-schedule route
+    Route::post('/reschedule-meeting', [EmployeeController::class, 'rescheduleMeeting'])->name('rescheduleMeeting');
 }); 
 
 

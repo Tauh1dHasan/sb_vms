@@ -8,7 +8,7 @@
                     <div class="statbox widget box box-shadow">
                         <div class="widget-content widget-content-area">
                             <div class="table-responsive mb-4">
-
+                                <h4>Approved Appointments</h4>
                                 @if (session('success'))
                                     <div class="alert alert-light-success border-0 mb-4" role="alert"> 
                                         <p class="text-success">{{ session('success') }}</p> 
