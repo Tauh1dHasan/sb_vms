@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 21, 2021 at 12:36 PM
+-- Generation Time: Sep 22, 2021 at 08:21 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 8.0.9
 
@@ -223,7 +223,14 @@ CREATE TABLE `meetings` (
 --
 
 INSERT INTO `meetings` (`meeting_id`, `user_id`, `visitor_id`, `employee_id`, `meeting_purpose_id`, `purpose_describe`, `meeting_datetime`, `meeting_start_time`, `meeting_end_time`, `entry_user_id`, `entry_datetime`, `modified_user_id`, `modified_datetime`, `cancel_reason`, `meeting_status`, `checkin_status`, `has_vehicle`) VALUES
-(1, 1, 1, 0, 1, 'test', '2021-09-22 19:36:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, 0);
+(1, 1, 1, 0, 1, 'test', '2021-09-22 19:36:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, 0),
+(2, 1, 1, 2, 1, 'Official reason', '2021-09-15 12:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0),
+(3, 1, 1, 2, 1, 'again test', '2021-09-17 08:02:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0),
+(4, 1, 1, 2, 1, 'meeting four', '2021-09-19 13:07:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0),
+(5, 1, 1, 2, 1, 'asdfsadfsadf', '2021-09-23 11:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, 0, 0),
+(6, 1, 1, 2, 1, 'asdfasdfasdf', '2021-09-23 20:23:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0),
+(7, 1, 1, 2, 2, 'l;kjopiwquer', '2021-09-30 12:06:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, 0, 0),
+(8, 1, 1, 2, 1, 'asdfsadfsadf', '2021-09-22 11:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -247,7 +254,8 @@ CREATE TABLE `meeting_purposes` (
 --
 
 INSERT INTO `meeting_purposes` (`purpose_id`, `purpose_name`, `purpose_description`, `entry_user_id`, `entry_datetime`, `modified_user_id`, `modified_datetime`, `purpose_status`) VALUES
-(1, 'official', NULL, NULL, NULL, NULL, NULL, 1);
+(1, 'official', NULL, NULL, NULL, NULL, NULL, 1),
+(2, 'Visitor', NULL, NULL, NULL, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -601,13 +609,13 @@ ALTER TABLE `login _lockdowns`
 -- AUTO_INCREMENT for table `meetings`
 --
 ALTER TABLE `meetings`
-  MODIFY `meeting_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `meeting_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `meeting_purposes`
 --
 ALTER TABLE `meeting_purposes`
-  MODIFY `purpose_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `purpose_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `permissions`

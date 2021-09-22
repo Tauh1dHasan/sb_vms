@@ -17,7 +17,50 @@ class EmployeeController extends Controller
     // Show Employee Dashboard
     public function dashboard()
     {
-        return view('backend.pages.employee.index');
+        // Total appointment count
+        $meeting = Meeting::get();
+        $total_appointment = $meeting->count();
+
+        // Today's appointment count
+        $user_id = session('loggedUser');
+
+        $employee = Employee::select('employee_id')->where('user_id', '=', $user_id)->first();
+        $employee_id = $employee->employee_id;
+
+        $Y_date = date('Y-m-d',strtotime("-1 days"));
+        $T_date = date('Y-m-d',strtotime("+1 days"));
+
+        $meetings = DB::table('meetings')
+                        ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
+                        ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+                        ->where('meetings.meeting_datetime', '>', $Y_date)
+                        ->where('meetings.meeting_datetime', '<', $T_date)
+                        ->where('meetings.employee_id', '=', $employee_id)
+                        ->get();
+        $today_appointment = $meetings->count();
+
+
+        // Total pending appointment count
+        $pending = DB::table('meetings')
+                        ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
+                        ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+                        ->where('meetings.meeting_datetime', '>', $Y_date)
+                        ->where('meetings.meeting_status', '=', 0)
+                        ->where('meetings.employee_id', '=', $employee_id)
+                        ->get();
+        $pending_appointment = $pending->count();
+
+
+        // Total rejected appointment count
+        $reject = DB::table('meetings')
+                        ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
+                        ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+                        ->where('meetings.meeting_status', '=', 2)
+                        ->where('meetings.employee_id', '=', $employee_id)
+                        ->get();
+        $reject_appointment = $reject->count();
+
+        return view('backend.pages.employee.index', compact('total_appointment', 'today_appointment', 'pending_appointment', 'reject_appointment'));
     }
 
     // Show all meeting

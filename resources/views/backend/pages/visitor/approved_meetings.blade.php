@@ -27,7 +27,7 @@
                                         @foreach($meetings as $meeting)
                                             <tr>
                                                 <td class="text-center"> {{$meeting->meeting_id}} </td>
-                                                <td class="text-center"> {{$meeting->employee_info}} </td>
+                                                <td class="text-center"> {{$meeting->first_name}}  {{$meeting->last_name}} </td>
                                                 <td class="text-center"> {{$meeting->purpose_name}} </td>
                                                 <td class="text-center"> <?php echo date("d M, Y", strtotime($meeting->meeting_datetime)); ?> </td>
                                                 <td class="text-center"> <?php echo date("h:i a", strtotime($meeting->meeting_datetime)); ?> </td>
