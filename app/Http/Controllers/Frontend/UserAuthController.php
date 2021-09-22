@@ -29,6 +29,8 @@ class UserAuthController extends Controller
         $user->password = bcrypt($request->password);
         $user->user_type_id = '4';
 
+        $user->save();
+
         $user_id = User::orderBy('user_id', 'desc')->first();
 
         $visitor = new Visitor;
@@ -58,7 +60,6 @@ class UserAuthController extends Controller
             $visitor->profile_photo = $imgName;
         }
 
-        $user->save();
         $visitor->save();
 
         if($visitor->email != NULL){
@@ -166,16 +167,17 @@ class UserAuthController extends Controller
     }
 
 
-    // public function user_verify(User $user_id) {
-    //     $user = DB::table('users', 'visitors')
-    //             ->where('user_id', $user_id)
-    //             ->update(['is_approved' => 1]);
+    public function user_verify(User $user_id) {
 
-    //     $visitor = DB::table('visitors')
-    //             ->where('user_id', $user_id)
-    //             ->update(['visitor_status' => 1]);
+        $user = DB::table('users')
+                ->where('user_id', $user_id->user_id)
+                ->update(['is_approved' => 1]);
 
-    //     $user->save();
-    //     $visitor->save();
-    // }
+        $visitor = DB::table('visitors')
+                ->where('user_id', $user_id->user_id)
+                ->update(['visitor_status' => 1]);
+
+        Session()->flash('success' , 'Email Verification Successfull! Please Login.');
+        return redirect()->route('index');
+    }
 }

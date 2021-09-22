@@ -13,7 +13,9 @@ class Visitor extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['user_id', 'visitor_type', 'first_name', 'last_name', 'slug', 'mobile_no', 'email', 'address', 'nid_no', 'driving_license_no', 'passport_no', 'dob', 'gender', 'profile_photo', 'entry_user_id', 'entry_date_time', 'modified_user_id', 'modified_date_time', 'visitor_status'];
+    protected $primaryKey = 'visitor_id';
+
+    protected $fillable = ['user_id', 'visitor_type', 'first_name', 'last_name', 'slug', 'mobile_no', 'email', 'address', 'nid_no', 'driving_license_no', 'passport_no', 'dob', 'gender', 'profile_photo', 'entry_user_id', 'modified_user_id', 'visitor_status'];
 
     // public function setNameAttribute($value)
 	// {

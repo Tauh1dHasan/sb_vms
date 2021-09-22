@@ -39,7 +39,7 @@ Route::group(['prefix' => '/', 'as' => 'frontend.'], function() {
 
     Route::get('register', [IndexController::class, 'register'])->name('register');
     Route::post('user-register', [UserAuthController::class, 'user_registration'])->name('user_registration');
-    // Route::get('user-verify/{user_id}', [UserAuthController::class, 'user_verify'])->name('user_verify');
+    Route::get('user-verify/{user_id}', [UserAuthController::class, 'user_verify'])->name('user_verify');
     Route::post('/visitor', [UserAuthController::class, 'user_login'])->name('user_login');
     Route::get('user-logout', [UserAuthController::class, 'user_logout'])->name('user_logout');
 
@@ -144,6 +144,11 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
 
     Route::group(['middleware' => ['AdminMiddleware']], function() {
         Route::get('/dashboard', [AdminIndexController::class, 'index'])->name('index');
-        Route::get('/pending-employees', [EmployeeManageController::class, 'pending'])->name('pending.employee');
+        Route::get('/pending-employees', [EmployeeManageController::class, 'pending'])->name('pending.employees');
+        Route::get('/approved-employees', [EmployeeManageController::class, 'approved'])->name('approved.employees');
+        Route::get('/declined-employees', [EmployeeManageController::class, 'declined'])->name('declined.employees');
+
+        Route::get('/approve-employee/{user_id}', [EmployeeManageController::class, 'approve'])->name('approve.employee');
+        Route::get('/decline-employee/{user_id}', [EmployeeManageController::class, 'decline'])->name('decline.employee');
     }); 
 }); 
