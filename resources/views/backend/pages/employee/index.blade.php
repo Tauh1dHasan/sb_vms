@@ -26,7 +26,7 @@
                         <div class="w-chart-section total-visits-content">
                             <div class="w-detail">
                                 <p class="w-title">Total Appointments</p>
-                                <p class="w-stats">423,964</p>
+                                <p class="w-stats">{{$total_appointment}}</p>
                             </div>
                             <div class="w-chart-render-one">
                                 
@@ -37,7 +37,7 @@
                         <div class="w-chart-section paid-visits-content">
                             <div class="w-detail">
                                 <p class="w-title">Today's Appointments</p>
-                                <p class="w-stats">7,929</p>
+                                <p class="w-stats">{{$today_appointment}}</p>
                             </div>
                             <div class="w-chart-render-one">
                                 
@@ -47,7 +47,7 @@
                         <div class="w-chart-section total-visits-content">
                             <div class="w-detail">
                                 <p class="w-title">Pending Appointments</p>
-                                <p class="w-stats">423,964</p>
+                                <p class="w-stats">{{$pending_appointment}}</p>
                             </div>
                             <div class="w-chart-render-one">
                                 
@@ -58,7 +58,7 @@
                         <div class="w-chart-section paid-visits-content">
                             <div class="w-detail">
                                 <p class="w-title">Rejected Appointments</p>
-                                <p class="w-stats">7,929</p>
+                                <p class="w-stats">{{$reject_appointment}}</p>
                             </div>
                             <div class="w-chart-render-one">
                                 

@@ -31,7 +31,7 @@ class MeetingController extends Controller
 
         if($done)
         {
-            return redirect()->route('visitor.pending_meetings')->with('success', 'Your meeting placed successfully');
+            return redirect()->route('visitor.pendingaMeetings')->with('success', 'Your meeting placed successfully');
         }
         else
         {
@@ -63,8 +63,8 @@ class MeetingController extends Controller
         $user_id = session('loggedUser');
         $meetings = DB::table('meetings')
                     ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+                    ->join('employees', 'meetings.employee_id', '=', 'employees.employee_id')
                     ->where('meetings.user_id', '=', $user_id)
-                    ->orderBy('meeting_id' , 'desc')
                     ->get();
 
         return view('backend.pages.visitor.all_appointments', compact('meetings'));
@@ -124,10 +124,8 @@ class MeetingController extends Controller
         
         
         $meetings = DB::table('meetings')
-                    // ->join('employees', 'meetings.employee_id', '=', 'employees.employee_id')
                     ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
-                    // ->select('meetings.*', 'employees.first_name as fname', 'employees.last_name as lname', 'meeting_purposes.purpose_name as purpose_name')
-                    ->select('meetings.*', 'meeting_purposes.purpose_name as purpose_name')
+                    ->join('employees', 'meetings.employee_id', '=', 'employees.employee_id')
                     ->where('meetings.user_id', '=', $user_id)
                     ->where('meetings.meeting_status', '=', '1')
                     ->orderBy('meeting_id' , 'desc')
@@ -143,10 +141,8 @@ class MeetingController extends Controller
         $user_id = session('loggedUser');
 
         $meetings = DB::table('meetings')
-                    // ->join('employees', 'meetings.employee_id', '=', 'employees.employee_id')
                     ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
-                    // ->select('meetings.*', 'employees.first_name as fname', 'employees.last_name as lname', 'meeting_purposes.purpose_name as purpose_name')
-                    ->select('meetings.*', 'meeting_purposes.purpose_name as purpose_name')
+                    ->join('employees', 'meetings.employee_id', '=', 'employees.employee_id')
                     ->where('meetings.user_id', '=', $user_id)
                     ->where('meetings.meeting_status', '=', '0')
                     ->orderBy('meeting_id' , 'desc')
@@ -162,10 +158,8 @@ class MeetingController extends Controller
         $user_id = session('loggedUser');
 
         $meetings = DB::table('meetings')
-                    // ->join('employees', 'meetings.employee_id', '=', 'employees.employee_id')
                     ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
-                    // ->select('meetings.*', 'employees.first_name as fname', 'employees.last_name as lname', 'meeting_purposes.purpose_name as purpose_name')
-                    ->select('meetings.*', 'meeting_purposes.purpose_name as purpose_name')
+                    ->join('employees', 'meetings.employee_id', '=', 'employees.employee_id')
                     ->where('meetings.user_id', '=', $user_id)
                     ->where('meetings.meeting_status', '=', '2')
                     ->orderBy('meeting_id' , 'desc')
