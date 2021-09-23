@@ -7,6 +7,14 @@
                 <div class="col-lg-12">
                     <div class="statbox widget box box-shadow">
                         <div class="widget-content widget-content-area">
+                            <div class="widget widget-card-four" style="padding-left: 0"> 
+                                <div class="w-header">
+                                    <div class="w-info">
+                                        <h6 class="value">Approved Employees</h6>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="table-responsive mb-4">
                                 @include('backend.partials.message')
                                 <table id="style-3" class="table style-3  table-hover">
@@ -29,7 +37,11 @@
                                         @foreach($employees as $employee)
                                             <tr>
                                                 <td class="text-center"> #{{$employee->eid_no}} </td>
-                                                <td class="text-center"> <img src="{{asset('backend/img/employees/' . $employee->photo)}}" alt="" style="max-height: 40px;"> </td>
+                                                @if($employee->photo)
+                                                    <td class="text-center"> <img src="{{asset('backend/img/employees/' . $employee->photo)}}" alt="" style="max-height: 40px;"> </td>
+                                                @else
+                                                    <td class="text-center"> <img src="{{asset('backend/img/avatar.png')}}" alt="" style="max-height: 40px;"> </td>
+                                                @endif
                                                 <td class="text-center"> {{$employee->first_name}} {{$employee->last_name}}</td>
                                                 <td class="text-center"> 
                                                     @if($employee->user_type_id == 2)

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+/* included models */
 use App\Models\VisitorType;
 use App\Models\UserType;
 use App\Models\Department;

@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Backend\Visitor;
 
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
-use App\Models\Meeting_purpose;
+
+/* included models */
+use App\Models\MeetingPurpose;
 use App\Models\Meeting;
 use App\Models\Visitor;
 

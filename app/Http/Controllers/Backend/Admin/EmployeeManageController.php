@@ -5,14 +5,16 @@ namespace App\Http\Controllers\Backend\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Models\User;
-use App\Models\Employee;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
+/* included models */
+use App\Models\User;
+use App\Models\Employee;
+
+/* included mails */
 use App\Mail\EmployeeApprovedMail;
 use App\Mail\EmployeeDeclinedMail;
-
-use DB;
 
 class EmployeeManageController extends Controller
 {
@@ -23,7 +25,11 @@ class EmployeeManageController extends Controller
      */
     public function index()
     {
-        //
+        $employees = Employee::join('departments', 'departments.dept_id', '=', 'employees.dept_id')
+                            ->join('designations', 'designations.designation_id', '=', 'employees.designation_id')
+                            ->get(['employees.*', 'departments.department_name as department_name', 'designations.designation as designation']);
+
+        return view('backend.pages.admin.all-employees', compact('employees'));
     }
 
     /**

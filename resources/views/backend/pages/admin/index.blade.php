@@ -12,10 +12,21 @@
                         </div>
                         <div class="w-chart">
 
-                            <div class="w-chart-section total-visits-content">
+                             
+                                <div class="w-chart-section total-visits-content">
+                                    <a href="{{route('admin.approved.employees')}}">
+                                        <div class="w-detail">
+                                            <p class="w-title">Total Approved Employees</p>
+                                            <p class="w-stats">{{ $approved_employees_count }}</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            
+
+                            <div class="w-chart-section paid-visits-content">
                                 <div class="w-detail">
-                                    <p class="w-title">Total Appointments</p>
-                                    <p class="w-stats">0</p>
+                                    <p class="w-title">Total Visitors</p>
+                                    <p class="w-stats">{{ $visitors_count }}</p>
                                 </div>
                                 <div class="w-chart-render-one">
                                     
@@ -23,31 +34,20 @@
                             </div>
                             
                             
-                            <div class="w-chart-section paid-visits-content">
+                            <div class="w-chart-section total-visits-content">
                                 <div class="w-detail">
-                                    <p class="w-title">Today's Appointments</p>
-                                    <p class="w-stats">0</p>
+                                    <p class="w-title">Total Appointments</p>
+                                    <p class="w-stats">{{ $meetings_count }}</p>
                                 </div>
                                 <div class="w-chart-render-one">
                                     
                                 </div>
                             </div>
 
-                            <div class="w-chart-section total-visits-content">
-                                <div class="w-detail">
-                                    <p class="w-title">Pending Appointments</p>
-                                    <p class="w-stats">0</p>
-                                </div>
-                                <div class="w-chart-render-one">
-                                    
-                                </div>
-                            </div>
-                            
-                            
                             <div class="w-chart-section paid-visits-content">
                                 <div class="w-detail">
-                                    <p class="w-title">Rejected Appointments</p>
-                                    <p class="w-stats">0</p>
+                                    <p class="w-title">Today's Appointments</p>
+                                    <p class="w-stats">{{ $today_meetings_count }}</p>
                                 </div>
                                 <div class="w-chart-render-one">
                                     

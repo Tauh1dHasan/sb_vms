@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
+
+/* included models */
 use App\Models\Employee;
 use App\Models\Meeting;
 use App\Models\Department;
@@ -28,6 +30,7 @@ class EmployeeController extends Controller
                     ->get();
         $total_appointment = $meeting->count();
 
+        // $Y_date = date('Y-m-d',strtotime("-1 days"));
         $Y_date = date('Y-m-d',strtotime("-1 days"));
         $T_date = date('Y-m-d',strtotime("+1 days"));
 
@@ -39,6 +42,9 @@ class EmployeeController extends Controller
                         ->where('meetings.employee_id', '=', $employee_id)
                         ->get();
         $today_appointment = $meetings->count();
+        // $now = date('Y-m-d',strtotime(now()));
+
+        // dd($today_appointment);
 
 
         // Total pending appointment count

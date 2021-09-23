@@ -4,22 +4,22 @@
 <div class="theme-logo">
     @if(session('loggedUserType') == 1)
         <a href="{{route('admin.index')}}">
-            <img src="{{asset('backend/assets/img/logo.svg')}}" class="navbar-logo" alt="logo">
+            <img src="{{asset('frontend/img/favicon.png')}}" class="navbar-logo" alt="logo">
             <span class="admin-logo">SEBPO<span></span></span>
         </a>
     @elseif(session('loggedUserType') == 2)
         <a href="{{route('employee.index')}}">
-            <img src="{{asset('backend/assets/img/logo.svg')}}" class="navbar-logo" alt="logo">
+            <img src="{{asset('frontend/img/favicon.png')}}" class="navbar-logo" alt="logo">
             <span class="admin-logo">SEBPO<span></span></span>
         </a>
     @elseif(session('loggedUserType') == 3)
         <a href="{{route('reception.index')}}">
-            <img src="{{asset('backend/assets/img/logo.svg')}}" class="navbar-logo" alt="logo">
+            <img src="{{asset('frontend/img/favicon.png')}}" class="navbar-logo" alt="logo">
             <span class="admin-logo">SEBPO<span></span></span>
         </a>
     @elseif(session('loggedUserType') == 4)
         <a href="{{route('visitor.index')}}">
-            <img src="{{asset('backend/assets/img/logo.svg')}}" class="navbar-logo" alt="logo">
+            <img src="{{asset('frontend/img/favicon.png')}}" class="navbar-logo" alt="logo">
             <span class="admin-logo">SEBPO<span></span></span>
         </a>
     @endif
@@ -246,7 +246,11 @@
     <div id="compact_submenuSidebar" class="submenu-sidebar">
 
         <div class="submenu" id="employee">
-            <ul class="submenu-list menu-block-submenu" data-parent-element="#employee"> 
+            <ul class="submenu-list menu-block-submenu" data-parent-element="#employee">
+                <li class="menu-block">
+                    <a href="{{route('admin.employees')}}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg> All Employees </a>
+                </li> 
+
                 <li class="menu-block">
                     <a href="{{route('admin.pending.employees')}}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg> Pending Employees </a>
                 </li>

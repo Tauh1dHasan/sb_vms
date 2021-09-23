@@ -4,19 +4,19 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
-
-use App\Models\User;
-use App\Models\Employee;
-use App\Models\Visitor;
-
-use DB;
+use Illuminate\Support\Facades\DB;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Hash;
 use Auth;
 use Response;
 
-use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\Hash;
+/* included */
+use App\Models\User;
+use App\Models\Employee;
+use App\Models\Visitor;
 
 class EmployeeAuthController extends Controller
 {

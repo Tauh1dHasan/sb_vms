@@ -7,6 +7,14 @@
                 <div class="col-lg-12">
                     <div class="statbox widget box box-shadow">
                         <div class="widget-content widget-content-area">
+                            <div class="widget widget-card-four" style="padding-left: 0"> 
+                                <div class="w-header">
+                                    <div class="w-info">
+                                        <h6 class="value">Pending Employees</h6>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="table-responsive mb-4">
                                 
                                 <table id="style-3" class="table style-3  table-hover">

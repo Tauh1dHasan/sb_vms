@@ -156,6 +156,8 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
 
     Route::group(['middleware' => ['AdminMiddleware']], function() {
         Route::get('/dashboard', [AdminIndexController::class, 'index'])->name('index');
+
+        Route::get('/employees', [EmployeeManageController::class, 'index'])->name('employees');
         Route::get('/pending-employees', [EmployeeManageController::class, 'pending'])->name('pending.employees');
         Route::get('/approved-employees', [EmployeeManageController::class, 'approved'])->name('approved.employees');
         Route::get('/declined-employees', [EmployeeManageController::class, 'declined'])->name('declined.employees');

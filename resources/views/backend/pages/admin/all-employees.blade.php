@@ -10,7 +10,7 @@
                             <div class="widget widget-card-four" style="padding-left: 0"> 
                                 <div class="w-header">
                                     <div class="w-info">
-                                        <h6 class="value">Declined Employees</h6>
+                                        <h6 class="value">All Employees</h6>
                                     </div>
                                 </div>
                             </div>
@@ -62,7 +62,13 @@
                                                 <td class="text-center"> {{$employee->email}} </td>
                                                 <td class="text-center"> <?php echo date("h:i a", strtotime($employee->start_hour)); ?> <br> to <br> <?php echo date("h:i a", strtotime($employee->end_hour)); ?></td>
                                                 <td class="text-center"> 
-                                                    <span class="shadow-none badge badge-danger">Declined</span>
+                                                    @if($employee->status == 0)
+                                                        <span class="shadow-none badge badge-primary">Pending</span>
+                                                    @elseif($employee->status == 1)
+                                                        <span class="shadow-none badge badge-success">Approved</span>
+                                                    @elseif($employee->status == 2)
+                                                        <span class="shadow-none badge badge-danger">Declined</span>
+                                                    @endif
                                                 </td>
                                                 <!-- <td class="text-center">
                                                     <a href="{{route('admin.approve.employee', $employee->user_id)}}" class="btn btn-success btn-sm d-block">Approve</a>

@@ -4,18 +4,20 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Mail;
-
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use Auth;
 
+/* included mails */
 use App\Mail\RegisterMail;
 
+/* included models */
 use App\Models\User;
 use App\Models\Visitor;
-use DB;
-use Auth;
-use Illuminate\Support\Facades\Hash;
 
 class UserAuthController extends Controller
 {
