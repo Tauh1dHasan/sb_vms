@@ -32,7 +32,13 @@
 <nav id="compactSidebar">
     <ul class="menu-categories">
     <li class="menu active menu-single">
-            <a href="{{url('/visitor')}}" data-active="true" class="menu-toggle">
+        @if(session('loggedUserType') == 1)
+            <a href="{{route('admin.index')}}" data-active="true" class="menu-toggle">
+        @elseif(session('loggedUserType') == 2)
+            <a href="{{route('employee.index')}}" data-active="true" class="menu-toggle">
+        @elseif(session('loggedUserType') == 4)
+            <a href="{{route('visitor.index')}}" data-active="true" class="menu-toggle">
+        @endif
                 <div class="base-menu">
                     <div class="base-icons">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>

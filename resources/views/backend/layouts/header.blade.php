@@ -184,7 +184,7 @@
                             
                                             <li class="nav-item dropdown user-profile-dropdown  order-lg-0 order-1">
                                                 <a href="javascript:void(0);" class="nav-link dropdown-toggle user" id="userProfileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <img src="{{asset('backend/assets/img/profile-7.jpg')}}" alt="admin-profile" class="img-fluid">
+                                                    <img src="{{asset('backend/img/avatar.png')}}" alt="admin-profile" class="img-fluid">
                                                 </a>
                                                 <div class="dropdown-menu position-absolute" aria-labelledby="userProfileDropdown">
                                                     
@@ -336,7 +336,7 @@
                             
                                             <li class="nav-item dropdown user-profile-dropdown  order-lg-0 order-1">
                                                 <a href="javascript:void(0);" class="nav-link dropdown-toggle user" id="userProfileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <img src="{{asset('backend/assets/img/profile-7.jpg')}}" alt="admin-profile" class="img-fluid">
+                                                    <img src="{{asset('backend/img/avatar.png')}}" alt="admin-profile" class="img-fluid">
                                                 </a>
                                                 <div class="dropdown-menu position-absolute" aria-labelledby="userProfileDropdown">
                                                     
@@ -488,7 +488,7 @@
                             
                                             <li class="nav-item dropdown user-profile-dropdown  order-lg-0 order-1">
                                                 <a href="javascript:void(0);" class="nav-link dropdown-toggle user" id="userProfileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <img src="{{asset('backend/assets/img/profile-7.jpg')}}" alt="admin-profile" class="img-fluid">
+                                                    <img src="{{asset('backend/img/avatar.png')}}" alt="admin-profile" class="img-fluid">
                                                 </a>
                                                 <div class="dropdown-menu position-absolute" aria-labelledby="userProfileDropdown">
                                                     

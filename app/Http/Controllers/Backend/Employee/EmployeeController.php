@@ -17,15 +17,16 @@ class EmployeeController extends Controller
     // Show Employee Dashboard
     public function dashboard()
     {
-        // Total appointment count
-        $meeting = Meeting::get();
-        $total_appointment = $meeting->count();
-
         // Today's appointment count
         $user_id = session('loggedUser');
-
+        
         $employee = Employee::select('employee_id')->where('user_id', '=', $user_id)->first();
         $employee_id = $employee->employee_id;
+
+        // Total appointment count
+        $meeting = Meeting::where('employee_id', '=', $employee_id)
+                    ->get();
+        $total_appointment = $meeting->count();
 
         $Y_date = date('Y-m-d',strtotime("-1 days"));
         $T_date = date('Y-m-d',strtotime("+1 days"));
