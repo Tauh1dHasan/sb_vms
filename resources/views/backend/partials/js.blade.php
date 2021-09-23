@@ -118,3 +118,12 @@
 
     </script> -->
 
+    {{-- Datetime picker --}}
+    <script src="{{asset('backend/datetimepicker/jquery.js')}}"></script>
+    <script src="{{asset('backend/datetimepicker/jquery.datetimepicker.full.js')}}"></script>
+    <script>
+        $("#meeting_datetime").datetimepicker({
+            step:5
+        });
+    </script>
+

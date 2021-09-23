@@ -2,7 +2,6 @@
 
     @section('content')
 
-
         <div class="admin-data-content layout-top-spacing">
             <div class="row">
                 
@@ -26,8 +25,7 @@
                                             </select> -->
 
                                             <!-- <input name="employee_info" type="text" class="form-control" id="employee_id" placeholder="Type Employee Name"> -->
-                                            <select name="employee_id" id="employee_id" class="form-control"> 
-                                            </select>
+                                            <select name="employee_id" id="employee_id" class="form-control"></select>
                                         </div>
 
                                         <div class="form-group mb-4">
@@ -48,7 +46,7 @@
 
                                         <div class="form-group mb-4">
                                             <label for="meeting_datetime">Meeting Datetime</label>
-                                            <input name="meeting_datetime" type="datetime-local" class="form-control">
+                                            <input id="meeting_datetime" name="meeting_datetime" class="form-control" placeholder="Select Datetime" required>
                                         </div>
 
                                         <div class="form-group mbhas_vehicle-4">

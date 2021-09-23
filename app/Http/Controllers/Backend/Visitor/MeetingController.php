@@ -8,7 +8,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 use App\Models\Meeting;
+use App\Models\Employee;
 use App\Models\MeetingPurpose;
+use Illuminate\Support\Facades\Mail;
+
+use App\Mail\AppointmentRequest;
 
 class MeetingController extends Controller
 {
@@ -26,11 +30,22 @@ class MeetingController extends Controller
         $meeting->purpose_describe = $req->meeting_purpose_describe;
         $meeting->meeting_datetime = $req->meeting_datetime;
         $meeting->has_vehicle = $req->has_vehicle;
-
         $done = $meeting->save();
+
+        $employee_mail = Meeting::join('visitors', 'visitors.visitor_id', '=', 'meetings.visitor_id')
+                                ->join('employees', 'employees.employee_id', '=', 'meetings.employee_id')
+                                
+                                ->select('meetings.*', 'visitors.first_name as vfname', 'visitors.last_name as vlname','employees.first_name as efname', 'employees.last_name as elname',  'employees.email')
+                                ->where('visitors.visitor_id', '=', $req->visitor_id)
+                                ->where('employees.employee_id', '=', $req->employee_id)
+                                ->first();
+                                // dd($employee_mail);
+
+        
 
         if($done)
         {
+            mail::to($employee_mail->email)->send(new AppointmentRequest($employee_mail));
             return redirect()->route('visitor.pendingaMeetings')->with('success', 'Your meeting placed successfully');
         }
         else
@@ -106,12 +121,31 @@ class MeetingController extends Controller
             $query = $request->q;
 
             $data = DB::table('employees')
-                ->join('departments', 'departments.dept_id', '=', 'employees.dept_id')
-                ->join('designations', 'designations.designation_id', '=', 'employees.designation_id')
-                ->select('employee_id', 'first_name', 'last_name', 'departments.department_name as department', 'designations.designation as designation', 'mobile_no')
-                ->where('first_name', 'LIKE', "%{$query}%")
-                ->orWhere('mobile_no', 'LIKE', "%{$query}%")
-                ->get();
+                    ->join('departments', 'departments.dept_id', '=', 'employees.dept_id')
+                    ->join('designations', 'designations.designation_id', '=', 'employees.designation_id')
+                    ->select('employee_id', 'first_name', 'last_name','availability', 'employees.status', 'departments.department_name as department', 'designations.designation as designation', 'mobile_no')
+                    ->where('availability', '=', 1)
+                    ->where('employees.status', '=', 1)
+                    ->where(function($item)use($query){
+                        $item->where('first_name', 'LIKE', "%{$query}%")
+                              ->orWhere('mobile_no', 'LIKE', "%{$query}%");
+                    })->get();
+
+                    
+
+            // $users = User::where('active','1')
+            //     ->where(function($query) {
+            //     $query->where('email','jdoe@example.com')
+            //                 ->orwhere('email','johndoe@example.com');
+            //             })->get();
+
+            // $data = DB::table('employees')
+            //     ->join('departments', 'departments.dept_id', '=', 'employees.dept_id')
+            //     ->join('designations', 'designations.designation_id', '=', 'employees.designation_id')
+            //     ->select('employee_id', 'first_name', 'last_name', 'departments.department_name as department', 'designations.designation as designation', 'mobile_no')
+            //     ->where('first_name', 'LIKE', "%{$query}%")
+            //     ->orWhere('mobile_no', 'LIKE', "%{$query}%")
+            //     ->get();
         }
         return response()->json($data);
     }
