@@ -38,6 +38,15 @@
                                                     </div>
 
                                                     <div class="form-group mb-4">
+                                                        <label for="availability">Availability</label>
+                                                        <select name="availability" class="form-control" id="availability" required>
+                                                            <option value="">Select</option>
+                                                            <option value="0">Not Available</option>
+                                                            <option value="1">Available</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-group mb-4">
                                                         <label for="department">Department</label>
                                                         <select name="department" class="form-control" id="department" required>
                                                             <option value="{{ $employee->dept_id }}">{{ $employee->department_name }}</option>

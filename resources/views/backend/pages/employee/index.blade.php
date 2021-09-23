@@ -19,7 +19,13 @@
                     @endif
                     
                     <div class="widget-heading">
-                        <h1 class="text-center pb-4">Welcome to VMS Employee Panel</h1>
+                        <h2 class="text-center pb-4">Welcome to VMS Employee Panel</h2>
+                        <h3 class="text-center">{{ $employee->first_name }} {{ $employee->last_name }}</h3>
+                        @if ($employee->availability == 1)
+                            <p class="text-center">Availability Status: <button class="btn btn-success btn-sm">Available</button></p>
+                        @else
+                            <p class="text-center">Availability Status: <button class="btn btn-danger btn-sm">Not Available</button></p>
+                        @endif
                     </div>
                     <div class="w-chart">
 
@@ -38,6 +44,16 @@
                             <div class="w-detail">
                                 <p class="w-title">Today's Appointments</p>
                                 <p class="w-stats">{{$today_appointment}}</p>
+                            </div>
+                            <div class="w-chart-render-one">
+                                
+                            </div>
+                        </div>
+
+                        <div class="w-chart-section total-visits-content" style="background: #94d4c1">
+                            <div class="w-detail">
+                                <p class="w-title">Approved Appointments</p>
+                                <p class="w-stats">{{$approved_appointment}}</p>
                             </div>
                             <div class="w-chart-render-one">
                                 

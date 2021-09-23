@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Backend\Employee;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\DB;
 use App\Models\Employee;
 use App\Models\Meeting;
@@ -17,10 +16,9 @@ class EmployeeController extends Controller
     // Show Employee Dashboard
     public function dashboard()
     {
-        // Today's appointment count
+        // Employee information
         $user_id = session('loggedUser');
-        
-        $employee = Employee::select('employee_id')->where('user_id', '=', $user_id)->first();
+        $employee = Employee::select('employee_id', 'first_name', 'last_name', 'availability')->where('user_id', '=', $user_id)->first();
         $employee_id = $employee->employee_id;
 
         // Total appointment count
@@ -31,6 +29,7 @@ class EmployeeController extends Controller
         $Y_date = date('Y-m-d',strtotime("-1 days"));
         $T_date = date('Y-m-d',strtotime("+1 days"));
 
+        // Today's appointment count
         $meetings = DB::table('meetings')
                         ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
                         ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
@@ -40,6 +39,15 @@ class EmployeeController extends Controller
                         ->get();
         $today_appointment = $meetings->count();
 
+        // Total approved appointment count
+        $pending = DB::table('meetings')
+                        ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
+                        ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+                        ->where('meetings.meeting_datetime', '>', $Y_date)
+                        ->where('meetings.meeting_status', '=', 1)
+                        ->where('meetings.employee_id', '=', $employee_id)
+                        ->get();
+        $approved_appointment = $pending->count();
 
         // Total pending appointment count
         $pending = DB::table('meetings')
@@ -61,7 +69,7 @@ class EmployeeController extends Controller
                         ->get();
         $reject_appointment = $reject->count();
 
-        return view('backend.pages.employee.index', compact('total_appointment', 'today_appointment', 'pending_appointment', 'reject_appointment'));
+        return view('backend.pages.employee.index', compact('total_appointment', 'today_appointment', 'approved_appointment', 'pending_appointment', 'reject_appointment','employee'));
     }
 
     // Show all meeting
@@ -272,6 +280,7 @@ class EmployeeController extends Controller
         $employee = Employee::find($user_id);
         $employee->first_name = $req->fname;
         $employee->last_name = $req->lname;
+        $employee->availability = $req->availability;
         $employee->dept_id = $req->department;
         $employee->designation_id = $req->designation;
         $employee->eid_no = $req->eid;
