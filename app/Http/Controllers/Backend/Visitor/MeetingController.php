@@ -1,13 +1,19 @@
 <?php
 
 namespace App\Http\Controllers\Backend\Visitor;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Mail;
+
+/* included models */
 use App\Models\Meeting;
 use App\Models\Employee;
 use App\Models\MeetingPurpose;
-use Illuminate\Support\Facades\Mail;
+
+/* included mails */
 use App\Mail\AppointmentRequest;
 use App\Mail\VisitorMeetingCancel;
 
@@ -15,8 +21,6 @@ class MeetingController extends Controller
 {
     /**
      * Store new meeting information from visitor.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $req)
     {
@@ -40,49 +44,39 @@ class MeetingController extends Controller
                                 ->where('employees.employee_id', '=', $req->employee_id)
                                 ->first();
 
-        if ($done)
-        {
+        if ($done) {
             mail::to($employee_mail->email)->send(new AppointmentRequest($employee_mail));
             return redirect()->route('visitor.pendingaMeetings')->with('success', 'Your meeting placed successfully');
-
         } else {
-
             return redirect()->back()->with('fail', 'Sorry...! Something went wrong, Please try again');
         }
     }
 
 
     /**
-     * Display Make an Appointment Form.
-     *
-     * @return \Illuminate\Http\Response
+     * Display make an appointment form.
      */
     public function create()
     {
         $user_id = session('loggedUser');
 
-        $purpose = DB::table('meeting_purposes')->get();
+        $purpose = MeetingPurpose::where('purpose_status', '=', 1)->get();
 
-        $visitor = DB::table('visitors')
-                    ->select('visitors.*')
-                    ->where('visitors.user_id', '=', $user_id)
-                    ->first();
-
-                    // dd($visitor);
+        $visitor = Visitor::select('visitors.*')
+                            ->where('visitors.user_id', '=', $user_id)
+                            ->first();
 
         return view('backend.pages.visitor.make_appointment', compact('purpose', 'visitor'));
     }
 
     /**
-     * Display All-Appointment Status.
-     *
-     * @return \Illuminate\Http\Response
+     * Display all-Appointment status.
      */
     public function index(Request $req)
     {
         $user_id = session('loggedUser');
-        $meetings = DB::table('meetings')
-                    ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+
+        $meetings = Meeting::join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
                     ->join('employees', 'meetings.employee_id', '=', 'employees.employee_id')
                     ->where('meetings.user_id', '=', $user_id)
                     ->get();
@@ -91,9 +85,7 @@ class MeetingController extends Controller
     }
 
     /**
-     * Display Employee Information AJAX.
-     *
-     * @return \Illuminate\Http\Response
+     * Display employee information AJAX.
      */
     public function search_employees(Request $request)
     {
@@ -104,88 +96,76 @@ class MeetingController extends Controller
 
             $query = $request->q;
 
-            $data = DB::table('employees')
-                    ->join('departments', 'departments.dept_id', '=', 'employees.dept_id')
-                    ->join('designations', 'designations.designation_id', '=', 'employees.designation_id')
-                    ->select('employee_id', 'first_name', 'last_name','availability', 'employees.status', 'departments.department_name as department', 'designations.designation as designation', 'mobile_no')
-                    ->where('availability', '=', 1)
-                    ->where('employees.status', '=', 1)
-                    ->where(function($item)use($query){
-                        $item->where('first_name', 'LIKE', "%{$query}%")
-                              ->orWhere('mobile_no', 'LIKE', "%{$query}%");
-                    })->get();
+            $data = Employee::join('departments', 'departments.dept_id', '=', 'employees.dept_id')
+                            ->join('designations', 'designations.designation_id', '=', 'employees.designation_id')
+                            ->select('employee_id', 'first_name', 'last_name','availability', 'employees.status', 'departments.department_name as department', 'designations.designation as designation', 'mobile_no')
+                            ->where('availability', '=', 1)
+                            ->where('employees.status', '=', 1)
+                            ->where(function($item)use($query){
+                                $item->where('first_name', 'LIKE', "%{$query}%")
+                                    ->orWhere('mobile_no', 'LIKE', "%{$query}%");
+                            })->get();
 
         }
         return response()->json($data);
     }
 
     /**
-     * Display All Approved Meetings.
-     *
-     * @return \Illuminate\Http\Response
+     * Display all approved meetings.
      */
     public function approved(Request $req)
     {
         // User session user_id
         $user_id = session('loggedUser');      
         
-        $meetings = DB::table('meetings')
-                    ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
-                    ->join('employees', 'meetings.employee_id', '=', 'employees.employee_id')
-                    ->where('meetings.user_id', '=', $user_id)
-                    ->where('meetings.meeting_status', '=', '1')
-                    ->orderBy('meeting_id' , 'desc')
-                    ->get();
+        $meetings = Meeting::join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+                            ->join('employees', 'meetings.employee_id', '=', 'employees.employee_id')
+                            ->where('meetings.user_id', '=', $user_id)
+                            ->where('meetings.meeting_status', '=', '1')
+                            ->orderBy('meeting_id' , 'desc')
+                            ->get();
 
         return view('backend.pages.visitor.approved_meetings', compact('meetings'));
     }
 
     /**
-     * Display All Pending Meetings.
-     *
-     * @return \Illuminate\Http\Response
+     * Display all pending meetings.
      */
     public function pending(Request $req)
     {
         // User session user_id
         $user_id = session('loggedUser');
 
-        $meetings = DB::table('meetings')
-                    ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
-                    ->join('employees', 'meetings.employee_id', '=', 'employees.employee_id')
-                    ->where('meetings.user_id', '=', $user_id)
-                    ->where('meetings.meeting_status', '=', '0')
-                    ->orderBy('meeting_id' , 'desc')
-                    ->get();
+        $meetings = Meeting::join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+                            ->join('employees', 'meetings.employee_id', '=', 'employees.employee_id')
+                            ->where('meetings.user_id', '=', $user_id)
+                            ->where('meetings.meeting_status', '=', '0')
+                            ->orderBy('meeting_id', 'desc')
+                            ->get();
 
         return view('backend.pages.visitor.pending_meetings', compact('meetings'));
     }
 
     /**
-     * Display All Declined Meetings.
-     *
-     * @return \Illuminate\Http\Response
+     * Display all declined meetings.
      */
     public function rejected(Request $req)
     {
         // User session user_id
         $user_id = session('loggedUser');
 
-        $meetings = DB::table('meetings')
-                    ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
-                    ->join('employees', 'meetings.employee_id', '=', 'employees.employee_id')
-                    ->where('meetings.user_id', '=', $user_id)
-                    ->where('meetings.meeting_status', '=', '2')
-                    ->orderBy('meeting_id' , 'desc')
-                    ->get();
+        $meetings = Meeting::join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+                            ->join('employees', 'meetings.employee_id', '=', 'employees.employee_id')
+                            ->where('meetings.user_id', '=', $user_id)
+                            ->where('meetings.meeting_status', '=', '2')
+                            ->orderBy('meeting_id' , 'desc')
+                            ->get();
 
         return view('backend.pages.visitor.rejected_meetings', compact('meetings'));
     }
 
     /**
      * Meeting cancel method.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function cancel_meeting(Request $request)
     {
@@ -215,8 +195,6 @@ class MeetingController extends Controller
 
     /**
      * Visitor pass.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function visitor_pass(Request $req)
     {
@@ -228,8 +206,6 @@ class MeetingController extends Controller
 
     /**
      * Meeting gate pass.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function gate_pass()
     {
@@ -237,20 +213,17 @@ class MeetingController extends Controller
     }
 
     /**
-     * Get Host name, auto-suggestion.
-     *
-     * @return \Illuminate\Http\Response
+     * Get host name, auto-suggestion.
      */
     public function getHost(Request $req)
     {
         $data = Meeting::select('first_name', 'department', 'designation')->where('first_name','LIKE', '%{$req->value}%')->get();
+
         return response()->json($data);
     }
 
     /**
      * Display meeting info by custom date range.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function custom_report(Request $request)
     {
@@ -258,14 +231,13 @@ class MeetingController extends Controller
         $from_date = $request->from_date;
         $to_date = $request->to_date;
 
-        $meetings = DB::table('meetings')
-                    ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
-                    ->select('meetings.*', 'meeting_purposes.purpose_name as purpose_name')
-                    ->where('meetings.user_id', '=', $user_id)
-                    ->where('meeting_datetime', '>=', $from_date)
-                    ->where('meeting_datetime', '<=', $to_date)
-                    ->orderBy('meeting_id' , 'desc')
-                    ->get();
+        $meetings = Meeting::join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+                            ->select('meetings.*', 'meeting_purposes.purpose_name as purpose_name')
+                            ->where('meetings.user_id', '=', $user_id)
+                            ->where('meeting_datetime', '>=', $from_date)
+                            ->where('meeting_datetime', '<=', $to_date)
+                            ->orderBy('meeting_id' , 'desc')
+                            ->get();
         
         return view('backend.pages.visitor.custom_report', compact('meetings'));
     }

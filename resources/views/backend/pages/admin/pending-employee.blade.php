@@ -16,7 +16,7 @@
                             </div>
 
                             <div class="table-responsive mb-4">
-                                
+                                @include('backend.partials.message')
                                 <table id="style-3" class="table style-3  table-hover">
                                     <thead>
                                         <tr>

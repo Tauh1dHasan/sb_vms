@@ -22,9 +22,7 @@ use App\Models\Visitor;
 class UserAuthController extends Controller
 {
     /**
-     * Visitor registration method.
-     *
-     * @return \Illuminate\Http\Response
+     * Visitor registration method
      */
     public function user_registration(Request $request)
     {
@@ -80,9 +78,7 @@ class UserAuthController extends Controller
     }
 
     /**
-     * Visitor information validation.
-     *
-     * @return \Illuminate\Http\Response
+     * Visitor information validation
      */
     public function validation($request)
     {
@@ -97,97 +93,70 @@ class UserAuthController extends Controller
     }
 
     /**
-     * Visitor log-in method.
-     *
-     * @return \Illuminate\Http\Response
+     * Visitor log-in method
      */
     public function user_login(Request $request)
     {
-        
         $request->validate([
             'username' => 'required|min:11',
             'password' => 'required|max:255',
         ]);
 
-    
-        $user = DB::table('users')
-                ->where('username', '=', $request->username)
-                ->first();
-            // dd($user);
+        $user = User::where('username', '=', $request->username)->first();
         
-        if(!empty($user)){
-            
-            if($user->is_approved == 1){
+        if (!empty($user)) {
+            if ($user->is_approved == 1) {
                 $password = Hash::check($request->password, $user->password);
 
-                if($password)
-                {
+                if ($password) {
                     Session::put(['loggedUser' => $user->user_id, 'loggedUserType' => $user->user_type_id]);
-                    // return view('backend.pages.visitor.index');
                     
-                    if($user->user_type_id == 1)
-                    {
+                    if ($user->user_type_id == 1) {
                         return redirect(route('admin.index'));
                     }
-                    if($user->user_type_id == 2)
-                    {
+                    if ($user->user_type_id == 2) {
                         return redirect(route('employee.index'));
                     }
-                    if($user->user_type_id == 3)
-                    {
+                    if ($user->user_type_id == 3) {
                         return redirect(route('reception.index'));
                     }
-                    if($user->user_type_id == 4)
-                    {
+                    if($user->user_type_id == 4) {
                         return redirect(route('visitor.index'));
                     }
-                    
-                }
-                else{
+                } else {
                     Session()->flash('sticky_error' , 'Username & Password didnot matched!');
                     return redirect()->back();
                 }
-            }
-            else{
+            } else {
                 Session()->flash('sticky_error' , 'User verification failed!');
                 return redirect()->back();
             }
-        }
-        else {
+        } else {
             Session()->flash('sticky_error' , 'No user found by this username!');
             return redirect()->back();
         }
-        
     }
 
     /**
-     * Visitor Logout method.
-     *
-     * @return \Illuminate\Http\Response
+     * Visitor Logout method
      */
     public function user_logout(Request $request) 
     {
-        // Auth::logout();
-        if(session()->has('loggedUser')){
+        if (session()->has('loggedUser')) {
             Session::flush();
             return redirect('/');
         }
     }
 
     /**
-     * Visitor email varification method.
-     *
-     * @return \Illuminate\Http\Response
+     * Visitor email varification method
      */
     public function user_verify(User $user_id) {
+        $user = User::where('user_id', $user_id->user_id)
+                    ->update(['is_approved' => 1]);
 
-        $user = DB::table('users')
-                ->where('user_id', $user_id->user_id)
-                ->update(['is_approved' => 1]);
-
-        $visitor = DB::table('visitors')
-                ->where('user_id', $user_id->user_id)
-                ->update(['visitor_status' => 1]);
+        $visitor = Visitor::where('user_id', $user_id->user_id)
+                            ->update(['visitor_status' => 1]);
 
         Session()->flash('success' , 'Email Verification Successfull! Please Login.');
         return redirect()->route('index');

@@ -12,10 +12,8 @@ use App\Models\Meeting;
 
 class AdminIndexController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+    /*
+     * Display admin dashboard.
      */
     public function index()
     {
@@ -43,6 +41,9 @@ class AdminIndexController extends Controller
         return view('backend.pages.admin.index', compact('approved_employees_count', 'visitors_count', 'meetings_count', 'today_meetings_count'));
     }
 
+    /*
+     * Display admin login page.
+     */
     public function login()
     {
         return view('backend.pages.admin.login');
