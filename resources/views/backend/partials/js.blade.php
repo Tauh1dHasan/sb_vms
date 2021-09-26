@@ -44,36 +44,6 @@
         multiCheck(c3);
     </script>
 
-    <!-- <script>
-        $(document).ready(function(){
-
-            $('#employee_id').keyup(function(){ 
-                var query = $(this).val();
-                if(query != '')
-                {
-                    var _token = $('input[name="_token"]').val();
-
-                    $.ajax({
-                        url:"{{ route('visitor.search-employees') }}",
-                        method:"POST",
-                        data:{query:query, _token:_token},
-                        success:function(data){
-                            $('#employees').fadeIn();  
-                            $('#employees').html(data);
-                        }
-                    });
-                }
-            });
-
-            $(document).on('click', 'li', function(){  
-                $('#employee_id').val($(this).text());  
-                $('#employees').fadeOut();  
-            });  
-
-        });
-    </script> -->
-
-
     <script type="text/javascript">
         $('#employee_id').select2({
             placeholder: "Write Host Name",
@@ -96,27 +66,6 @@
             }
         });
     </script>
-
-
-    <!-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script> 
-
-        Swal.fire({
-            title: 'Do you want to save the changes?',
-            showDenyButton: true,
-            showCancelButton: true,
-            confirmButtonText: 'Save',
-            denyButtonText: `Don't save`,
-            }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
-            if (result.isConfirmed) {
-                Swal.fire('Saved!', '', 'success')
-            } else if (result.isDenied) {
-                Swal.fire('Changes are not saved', '', 'info')
-            }
-        })
-
-    </script> -->
 
     {{-- Datetime picker --}}
     <script src="{{asset('backend/datetimepicker/jquery.js')}}"></script>

@@ -24,13 +24,13 @@
                                             <th class="text-center">Profile Photo </th>
                                             <th class="text-center">Employee Name </th>
                                             <th class="text-center">Employee Type</th>
-                                            <!-- <th class="text-center">Gender</th> -->
+                                            {{-- <th class="text-center">Gender</th> --}}
                                             <th class="text-center">Dept. & Designation</th>
                                             <th class="text-center">Mobile Number</th>
                                             <th class="text-center">Email</th>
                                             <th class="text-center">Work Hour</th>
                                             <th class="text-center">Status</th>
-                                            <!-- <th class="text-center">Action</th> -->
+                                            {{-- <th class="text-center">Action</th> --}}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -50,13 +50,13 @@
                                                         {{ 'Receptionist' }}
                                                     @endif
                                                 </td>
-                                                <!-- <td class="text-center"> 
+                                                {{-- <!-- <td class="text-center"> 
                                                     @if($employee->gender == 1)
                                                         {{ 'Male' }}
                                                     @elseif($employee->gender == 2)
                                                         {{ 'Female' }}
                                                     @endif
-                                                </td> -->
+                                                </td> --> --}}
                                                 <td class="text-center"> {{$employee->designation}} <br> Dept: {{$employee->department_name}} </td>
                                                 <td class="text-center"> {{$employee->mobile_no}} </td>
                                                 <td class="text-center"> {{$employee->email}} </td>
@@ -64,10 +64,10 @@
                                                 <td class="text-center"> 
                                                     <span class="shadow-none badge badge-success">Approved</span>
                                                 </td>
-                                                <!-- <td class="text-center">
+                                                {{-- <!-- <td class="text-center">
                                                     <a href="{{route('admin.approve.employee', $employee->user_id)}}" class="btn btn-success btn-sm d-block">Approve</a>
                                                     <a href="{{route('admin.decline.employee', $employee->user_id)}}" class="btn btn-danger btn-sm mt-2 d-block">Decline</a>
-                                                </td> -->
+                                                </td> --> --}}
                                             </tr>
                                         @endforeach
                                     </tbody>

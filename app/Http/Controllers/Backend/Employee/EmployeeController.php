@@ -15,7 +15,11 @@ use App\Models\MeetingPurpose;
 
 class EmployeeController extends Controller
 {
-    // Show Employee Dashboard
+    /**
+     * Display Dashboard Resouces.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function dashboard()
     {
         // Employee information
@@ -78,7 +82,11 @@ class EmployeeController extends Controller
         return view('backend.pages.employee.index', compact('total_appointment', 'today_appointment', 'approved_appointment', 'pending_appointment', 'reject_appointment','employee'));
     }
 
-    // Show all meeting
+    /**
+     * Display All Meeting information.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function allMeetings()
     {
         $user_id = session('loggedUser');
@@ -97,7 +105,11 @@ class EmployeeController extends Controller
         return view('backend.pages.employee.all_appointment', compact('meetings'));
     }
 
-    // Custom meeting search by dates
+    /**
+     * Display Date range meeting information.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function customMeetingSearch(Request $request)
     {
         $user_id = session('loggedUser');
@@ -118,7 +130,11 @@ class EmployeeController extends Controller
         return view('backend.pages.employee.custom_meeting_search', compact('meetings'));
     }
 
-    // Show today's meetings
+    /**
+     * Display Current date meetings.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function todayMeetings()
     {
         $user_id = session('loggedUser');
@@ -143,7 +159,11 @@ class EmployeeController extends Controller
         return view('backend.pages.employee.today_meeting', compact('meetings'));
     }
 
-    // Show Only future pending meetings
+    /**
+     * Display only ahed Pending Meetings.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function pendingMeetings()
     {
         $user_id = session('loggedUser');
@@ -167,7 +187,11 @@ class EmployeeController extends Controller
         return view('backend.pages.employee.pending_meeting', compact('meetings'));
     }
 
-    // Show all approved meetings
+    /**
+     * Display only all Approved Meetings.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function approvedMeetings()
     {
         $user_id = session('loggedUser');
@@ -187,7 +211,11 @@ class EmployeeController extends Controller
         return view('backend.pages.employee.approved_meeting', compact('meetings'));
     }
 
-    // Show all rejected meetings
+    /**
+     * Display all Declined Meetings.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function rejectedMeetings()
     {
         $user_id = session('loggedUser');
@@ -207,7 +235,11 @@ class EmployeeController extends Controller
         return view('backend.pages.employee.rejected_meeting', compact('meetings'));
     }
 
-    // Meeting decline method
+    /**
+     * Meeting Decline Method.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function declineMeeting(Request $request)
     {
         $meeting_id = $request->meeting_id;
@@ -218,7 +250,11 @@ class EmployeeController extends Controller
         return redirect()->back();
     }
 
-    // Meeting approval method
+    /**
+     * Meeting Approval Method.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function approveMeeting(Request $request)
     {
         $meeting_id = $request->meeting_id;
@@ -229,7 +265,11 @@ class EmployeeController extends Controller
         return redirect()->back();
     }
 
-    // Meeting re-schedule method
+    /**
+     * Meeting Re-Schedule Method.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function rescheduleMeeting(Request $request)
     {
         $meeting_id = $request->meeting_id;
@@ -241,7 +281,11 @@ class EmployeeController extends Controller
         return redirect()->back();
     }
 
-    // Show host profile
+    /**
+     * Display Host Profile.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function profile()
     {
         $user_id = session('loggedUser');
@@ -263,7 +307,11 @@ class EmployeeController extends Controller
         return view('backend.pages.employee.profile', compact('employee', 'gender'));
     }
 
-    // Show host profile update form
+    /**
+     * Display Host Profile Update Form.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function edit($user_id)
     {
         $employee = DB::table('employees')
@@ -278,7 +326,11 @@ class EmployeeController extends Controller
         return view('backend.pages.employee.edit_profile', compact('employee', 'department', 'designation'));
     }
 
-    // Host profile update/store method
+    /**
+     * Host Profile Update Method.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function updateProfile(Request $req)
     {   
         $user_id = $req->user_id;

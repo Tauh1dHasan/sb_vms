@@ -15,7 +15,11 @@ use App\Models\Visitor;
 
 class VisitorController extends Controller
 {
-    // Show Visitor Dashboard
+    /**
+     * Display Dashboard Resouces.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function dashboard()
     {
         // Current logedIn user id from session
@@ -47,7 +51,11 @@ class VisitorController extends Controller
         return view('backend.pages.visitor.index', compact('meeting_count', 'today_meeting_count', 'pending_meeting_count', 'rejected_meeting_count'));
     }
 
-    // Show Visitor Profile Page
+    /**
+     * Display Visitor Profile Page.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function profile(Request $req)
     {
         $user_id = session('loggedUser');
@@ -67,7 +75,11 @@ class VisitorController extends Controller
         return view('backend.pages.visitor.profile', compact('visitor', 'gender'));
     }
 
-    // Visitor profile edit
+    /**
+     * Display Visitor Profile edit Page.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function edit($user_id)
     {
         $visitor = DB::table('visitors')
@@ -87,7 +99,11 @@ class VisitorController extends Controller
         return view('backend.pages.visitor.edit_profile', compact('visitor', 'gender', 'visitor_type'));
     }
 
-    // Visitor profile update
+    /**
+     * Visitor Profile update method.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function update(Request $req)
     {
         $user_id = $req->user_id;

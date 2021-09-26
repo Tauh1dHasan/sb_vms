@@ -21,6 +21,11 @@ use App\Models\Visitor;
 
 class UserAuthController extends Controller
 {
+    /**
+     * Visitor registration method.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function user_registration(Request $request)
     {
         $this->validation($request);
@@ -74,6 +79,11 @@ class UserAuthController extends Controller
         return redirect()->route('index');
     }
 
+    /**
+     * Visitor information validation.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function validation($request)
     {
         return $this->validate($request, [
@@ -81,12 +91,16 @@ class UserAuthController extends Controller
             'last_name' => 'required|max:255',
             'mobile_no' => 'required|unique:visitors|min:11',
             'password' => 'required|confirmed|min:6|max:255',
-            // 'email' => 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix',
             'profile_photo' => 'mimes:jpeg,png,jpg|max:2048',
             '_answer'=>'required|simple_captcha',
         ]);
     }
 
+    /**
+     * Visitor log-in method.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function user_login(Request $request)
     {
         
@@ -144,23 +158,13 @@ class UserAuthController extends Controller
             return redirect()->back();
         }
         
-        // if(Auth::attempt(array('username' => $input['mobile_no'], 'password' => $input['password'])))
-        // {
-        //     if (Auth::user()->user_type_id == 4) 
-        //     {
-        //         return redirect()->route('visitor.index');
-        //     }
-        //     else
-        //     {
-        //         return redirect()->route('index');
-        //     }
-        // }
-        // else
-        // {
-        //     return redirect()->route('index')->with('error','Email-Address And Password Are Wrong.');
-        // }
     }
 
+    /**
+     * Visitor Logout method.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function user_logout(Request $request) 
     {
         // Auth::logout();
@@ -170,7 +174,11 @@ class UserAuthController extends Controller
         }
     }
 
-
+    /**
+     * Visitor email varification method.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function user_verify(User $user_id) {
 
         $user = DB::table('users')

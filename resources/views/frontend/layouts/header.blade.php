@@ -84,14 +84,6 @@
 											<a href="{{route('frontend.employee.create')}}" class="text-decoration-none" style="color: #212529; font-weight: 600;">Host Registration</a>
 										</div>
 									</div>
-									<!-- <div class="header-nav-features header-nav-features-no-border header-nav-features-lg-show-border order-1 order-lg-2">
-										<div class="header-nav-feature header-nav-features-search d-inline-flex">
-											<a href="{{route('admin.index')}}" class="text-decoration-none" style="color: #212529;">Dashboard</a>
-										</div>
-										<div class="header-nav-feature header-nav-features-search d-inline-flex ms-2">
-											<a href="{{route('frontend.user_logout')}}" class="text-decoration-none" style="color: #212529;">Logout</a>
-										</div>
-									</div> -->
 								</div>
 							</div>
 						</div>

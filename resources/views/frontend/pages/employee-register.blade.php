@@ -12,12 +12,6 @@
 
 						<div class="row justify-content-center" style="padding-top: 30px;">
 
-							<!-- @if(count($errors) > 0)
-								@foreach($errors->all() as $error)
-									<p class="alert alert-danger">{{$error}}</p>
-								@endforeach
-							@endif -->
-
 							@include('backend.partials.message')
 
 							<div class="col-md-12 col-lg-12 mb-5 mb-lg-0">

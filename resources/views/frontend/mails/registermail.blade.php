@@ -7,8 +7,6 @@
     <title>VMS</title>
 </head>
 <body>
-    <!-- <h1>Welcome {{ $user->first_name}} {{ $user->last_name }}</h1>
-    <p>Your mail: {{ $user->email}}</p> -->
 
     <div class="register-mail text-center"> 
         <h1>Welcome to VMS <br> {{ $user->first_name}} {{ $user->last_name }}</h1>

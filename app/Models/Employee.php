@@ -23,12 +23,6 @@ class Employee extends Model
 
     protected $fillable = ['user_id', 'user_type_id', 'first_name', 'last_name', 'slug', 'gender', 'dob', 'eid_no', 'dept_id', 'designation_id', 'mobile_no', 'email', 'address', 'photo', 'nid_no', 'driving_license_no', 'start_hour', 'end_hour', 'passport_no', 'entry_user_id', 'entry_datetime', 'modified_user_id', 'modified_datetime', 'availability', 'status'];
 
-    // public function setTitleAttribute($value)
-	// {
-	// 	$this->attributes['first_name'] = $value;
-    //     $this->attributes['slug'] = Str::slug($value);
-	// }
-
     /**
      * a single employee belongs to a single department
      */

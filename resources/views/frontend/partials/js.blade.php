@@ -23,17 +23,5 @@
 		<!-- Sweetalert2 -->
 		<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-		<!-- <script> 
-			Swal.fire({
-				position: 'middle-center',
-				icon: 'success',
-				title: 'Registration Successful!!!',
-				text: 'Please check your email for confirmation!',
-				footer: '<a href="" style="outline:none; text-decoration:none">Check Mail?</a>',
-				showConfirmButton: false,
-				timer: 1500
-			});
-		</script> -->
-
 		<!-- Ajax Files -->
 		@include('frontend/ajax/' . 'dept-wise-designation')

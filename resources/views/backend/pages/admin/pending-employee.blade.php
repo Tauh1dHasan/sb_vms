@@ -24,7 +24,7 @@
                                             <th class="text-center">Profile Photo </th>
                                             <th class="text-center">Employee Name </th>
                                             <th class="text-center">Employee Type</th>
-                                            <!-- <th class="text-center">Gender</th> -->
+                                            {{-- <!-- <th class="text-center">Gender</th> --> --}}
                                             <th class="text-center">Dept. & Designation</th>
                                             <th class="text-center">Mobile Number</th>
                                             <th class="text-center">Email</th>
@@ -46,13 +46,13 @@
                                                         {{ 'Receptionist' }}
                                                     @endif
                                                 </td>
-                                                <!-- <td class="text-center"> 
+                                                {{-- <!-- <td class="text-center"> 
                                                     @if($employee->gender == 1)
                                                         {{ 'Male' }}
                                                     @elseif($employee->gender == 2)
                                                         {{ 'Female' }}
                                                     @endif
-                                                </td> -->
+                                                </td> --> --}}
                                                 <td class="text-center"> {{$employee->designation}} <br> Dept: {{$employee->department_name}} </td>
                                                 <td class="text-center"> {{$employee->mobile_no}} </td>
                                                 <td class="text-center"> {{$employee->email}} </td>

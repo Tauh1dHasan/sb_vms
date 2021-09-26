@@ -20,7 +20,11 @@ use App\Models\Visitor;
 
 class EmployeeAuthController extends Controller
 {
-    /* Department Wise Designation */
+    /**
+     * Department Wise Designation.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function dept_wise_designation(Request $request){
         $data = $request->all();
 
@@ -32,7 +36,11 @@ class EmployeeAuthController extends Controller
         return Response::json($designations);
     }
 
-    /* Employee Registration */
+    /**
+     * Employee Registration Method.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
         $this->validation($request);
@@ -87,6 +95,11 @@ class EmployeeAuthController extends Controller
         return redirect()->route('index');
     }
 
+    /**
+     * Employee Registration validation.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function validation($request)
     {
         return $this->validate($request, [
@@ -103,6 +116,11 @@ class EmployeeAuthController extends Controller
         ]);
     }
 
+    /**
+     * Employee Login Method.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function employee_login(Request $request)
     {
         
@@ -138,6 +156,11 @@ class EmployeeAuthController extends Controller
         }
     }
 
+    /**
+     * User Login method.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function user_logout(Request $request) {
         // Auth::logout();
         if(session()->has('loggedUser')){

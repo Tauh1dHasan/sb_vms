@@ -16,7 +16,11 @@ use App\Mail\AppointmentRequest;
 
 class MeetingController extends Controller
 {
-    // creating meeting into database
+    /**
+     * Store new meeting information from visitor.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $req)
     {
         $meeting = new Meeting;
@@ -55,7 +59,11 @@ class MeetingController extends Controller
     }
 
 
-    // make an appointment form
+    /**
+     * Display Make an Appointment Form.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function create()
     {
         $user_id = session('loggedUser');
@@ -72,7 +80,11 @@ class MeetingController extends Controller
         return view('backend.pages.visitor.make_appointment', compact('purpose', 'visitor'));
     }
 
-    // Show all appointment status
+    /**
+     * Display All-Appointment Status.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index(Request $req)
     {
         $user_id = session('loggedUser');
@@ -85,34 +97,13 @@ class MeetingController extends Controller
         return view('backend.pages.visitor.all_appointments', compact('meetings'));
     }
 
-    // autocomplete employee
+    /**
+     * Display Employee Information AJAX.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function search_employees(Request $request)
     {
-        // if($request->get('query'))
-        // {
-        //     $query = $request->get('query');
-
-        //     $data = DB::table('employees')
-        //             ->join('departments', 'departments.dept_id', '=', 'employees.dept_id')
-        //             ->join('designations', 'designations.designation_id', '=', 'employees.designation_id')
-        //             ->select('employee_id', 'first_name', 'last_name', 'departments.department_name as department', 'designations.designation as designation', 'mobile_no')
-        //             ->where('first_name', 'LIKE', "%{$query}%")
-        //             ->orWhere('mobile_no', 'LIKE', "%{$query}%")
-        //             ->get();
-
-        //     $output = '<ul class="form-control" style="list-style: none; background: #C7E6E4; height: 100%;">';
-
-        //     foreach($data as $row)
-        //     {
-        //         $output = '<option style="cursor: pointer; color: #009688; border-bottom: 2px solid white; padding: 5px;" value="'.$row->employee_id.'">'.$row->first_name.' '.$row->last_name.' ('.$row->designation.', '.$row->department.')</option>';
-        //     }
-
-        //     // $output .= '</ul>';
-
-        //     echo $output;
-            
-        //     return $data;
-        // }
 
         $data = [];
 
@@ -131,26 +122,15 @@ class MeetingController extends Controller
                               ->orWhere('mobile_no', 'LIKE', "%{$query}%");
                     })->get();
 
-                    
-
-            // $users = User::where('active','1')
-            //     ->where(function($query) {
-            //     $query->where('email','jdoe@example.com')
-            //                 ->orwhere('email','johndoe@example.com');
-            //             })->get();
-
-            // $data = DB::table('employees')
-            //     ->join('departments', 'departments.dept_id', '=', 'employees.dept_id')
-            //     ->join('designations', 'designations.designation_id', '=', 'employees.designation_id')
-            //     ->select('employee_id', 'first_name', 'last_name', 'departments.department_name as department', 'designations.designation as designation', 'mobile_no')
-            //     ->where('first_name', 'LIKE', "%{$query}%")
-            //     ->orWhere('mobile_no', 'LIKE', "%{$query}%")
-            //     ->get();
         }
         return response()->json($data);
     }
 
-    // Show all approved meetings of a user
+    /**
+     * Display All Approved Meetings.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function approved(Request $req)
     {
         // User session user_id
@@ -167,7 +147,11 @@ class MeetingController extends Controller
         return view('backend.pages.visitor.approved_meetings', compact('meetings'));
     }
 
-    // Show all pending meetings of a user
+    /**
+     * Display All Pending Meetings.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function pending(Request $req)
     {
         // User session user_id
@@ -184,7 +168,11 @@ class MeetingController extends Controller
         return view('backend.pages.visitor.pending_meetings', compact('meetings'));
     }
 
-    // Show all rejected meetings of a user
+    /**
+     * Display All Declined Meetings.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function rejected(Request $req)
     {
         // User session user_id
@@ -201,7 +189,11 @@ class MeetingController extends Controller
         return view('backend.pages.visitor.rejected_meetings', compact('meetings'));
     }
 
-    // Meeting cancel functionalities for visitor
+    /**
+     * Meeting cancel method.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function cancel_meeting(Request $request)
     {
         $meeting_id = $request->meeting_id;
@@ -217,7 +209,11 @@ class MeetingController extends Controller
         }
     }
 
-    // Visitor pass to get into meeting
+    /**
+     * Visitor pass.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function visitor_pass(Request $req)
     {
         $meeting_id = $req->meeting_id;
@@ -226,21 +222,32 @@ class MeetingController extends Controller
         return view('backend.pages.visitor.visitor_pass')->with('meeting_id', $meeting_id);
     }
 
-    // Gate pass function for receptionist
+    /**
+     * Meeting gate pass.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function gate_pass()
     {
         return "working";
     }
 
-    // getting host name with auto suggestion
+    /**
+     * Get Host name, auto-suggestion.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function getHost(Request $req)
     {
         $data = Meeting::select('first_name', 'department', 'designation')->where('first_name','LIKE', '%{$req->value}%')->get();
-        dd($data);
         return response()->json($data);
     }
 
-    // Visitors all appointments custom reporting
+    /**
+     * Display meeting info by custom date range.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function custom_report(Request $request)
     {
         $user_id = session('loggedUser');

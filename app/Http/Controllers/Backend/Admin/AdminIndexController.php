@@ -12,6 +12,11 @@ use App\Models\Meeting;
 
 class AdminIndexController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         /* all approved employees count */
