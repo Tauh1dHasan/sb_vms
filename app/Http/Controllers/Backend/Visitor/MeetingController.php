@@ -2,17 +2,14 @@
 
 namespace App\Http\Controllers\Backend\Visitor;
 use App\Http\Controllers\Controller;
-
 use Illuminate\Support\Facades\DB;
-
 use Illuminate\Http\Request;
-
 use App\Models\Meeting;
 use App\Models\Employee;
 use App\Models\MeetingPurpose;
 use Illuminate\Support\Facades\Mail;
-
 use App\Mail\AppointmentRequest;
+use App\Mail\VisitorMeetingCancel;
 
 class MeetingController extends Controller
 {
@@ -38,22 +35,18 @@ class MeetingController extends Controller
 
         $employee_mail = Meeting::join('visitors', 'visitors.visitor_id', '=', 'meetings.visitor_id')
                                 ->join('employees', 'employees.employee_id', '=', 'meetings.employee_id')
-                                
                                 ->select('meetings.*', 'visitors.first_name as vfname', 'visitors.last_name as vlname','employees.first_name as efname', 'employees.last_name as elname',  'employees.email')
                                 ->where('visitors.visitor_id', '=', $req->visitor_id)
                                 ->where('employees.employee_id', '=', $req->employee_id)
                                 ->first();
-                                // dd($employee_mail);
 
-        
-
-        if($done)
+        if ($done)
         {
             mail::to($employee_mail->email)->send(new AppointmentRequest($employee_mail));
             return redirect()->route('visitor.pendingaMeetings')->with('success', 'Your meeting placed successfully');
-        }
-        else
-        {
+
+        } else {
+
             return redirect()->back()->with('fail', 'Sorry...! Something went wrong, Please try again');
         }
     }
@@ -200,9 +193,20 @@ class MeetingController extends Controller
         $meeting = Meeting::find($meeting_id);
         $meeting->cancel_reason = $request->cancel_reason;
         $meeting->meeting_status = 4;
+        $visitor_id = $meeting->visitor_id;
+        $employee_id = $meeting->employee_id;
         $done = $meeting->save();
 
+        $visitor_meeting_cancel_email = Meeting::join('visitors', 'visitors.visitor_id', '=', 'meetings.visitor_id')
+                                        ->join('employees', 'employees.employee_id', '=', 'meetings.employee_id')
+                                        ->select('meetings.meeting_datetime', 'meetings.cancel_reason', 'visitors.first_name as vfname', 'visitors.last_name as vlname', 'visitors.mobile_no', 'employees.first_name as efname', 'employees.last_name as elname',  'employees.email')
+                                        ->where('visitors.visitor_id', '=', $visitor_id)
+                                        ->where('employees.employee_id', '=', $employee_id)
+                                        ->first();
+
+
         if($done){
+            mail::to($visitor_meeting_cancel_email->email)->send(new VisitorMeetingCancel($visitor_meeting_cancel_email));
             return redirect(route('visitor.all_meetings'))->with('success', 'Your appointment is canceled');
         }else{
             return redirect(route('visitor.all_meetings'))->with('fail', 'Your appointment is canceled');
