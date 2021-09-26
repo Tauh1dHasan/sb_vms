@@ -8,20 +8,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
-/* included models */
-use App\Models\User;
-use App\Models\Employee;
-
 /* included mails */
 use App\Mail\EmployeeApprovedMail;
 use App\Mail\EmployeeDeclinedMail;
 
+/* included models */
+use App\Models\User;
+use App\Models\Employee;
+
 class EmployeeManageController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Display list of all employees.
      */
     public function index()
     {
@@ -34,14 +32,11 @@ class EmployeeManageController extends Controller
 
 
     /**
-     * Display pending employee list.
-     *
-     * @return \Illuminate\Http\Response
+     * Display list of all pending employees.
      */
     public function pending()
     {
-        $employees = DB::table('employees')
-                    ->join('departments', 'employees.dept_id', '=', 'departments.dept_id')
+        $employees = Employee::join('departments', 'employees.dept_id', '=', 'departments.dept_id')
                     ->join('designations', 'employees.designation_id', '=', 'designations.designation_id')
                     ->select('employees.*', 'departments.department_name as department_name', 'designations.designation as designation')
                     ->where('employees.status', '=', 0)
@@ -52,14 +47,11 @@ class EmployeeManageController extends Controller
     }
 
     /**
-     * Display approved employeelist.
-     *
-     * @return \Illuminate\Http\Response
+     * Display list of all approved employees.
      */
     public function approved()
     {
-        $employees = DB::table('employees')
-                    ->join('departments', 'employees.dept_id', '=', 'departments.dept_id')
+        $employees = Employee::join('departments', 'employees.dept_id', '=', 'departments.dept_id')
                     ->join('designations', 'employees.designation_id', '=', 'designations.designation_id')
                     ->select('employees.*', 'departments.department_name as department_name', 'designations.designation as designation')
                     ->where('employees.status', '=', 1)
@@ -70,14 +62,11 @@ class EmployeeManageController extends Controller
     }
 
     /**
-     * Display declined employeelist.
-     *
-     * @return \Illuminate\Http\Response
+     * Display list of declined employees.
      */
     public function declined()
     {
-        $employees = DB::table('employees')
-                    ->join('departments', 'employees.dept_id', '=', 'departments.dept_id')
+        $employees = Employee::join('departments', 'employees.dept_id', '=', 'departments.dept_id')
                     ->join('designations', 'employees.designation_id', '=', 'designations.designation_id')
                     ->select('employees.*', 'departments.department_name as department_name', 'designations.designation as designation')
                     ->where('employees.status', '=', 2)
@@ -88,51 +77,46 @@ class EmployeeManageController extends Controller
     }
 
     /**
-     * Display approved employeelist.
-     *
-     * @return \Illuminate\Http\Response
+     * approve a pending or declined employee.
      */
     public function approve(User $user_id)
     {
-        $user = DB::table('users')
-                ->where('user_id', $user_id->user_id)
+        $user = User::where('user_id', $user_id->user_id)
                 ->update(['is_approved' => 1]);
 
-        $employee = DB::table('employees')
-                ->where('user_id', $user_id->user_id)
-                ->update(['status' => 1]);
+        $employee = Employee::where('user_id', $user_id->user_id)
+                    ->update(['status' => 1]);
 
-        $employees = DB::table('employees')
-                ->where('user_id', $user_id->user_id)
-                ->first();
+        $employees = Employee::where('user_id', $user_id->user_id)
+                    ->first();
 
         if($employees->email != NULL){
             mail::to($employees->email)->send(new EmployeeApprovedMail($employees));
         }
 
-        Session()->flash('success' , 'Employee Account Approved Succesfully.');
-        return redirect()->route('admin.approved.employees');
+        Session()->flash('success', 'Employee Account Approved Succesfully.');
+        return redirect()->back();
     }
 
+    /**
+     * decline a pending employee.
+     */
     public function decline(User $user_id)
     {
-        $user = DB::table('users')
-                ->where('user_id', $user_id->user_id)
+        $user = User::where('user_id', $user_id->user_id)
                 ->update(['is_approved' => 0]);
 
-        $employee = DB::table('employees')
-                ->where('user_id', $user_id->user_id)
-                ->update(['status' => 2]);
+        $employee = Employee::where('user_id', $user_id->user_id)
+                    ->update(['status' => 2]);
 
-        $employees = DB::table('employees')
-                ->where('user_id', $user_id->user_id)
-                ->first();
+        $employees = Employee::where('user_id', $user_id->user_id)
+                    ->first();
 
         if($employees->email != NULL){
             mail::to($employees->email)->send(new EmployeeDeclinedMail($employees));
         }
 
-        Session()->flash('success' , 'Employee Account Declined Succesfully.');
-        return redirect()->route('admin.declined.employees');
+        Session()->flash('success', 'Employee Account Declined Succesfully.');
+        return redirect()->back();
     }
 }

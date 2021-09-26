@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Auth;
 use Response;
 
-/* included */
+/* included models */
 use App\Models\User;
 use App\Models\Employee;
 use App\Models\Visitor;
@@ -22,24 +22,19 @@ class EmployeeAuthController extends Controller
 {
     /**
      * Department Wise Designation.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function dept_wise_designation(Request $request){
         $data = $request->all();
 
-        $designations = DB::table('designations')
-        ->where('designations.dept_id', '=', $data['dept_id'])
-        ->select('designation_id','designation')
-        ->get();
+        $designations = Designation::where('designations.dept_id', '=', $data['dept_id'])
+                                    ->select('designation_id','designation')
+                                    ->get();
 
         return Response::json($designations);
     }
 
     /**
      * Employee Registration Method.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -97,8 +92,6 @@ class EmployeeAuthController extends Controller
 
     /**
      * Employee Registration validation.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function validation($request)
     {
@@ -110,7 +103,6 @@ class EmployeeAuthController extends Controller
             'designation_id' => 'required',
             'mobile_no' => 'required|unique:employees|min:11',
             'password' => 'required|confirmed|min:6|max:255',
-            // 'email' => 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix',
             'photo' => 'mimes:jpeg,png,jpg|max:2048',
             '_answer'=>'required|simple_captcha',
         ]);
@@ -118,54 +110,32 @@ class EmployeeAuthController extends Controller
 
     /**
      * Employee Login Method.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function employee_login(Request $request)
     {
-        
         $request->validate([
             'username' => 'required|min:11',
             'password' => 'required|max:255',
         ]);
-
     
-        $user = DB::table('users')
-                ->where([
-                    ['username', '=', $request->username],
-                    ['user_type_id', '=', '2'],])
-                ->first();
+        $user = User::where([
+                        ['username', '=', $request->username],
+                        ['user_type_id', '=', '2'],])
+                    ->first();
 
-        if(!empty($user)){
-            
+        if (!empty($user)) {
             $password = Hash::check($request->password, $user->password);
 
-            if($password)
-            {
+            if ($password) {
                 Session::put(['loggedUser' => $user->user_id, 'loggedUserType' => $user->user_type_id]);
                 return view('backend.index');
-            }
-            else{
+            } else {
                 Session()->flash('sticky_error' , 'Username & Password didnot matched!');
                 return redirect()->back();
             }
-        }
-        else {
+        } else {
             Session()->flash('sticky_error' , 'No authorised employee found by this username!');
             return redirect()->back();
-        }
-    }
-
-    /**
-     * User Login method.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function user_logout(Request $request) {
-        // Auth::logout();
-        if(session()->has('loggedUser')){
-            Session::flush();
-            return redirect('/');
         }
     }
 }

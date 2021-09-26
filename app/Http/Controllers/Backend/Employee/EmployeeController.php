@@ -16,15 +16,15 @@ use App\Models\MeetingPurpose;
 class EmployeeController extends Controller
 {
     /**
-     * Display Dashboard Resouces.
-     *
-     * @return \Illuminate\Http\Response
+     * Display Employee Dashboard.
      */
     public function dashboard()
     {
         // Employee information
         $user_id = session('loggedUser');
-        $employee = Employee::select('employee_id', 'first_name', 'last_name', 'availability')->where('user_id', '=', $user_id)->first();
+        $employee = Employee::select('employee_id', 'first_name', 'last_name', 'availability')
+                            ->where('user_id', '=', $user_id)
+                            ->first();
         $employee_id = $employee->employee_id;
 
         // Total appointment count
@@ -32,38 +32,31 @@ class EmployeeController extends Controller
                     ->get();
         $total_appointment = $meeting->count();
 
-        // $Y_date = date('Y-m-d',strtotime("-1 days"));
-        $Y_date = date('Y-m-d',strtotime("-1 days"));
-        $T_date = date('Y-m-d',strtotime("+1 days"));
+        $y_date = date('Y-m-d',strtotime("-1 days"));
+        $t_date = date('Y-m-d',strtotime("+1 days"));
 
         // Today's appointment count
-        $meetings = DB::table('meetings')
-                        ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
-                        ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
-                        ->where('meetings.meeting_datetime', '>', $Y_date)
-                        ->where('meetings.meeting_datetime', '<', $T_date)
-                        ->where('meetings.employee_id', '=', $employee_id)
-                        ->get();
-        $today_appointment = $meetings->count();
-        // $now = date('Y-m-d',strtotime(now()));
-
-        // dd($today_appointment);
+        $meetings = Meeting::join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
+                            ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+                            ->where('meetings.meeting_datetime', '>', $y_date)
+                            ->where('meetings.meeting_datetime', '<', $t_date)
+                            ->where('meetings.employee_id', '=', $employee_id)
+                            ->get();
+        $today_appointment = $meetings->count(); 
 
         // Total approved appointment count
-        $pending = DB::table('meetings')
-                        ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
+        $pending = Meeting::join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
                         ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
-                        ->where('meetings.meeting_datetime', '>', $Y_date)
+                        ->where('meetings.meeting_datetime', '>', $y_date)
                         ->where('meetings.meeting_status', '=', 1)
                         ->where('meetings.employee_id', '=', $employee_id)
                         ->get();
         $approved_appointment = $pending->count();
 
         // Total pending appointment count
-        $pending = DB::table('meetings')
-                        ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
+        $pending = Meeting::join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
                         ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
-                        ->where('meetings.meeting_datetime', '>', $Y_date)
+                        ->where('meetings.meeting_datetime', '>', $y_date)
                         ->where('meetings.meeting_status', '=', 0)
                         ->where('meetings.employee_id', '=', $employee_id)
                         ->get();
@@ -71,8 +64,7 @@ class EmployeeController extends Controller
 
 
         // Total rejected appointment count
-        $reject = DB::table('meetings')
-                        ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
+        $reject = Meeting::join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
                         ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
                         ->where('meetings.meeting_status', '=', 2)
                         ->where('meetings.employee_id', '=', $employee_id)
@@ -84,8 +76,6 @@ class EmployeeController extends Controller
 
     /**
      * Display All Meeting information.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function allMeetings()
     {
@@ -96,31 +86,29 @@ class EmployeeController extends Controller
         $employee_id = $employee->employee_id;
 
         // Select all meeting for this employee
-        $meetings = DB::table('meetings')
-                    ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
-                    ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
-                    ->where('meetings.employee_id', '=', $employee_id)
-                    ->get();
+        $meetings = Meeting::join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
+                            ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+                            ->where('meetings.employee_id', '=', $employee_id)
+                            ->get();
 
         return view('backend.pages.employee.all_appointment', compact('meetings'));
     }
 
     /**
-     * Display Date range meeting information.
-     *
-     * @return \Illuminate\Http\Response
+     * Display date range meeting information.
      */
     public function customMeetingSearch(Request $request)
     {
         $user_id = session('loggedUser');
 
         // get employee ID 
-        $employee = Employee::select('employee_id')->where('user_id', '=', $user_id)->first();
+        $employee = Employee::select('employee_id')
+                            ->where('user_id', '=', $user_id)
+                            ->first();
         $employee_id = $employee->employee_id;
 
         // Select all meeting for this employee
-        $meetings = DB::table('meetings')
-                    ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
+        $meetings = Meeting::join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
                     ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
                     ->where('meetings.meeting_datetime', '>', $request->from_date)
                     ->where('meetings.meeting_datetime', '<', $request->to_date)
@@ -131,9 +119,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Display Current date meetings.
-     *
-     * @return \Illuminate\Http\Response
+     * Display current date meetings.
      */
     public function todayMeetings()
     {
@@ -144,77 +130,72 @@ class EmployeeController extends Controller
         $employee_id = $employee->employee_id;
 
         // Get dates
-        $Y_date = date('Y-m-d',strtotime("-1 days"));
-        $T_date = date('Y-m-d',strtotime("+1 days"));
+        $y_date = date('Y-m-d',strtotime("-1 days"));
+        $t_date = date('Y-m-d',strtotime("+1 days"));
 
         // Select all meeting for this employee
-        $meetings = DB::table('meetings')
-                        ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
-                        ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
-                        ->where('meetings.meeting_datetime', '>', $Y_date)
-                        ->where('meetings.meeting_datetime', '<', $T_date)
-                        ->where('meetings.employee_id', '=', $employee_id)
-                        ->get();
+        $meetings = Meeting::join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
+                            ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+                            ->where('meetings.meeting_datetime', '>', $y_date)
+                            ->where('meetings.meeting_datetime', '<', $t_date)
+                            ->where('meetings.employee_id', '=', $employee_id)
+                            ->get();
 
         return view('backend.pages.employee.today_meeting', compact('meetings'));
     }
 
     /**
-     * Display only ahed Pending Meetings.
-     *
-     * @return \Illuminate\Http\Response
+     * Display only ahead pending meetings.
      */
     public function pendingMeetings()
     {
         $user_id = session('loggedUser');
 
         // get employee ID 
-        $employee = Employee::select('employee_id')->where('user_id', '=', $user_id)->first();
+        $employee = Employee::select('employee_id')
+                            ->where('user_id', '=', $user_id)
+                            ->first();
         $employee_id = $employee->employee_id;
 
         // Current date
-        $Y_date = date('Y-m-d',strtotime("-1 days"));
+        $y_date = date('Y-m-d',strtotime("-1 days"));
         
         // Select all meeting for this employee
-        $meetings = DB::table('meetings')
-                        ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
-                        ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
-                        ->where('meetings.meeting_datetime', '>', $Y_date)
-                        ->where('meetings.meeting_status', '=', 0)
-                        ->where('meetings.employee_id', '=', $employee_id)
-                        ->get();
+        $meetings = Meeting::join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
+                            ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+                            ->where('meetings.meeting_datetime', '>', $y_date)
+                            ->where('meetings.meeting_status', '=', 0)
+                            ->where('meetings.employee_id', '=', $employee_id)
+                            ->get();
 
         return view('backend.pages.employee.pending_meeting', compact('meetings'));
     }
 
     /**
-     * Display only all Approved Meetings.
-     *
-     * @return \Illuminate\Http\Response
+     * Display only all approved meetings.
      */
     public function approvedMeetings()
     {
         $user_id = session('loggedUser');
 
         // get employee ID 
-        $employee = Employee::select('employee_id')->where('user_id', '=', $user_id)->first();
+        $employee = Employee::select('employee_id')
+                            ->where('user_id', '=', $user_id)
+                            ->first();
         $employee_id = $employee->employee_id;
 
         // Select all meeting for this employee
-        $meetings = DB::table('meetings')
-                        ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
-                        ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
-                        ->where('meetings.meeting_status', '=', 1)
-                        ->where('meetings.employee_id', '=', $employee_id)
-                        ->get();
+        $meetings = Meeting::join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
+                            ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+                            ->where('meetings.meeting_status', '=', 1)
+                            ->where('meetings.employee_id', '=', $employee_id)
+                            ->get();
 
         return view('backend.pages.employee.approved_meeting', compact('meetings'));
     }
 
     /**
-     * Display all Declined Meetings.
-     *
-     * @return \Illuminate\Http\Response
+     * Display all declined meetings.
      */
     public function rejectedMeetings()
     {
@@ -225,20 +206,17 @@ class EmployeeController extends Controller
         $employee_id = $employee->employee_id;
 
         // Select all meeting for this employee
-        $meetings = DB::table('meetings')
-                        ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
-                        ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
-                        ->where('meetings.meeting_status', '=', 2)
-                        ->where('meetings.employee_id', '=', $employee_id)
-                        ->get();
+        $meetings = Meeting::join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
+                            ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+                            ->where('meetings.meeting_status', '=', 2)
+                            ->where('meetings.employee_id', '=', $employee_id)
+                            ->get();
 
         return view('backend.pages.employee.rejected_meeting', compact('meetings'));
     }
 
     /**
-     * Meeting Decline Method.
-     *
-     * @return \Illuminate\Http\Response
+     * Meeting decline method.
      */
     public function declineMeeting(Request $request)
     {
@@ -251,9 +229,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Meeting Approval Method.
-     *
-     * @return \Illuminate\Http\Response
+     * Meeting approval method.
      */
     public function approveMeeting(Request $request)
     {
@@ -267,8 +243,6 @@ class EmployeeController extends Controller
 
     /**
      * Meeting Re-Schedule Method.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function rescheduleMeeting(Request $request)
     {
@@ -282,25 +256,23 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Display Host Profile.
-     *
-     * @return \Illuminate\Http\Response
+     * Display host profile.
      */
     public function profile()
     {
         $user_id = session('loggedUser');
 
-        $employee = DB::table('employees')
-                    ->join('departments', 'employees.dept_id', '=', 'departments.dept_id')
+        $employee = Employee::join('departments', 'employees.dept_id', '=', 'departments.dept_id')
                     ->join('designations', 'employees.designation_id', '=', 'designations.designation_id')
                     ->where('user_id', $user_id)
                     ->first();
         $gender = $employee->gender;
-        if($gender == 1){
+
+        if ($gender == 1){
             $gender = "Male";
-        }elseif($gender == 2){
+        } elseif ($gender == 2){
             $gender = "Female";
-        }else{
+        } else {
             $gender = "Not given";
         }
 
@@ -308,28 +280,23 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Display Host Profile Update Form.
-     *
-     * @return \Illuminate\Http\Response
+     * Display host profile update form.
      */
     public function edit($user_id)
     {
-        $employee = DB::table('employees')
-                    ->join('departments', 'employees.dept_id', '=', 'departments.dept_id')
-                    ->join('designations', 'employees.designation_id', '=', 'designations.designation_id')
-                    ->where('user_id', $user_id)
-                    ->first();
+        $employee = Employee::join('departments', 'employees.dept_id', '=', 'departments.dept_id')
+                            ->join('designations', 'employees.designation_id', '=', 'designations.designation_id')
+                            ->where('user_id', $user_id)
+                            ->first();
 
-        $department = DB::table('departments')->get();
-        $designation = DB::table('designations')->get();
+        $department = Employee::where('status', '=', 1)->get();
+        $designation = Designation::where('status', '=', 1)->get();
 
         return view('backend.pages.employee.edit_profile', compact('employee', 'department', 'designation'));
     }
 
     /**
-     * Host Profile Update Method.
-     *
-     * @return \Illuminate\Http\Response
+     * Host profile update method.
      */
     public function updateProfile(Request $req)
     {   

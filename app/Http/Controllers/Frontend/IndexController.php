@@ -14,9 +14,7 @@ use App\Models\Designation;
 class IndexController extends Controller
 {
     /**
-     * Display front-end home page.
-     *
-     * @return \Illuminate\Http\Response
+     * Display homepage
      */
     public function index()
     {
@@ -24,9 +22,7 @@ class IndexController extends Controller
     }
 
     /**
-     * Display front-end registration/visitor registration page.
-     *
-     * @return \Illuminate\Http\Response
+     * Display visitor registration page
      */
     public function register()
     {
@@ -36,9 +32,7 @@ class IndexController extends Controller
     }
 
     /**
-     * Display front-end about page.
-     *
-     * @return \Illuminate\Http\Response
+     * Display about us page
      */
     public function about()
     {
@@ -46,9 +40,7 @@ class IndexController extends Controller
     }
 
     /**
-     * Display front-end contact page.
-     *
-     * @return \Illuminate\Http\Response
+     * Display contact us page
      */
     public function contact()
     {
@@ -57,15 +49,13 @@ class IndexController extends Controller
 
 
     /**
-     * Display Employee Registration page.
-     *
-     * @return \Illuminate\Http\Response
+     * Display Employee Registration page
      */
     public function employee_create()
     {
         $user_types = UserType::where('user_type_status' , '=', '1')
-                    ->where('user_type_id' , '=', '2')
-                    ->get();
+                                ->where('user_type_id' , '=', '2')
+                                ->get();
         $departments = Department::orderBy('dept_id' , 'asc')->get();
         $designations = Designation::orderBy('designation_id' , 'asc')->get();
 

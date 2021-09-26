@@ -16,14 +16,13 @@ use App\Models\Visitor;
 class VisitorController extends Controller
 {
     /**
-     * Display Dashboard Resouces.
-     *
-     * @return \Illuminate\Http\Response
+     * Display dashboard resouces.
      */
     public function dashboard()
     {
-        // Current logedIn user id from session
+        // Current logged in user id from session
         $user_id = session('loggedUser');
+
         // Total number of appointments
         $total_meeting = Meeting::where('user_id', '=', $user_id)->get();
         $meeting_count = $total_meeting->count();
@@ -52,23 +51,21 @@ class VisitorController extends Controller
     }
 
     /**
-     * Display Visitor Profile Page.
-     *
-     * @return \Illuminate\Http\Response
+     * Display visitor profile Page.
      */
     public function profile(Request $req)
     {
         $user_id = session('loggedUser');
         
-        $visitor = DB::table('visitors')
-                 ->join('visitor_types', 'visitors.visitor_type', '=', 'visitor_types.visitor_type_id')
-                 ->where('user_id', $user_id)
-                 ->first();
-        if($visitor->gender == '1'){
+        $visitor = Visitor::join('visitor_types', 'visitors.visitor_type', '=', 'visitor_types.visitor_type_id')
+                            ->where('user_id', $user_id)
+                            ->first();
+
+        if ($visitor->gender == '1') {
             $gender = 'Male';
-        }elseif($visitor->gender == '2'){
+        } elseif ($visitor->gender == '2') {
             $gender = 'Female';
-        }else{
+        } else {
             $gender = 'Not given';
         }
 
@@ -76,21 +73,19 @@ class VisitorController extends Controller
     }
 
     /**
-     * Display Visitor Profile edit Page.
-     *
-     * @return \Illuminate\Http\Response
+     * Display visitor profile edit Page.
      */
     public function edit($user_id)
     {
-        $visitor = DB::table('visitors')
-                 ->join('visitor_types', 'visitors.visitor_type', '=', 'visitor_types.visitor_type_id')
-                 ->where('user_id', $user_id)
-                 ->first();
-        if($visitor->gender == '1'){
+        $visitor = Visitor::join('visitor_types', 'visitors.visitor_type', '=', 'visitor_types.visitor_type_id')
+                            ->where('user_id', $user_id)
+                            ->first();
+
+        if ($visitor->gender == '1') {
             $gender = 'Male';
-        }elseif($visitor->gender == '2'){
+        } elseif ($visitor->gender == '2') {
             $gender = 'Female';
-        }else{
+        } else {
             $gender = 'Not given';
         }
 
@@ -100,9 +95,7 @@ class VisitorController extends Controller
     }
 
     /**
-     * Visitor Profile update method.
-     *
-     * @return \Illuminate\Http\Response
+     * Visitor profile update method
      */
     public function update(Request $req)
     {
@@ -120,13 +113,10 @@ class VisitorController extends Controller
          
         $success = DB::update('update visitors set visitor_type = ?, first_name = ?, last_name = ?, mobile_no = ?, email = ?, address = ?, nid_no = ?, passport_no = ?, driving_license_no = ? where user_id = ?', [$visitor_type, $first_name, $last_name, $mobile_no, $email, $address, $nid_no, $passport_no, $driving_license_no, $user_id]);
 
-        if($success)
-        {
+        if ($success) {
             return redirect(route('visitor.index'))->with('success', 'Profile successfully updated.');
-        }else{
+        } else {
             return redirect(route('visitor.index'))->with('fail', 'Something went wrong, Please try agrain.');
         }
     }
-
-
 }
