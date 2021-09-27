@@ -104,6 +104,8 @@ class VisitorController extends Controller
         $visitor_type = $req->visitor_type;
         $first_name = $req->fname;
         $last_name = $req->lname;
+        $organization = $req->organization;
+        $designation = $req->designation;
         $mobile_no = $req->mobile_no;
         $email = $req->email;
         $address = $req->address;
@@ -111,9 +113,11 @@ class VisitorController extends Controller
         $passport_no = $req->passport_no;
         $driving_license_no = $req->driving_license_no;
          
-        $success = DB::update('update visitors set visitor_type = ?, first_name = ?, last_name = ?, mobile_no = ?, email = ?, address = ?, nid_no = ?, passport_no = ?, driving_license_no = ? where user_id = ?', [$visitor_type, $first_name, $last_name, $mobile_no, $email, $address, $nid_no, $passport_no, $driving_license_no, $user_id]);
+        $visitor_table = DB::update('update visitors set visitor_type = ?, first_name = ?, last_name = ?, organization = ?, designation = ?, mobile_no = ?, email = ?, address = ?, nid_no = ?, passport_no = ?, driving_license_no = ? where user_id = ?', [$visitor_type, $first_name, $last_name,$organization, $designation, $mobile_no, $email, $address, $nid_no, $passport_no, $driving_license_no, $user_id]);
 
-        if ($success) {
+        $user_table = DB::update('update users set username = ? WHERE user_id = ?' , [$mobile_no, $user_id]);
+
+        if ($visitor_table && $user_table) {
             return redirect(route('visitor.index'))->with('success', 'Profile successfully updated.');
         } else {
             return redirect(route('visitor.index'))->with('fail', 'Something went wrong, Please try agrain.');

@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Backend\Employee;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Intervention\Image\Facades\Image;
 
 /* included models */
+use App\Models\User;
 use App\Models\Employee;
 use App\Models\Meeting;
 use App\Models\Department;
@@ -289,7 +292,7 @@ class EmployeeController extends Controller
                             ->where('user_id', $user_id)
                             ->first();
 
-        $department = Employee::where('status', '=', 1)->get();
+        $department = Department::where('status', '=', 1)->get();
         $designation = Designation::where('status', '=', 1)->get();
 
         return view('backend.pages.employee.edit_profile', compact('employee', 'department', 'designation'));
@@ -306,8 +309,8 @@ class EmployeeController extends Controller
         $employee->first_name = $req->fname;
         $employee->last_name = $req->lname;
         $employee->availability = $req->availability;
-        $employee->dept_id = $req->department;
-        $employee->designation_id = $req->designation;
+        // $employee->dept_id = $req->department;
+        // $employee->designation_id = $req->designation;
         $employee->eid_no = $req->eid;
         $employee->email = $req->email;
         $employee->address = $req->address;
@@ -317,9 +320,32 @@ class EmployeeController extends Controller
         $employee->driving_license_no = $req->driving_license_no;
         $employee->start_hour = $req->start_hour;
         $employee->end_hour = $req->end_hour;
-        $done = $employee->save();
+        $employee->building_no = $req->building_no;
+        $employee->gate_no = $req->gate_no;
+        $employee->floor_no = $req->floor_no;
+        $employee->elevator_no = $req->elevator_no;
+        $employee->room_no = $req->room_no;
 
-        if($done){
+        $old_photo = $req->old_photo;
+
+        if ($req->hasFile('new_photo')) {
+            $new_photo = $req->file('new_photo');
+            $imgName = 'employee'.time().'.'.$new_photo->getClientOriginalExtension();
+            $location = public_path('backend/img/employees/'.$imgName);
+            Image::make($new_photo)->save($location);
+            $employee->photo = $imgName;
+            File::delete(public_path() . '/backend/img/employees/'. $old_photo);
+        } else {
+            $employee->photo = $old_photo;
+        }
+
+        $employee_table = $employee->save();
+
+        $user = User::find($user_id);
+        $user->username = $req->mobile_no;
+        $user_table = $user->save();
+
+        if($employee_table && $user_table){
             return redirect(route('employee.index'))->with('success', 'Profile successfully updated.');
         }else{
             return redirect(route('employee.index'))->with('fail', 'Something went wrong, Please try agrain.');

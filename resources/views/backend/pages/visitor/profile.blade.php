@@ -29,7 +29,9 @@
                                         
                                         <img src="{{ asset('backend/img/visitors/').'/'.$visitor->profile_photo }}" alt="{{ $visitor->first_name }}">
                                         <p style="font-size: 2.5em">{{ $visitor->first_name }} {{ $visitor->last_name }}</p>
-                                        <p>Visitor Type: {{ $visitor->visitor_type }}</p>
+                                        <p style="color:black">Visitor Type: {{ $visitor->visitor_type }}</p>
+                                        <p style="color:black">Organization: {{ $visitor->organization }}</p>
+                                        <p style="color:black">Designation: {{ $visitor->designation }}</p>
                                     </div>
                                     <div class="user-info-list">
                     
