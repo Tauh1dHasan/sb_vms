@@ -50,6 +50,17 @@
 
 									<div class="row">
 										<div class="form-group col-6">
+											<label class="form-label text-color-dark text-3">Organization Name <span class="text-color-danger">*</span></label>
+											<input type="text" value="{{old('organization')}}" name="organization" class="form-control form-control-lg text-4" required>
+										</div>
+										<div class="form-group col-6">
+											<label class="form-label text-color-dark text-3">Designation</label>
+											<input type="text" value="{{old('designation')}}" name="designation" class="form-control form-control-lg text-4">
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="form-group col-6">
 											<label class="form-label text-color-dark text-3">Mobile No <span class="text-color-danger">*</span></label>
 											<input type="text" value="{{old('mobile_no')}}" name="mobile_no" class="form-control form-control-lg text-4" required>
 										</div>
@@ -73,11 +84,11 @@
 									<div class="row">
 										<div class="form-group col-6">
 											<label class="form-label text-color-dark text-3">Address</label>
-											<input type="text" value="{{old('address')}}" name="address" class="form-control form-control-lg text-4">
+											<textarea type="text" row="3" name="address" class="form-control form-control-lg text-4">{{old('address')}}</textarea>
 										</div>
 										<div class="form-group col-6">
 											<label class="form-label text-color-dark text-3">NID (Optional)</label>
-											<input type="text" value="{{old('nid_no')}}" name="nid_no" class="form-control form-control-lg text-4">
+											<textarea type="text" row="3" name="nid_no" class="form-control form-control-lg text-4">{{old('nid_no')}}</textarea>
 										</div>
 									</div>
 

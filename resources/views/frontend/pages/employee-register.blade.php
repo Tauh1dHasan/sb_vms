@@ -102,31 +102,62 @@
 
 									<div class="row">
 										<div class="form-group col-6">
-											<label class="form-label text-color-dark text-3">Address</label>
-											<input type="text" value="{{old('address')}}" name="address" class="form-control form-control-lg text-4">
+											<label class="form-label text-color-dark text-3">Building (Optional)</label>
+											<select data-msg-required="Please enter building no." class="form-control text-3 h-auto py-2" name="building_no" id="building_no">
+												<option value="">--Select Building--</option> 
+												<option value="East Building">East Building</option>
+												<option value="West Building">West Building</option>
+												<option value="North Building">North Building</option>
+												<option value="South Building">South Building</option>
+											</select>
 										</div>
 										<div class="form-group col-6">
-											<label class="form-label text-color-dark text-3">NID (Optional)</label>
-											<input type="text" value="{{old('nid_no')}}" name="nid_no" class="form-control form-control-lg text-4">
+											<label class="form-label text-color-dark text-3">Gate No (Optional)</label>
+											<select data-msg-required="Please enter gate no." class="form-control text-3 h-auto py-2" name="gate_no" id="gate_no">
+												<option value="">--Select Gate No--</option> 
+												<option value="Gate 1">Gate 1</option>
+												<option value="Gate 2">Gate 2</option>
+												<option value="Gate 3">Gate 3</option>
+												<option value="Gate 4">Gate 4</option>
+											</select>
 										</div>
 									</div>
 
 									<div class="row">
 										<div class="form-group col-6">
-											<label class="form-label text-color-dark text-3">Driving License (Optional)</label>
-											<input type="text" value="{{old('driving_license_no')}}" name="driving_license_no" class="form-control form-control-lg text-4">
+											<label class="form-label text-color-dark text-3">Floor No (Optional)</label>
+											<select data-msg-required="Please enter floor no." class="form-control text-3 h-auto py-2" name="floor_no" id="floor_no">
+												<option value="">--Select Floor No--</option> 
+												<option value="1st Floor">1st Floor</option>
+												<option value="2nd Floor">2nd Floor</option>
+												<option value="3rd Floor">3rd Floor</option>
+												<option value="4th Floor">4th Floor</option>
+											</select>
 										</div>
 										<div class="form-group col-6">
-											<label class="form-label text-color-dark text-3">Passport (Optional)</label>
-											<input type="text" value="{{old('passport_no')}}" name="passport_no" class="form-control form-control-lg text-4">
+											<label class="form-label text-color-dark text-3">Elevator No (Optional)</label>
+											<select data-msg-required="Please enter elevator no." class="form-control text-3 h-auto py-2" name="elevator_no" id="elevator_no">
+												<option value="">--Select Elevator No--</option> 
+												<option value="Elevator 1">Elevator 1</option>
+												<option value="Elevator 2">Elevator 2</option>
+												<option value="Elevator 3">Elevator 3</option>
+												<option value="Elevator 4">Elevator 4</option>
+											</select>
 										</div>
 									</div>
 
 									<div class="row">
 										<div class="form-group col-6">
-											<label class="form-label text-color-dark text-3">Date of Birth</label>
-											<input type="date" value="{{old('dob')}}" name="dob" class="form-control form-control-lg text-4">
+											<label class="form-label text-color-dark text-3">Room No (Optional)</label>
+											<select data-msg-required="Please enter room no." class="form-control text-3 h-auto py-2" name="room_no" id="room_no">
+												<option value="">--Select Room No--</option> 
+												<option value="Room 1">Room 1</option>
+												<option value="Room 2">Room 2</option>
+												<option value="Room 3">Room 3</option>
+												<option value="Room 4">Room 4</option>
+											</select>
 										</div>
+										
 										<div class="form-group col-6">
 											<p class="form-label text-color-dark text-3">Gender</p>
 											<div class="form-check form-check-inline">
@@ -142,8 +173,34 @@
 										</div>
 									</div>
 
+									<div class="row">
+										<div class="form-group col-6">
+											<label class="form-label text-color-dark text-3">Address</label>
+											<textarea type="text" row="3" name="address" class="form-control form-control-lg text-4">{{old('address')}}</textarea>
+										</div>
+										<div class="form-group col-6">
+											<label class="form-label text-color-dark text-3">NID (Optional)</label>
+											<textarea type="text" row="3" name="nid_no" class="form-control form-control-lg text-4">{{old('nid_no')}}</textarea>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="form-group col-6">
+											<label class="form-label text-color-dark text-3">Driving License (Optional)</label>
+											<input type="text" value="{{old('driving_license_no')}}" name="driving_license_no" class="form-control form-control-lg text-4">
+										</div>
+										<div class="form-group col-6">
+											<label class="form-label text-color-dark text-3">Passport (Optional)</label>
+											<input type="text" value="{{old('passport_no')}}" name="passport_no" class="form-control form-control-lg text-4">
+										</div>
+									</div>
+
                                     <div class="row"> 
-                                        <div class="form-group col-md-12">
+										<div class="form-group col-6">
+											<label class="form-label text-color-dark text-3">Date of Birth</label>
+											<input type="date" value="{{old('dob')}}" name="dob" class="form-control form-control-lg text-4">
+										</div>
+                                        <div class="form-group col-md-6">
 											<label class="form-label text-color-dark text-3">Profile Photo</label>
 											<input class="form-control d-block" name="photo" type="file" id="photo">
 										</div>

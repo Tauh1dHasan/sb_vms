@@ -68,6 +68,11 @@ class EmployeeAuthController extends Controller
         $employee->email = $request->email;
         $employee->start_hour = $request->start_hour;
         $employee->end_hour = $request->end_hour;
+        $employee->building_no = $request->building_no;
+        $employee->gate_no = $request->gate_no;
+        $employee->elevator_no = $request->elevator_no;
+        $employee->floor_no = $request->floor_no;
+        $employee->room_no = $request->room_no;
         $employee->address = $request->address;
         $employee->nid_no = $request->nid_no;
         $employee->passport_no = $request->passport_no;

@@ -45,6 +45,8 @@ class UserAuthController extends Controller
         $visitor->visitor_type = $request->visitor_type;
         $visitor->first_name = $request->first_name;
         $visitor->last_name = $request->last_name;
+        $visitor->organization = $request->organization;
+        $visitor->designation = $request->designation;
         $visitor->gender = $request->gender;
         $visitor->dob = $request->dob;
         $visitor->mobile_no = $request->mobile_no;
@@ -85,6 +87,7 @@ class UserAuthController extends Controller
         return $this->validate($request, [
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
+            'organization' => 'required|max:255',
             'mobile_no' => 'required|unique:visitors|min:11',
             'password' => 'required|confirmed|min:6|max:255',
             'profile_photo' => 'mimes:jpeg,png,jpg|max:2048',
