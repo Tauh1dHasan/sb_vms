@@ -41,7 +41,9 @@
 										</div>
 									</div>
 									<div class="row justify-content-between">
-
+										<div class="form-group col-md-auto">
+											<a class="text-decoration-none text-color-dark text-color-hover-primary font-weight-semibold text-2" href="#">Forgot Password?</a>
+										</div>
 									</div>
 									<div class="row mt-3">
 										<div class="form-group col">

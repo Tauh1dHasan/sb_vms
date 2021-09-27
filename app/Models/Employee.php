@@ -19,23 +19,23 @@ class Employee extends Model
 
     protected $table = 'employees';
 
-    protected $primaryKey = 'user_id';
+    protected $primaryKey = 'employee_id';
 
     protected $fillable = ['user_id', 'user_type_id', 'first_name', 'last_name', 'slug', 'gender', 'dob', 'eid_no', 'dept_id', 'designation_id', 'mobile_no', 'email', 'address', 'photo', 'nid_no', 'driving_license_no', 'start_hour', 'end_hour', 'passport_no', 'entry_user_id', 'entry_datetime', 'modified_user_id', 'modified_datetime', 'availability', 'status'];
 
     /**
-     * a single employee belongs to a single department
+     * a single employee has one department
      */
     public function department()
     {
-        return $this->belongsTo(Department::class);
+        return $this->hasOne(Department::class, 'dept_id', 'dept_id');
     }
 
     /**
-     * a single employee belongs to a single designation
+     * a single employee has one designation
      */
     public function designation()
     {
-        return $this->belongsTo(Designation::class);
+        return $this->hasOne(Designation::class, 'designation_id', 'designation_id');
     }
 }
