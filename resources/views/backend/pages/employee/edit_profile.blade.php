@@ -25,8 +25,17 @@
                                                 </div>
                                             </div>
                                             <div class="widget-content widget-content-area">
-                                                <form action="{{ route('employee.updateProfile') }}" method="POST">
+                                                <form action="{{ route('employee.updateProfile') }}" method="POST" enctype="multipart/form-data">
                                                     @csrf
+                                                    
+                                                    <div class="form-group mb-4">
+                                                        {{-- hidden old profile image --}}
+                                                        <input type="hidden" name="old_photo" value="{{$employee->photo}}">
+                                                        
+                                                        <label for="new_photo">Update Profile Picture</label>
+                                                        <input name="new_photo" type="file" class="form-control" id="new_photo">
+                                                    </div>
+
                                                     <div class="form-group mb-4">
                                                         <label for="fname">First Name</label>
                                                         <input name="fname" type="text" class="form-control" id="fname" value="{{ $employee->first_name }}" required>
@@ -40,13 +49,12 @@
                                                     <div class="form-group mb-4">
                                                         <label for="availability">Availability</label>
                                                         <select name="availability" class="form-control" id="availability" required>
-                                                            <option value="">Select</option>
-                                                            <option value="0">Not Available</option>
                                                             <option value="1">Available</option>
+                                                            <option value="0">Not Available</option>
                                                         </select>
                                                     </div>
 
-                                                    <div class="form-group mb-4">
+                                                    {{-- <div class="form-group mb-4">
                                                         <label for="department">Department</label>
                                                         <select name="department" class="form-control" id="department" required>
                                                             <option value="{{ $employee->dept_id }}">{{ $employee->department_name }}</option>
@@ -64,7 +72,7 @@
                                                                 <option value="{{ $item->designation_id }}">{{ $item->designation }}</option>    
                                                             @endforeach
                                                         </select>
-                                                    </div>
+                                                    </div> --}}
 
                                                     <div class="form-group mb-4">
                                                         <label for="eid">EID Number</label>
@@ -79,6 +87,31 @@
                                                     <div class="form-group mb-4">
                                                         <label for="end_hour">Ending Office Hour</label>
                                                         <input name="end_hour" type="time" class="form-control" id="end_hour" value="{{ $employee->end_hour }}">
+                                                    </div>
+
+                                                    <div class="form-group mb-4">
+                                                        <label for="building_no">Building</label>
+                                                        <input name="building_no" type="text" class="form-control" id="building_no" value="{{ $employee->building_no }}" required>
+                                                    </div>
+
+                                                    <div class="form-group mb-4">
+                                                        <label for="gate_no">Gate</label>
+                                                        <input name="gate_no" type="text" class="form-control" id="gate_no" value="{{ $employee->gate_no }}" required>
+                                                    </div>
+
+                                                    <div class="form-group mb-4">
+                                                        <label for="floor_no">Floor No</label>
+                                                        <input name="floor_no" type="text" class="form-control" id="floor_no" value="{{ $employee->floor_no }}" required>
+                                                    </div>
+
+                                                    <div class="form-group mb-4">
+                                                        <label for="elevator_no">Elevator</label>
+                                                        <input name="elevator_no" type="text" class="form-control" id="elevator_no" value="{{ $employee->elevator_no }}" required>
+                                                    </div>
+
+                                                    <div class="form-group mb-4">
+                                                        <label for="room_no">Room No</label>
+                                                        <input name="room_no" type="text" class="form-control" id="room_no" value="{{ $employee->room_no }}" required>
                                                     </div>
 
                                                     <div class="form-group mb-4">

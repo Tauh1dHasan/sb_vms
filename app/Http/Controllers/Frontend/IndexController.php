@@ -51,7 +51,7 @@ class IndexController extends Controller
     /**
      * Display Employee Registration page
      */
-    public function employee_create()
+    public function employeeCreate()
     {
         $user_types = UserType::where('user_type_status' , '=', '1')
                                 ->where('user_type_id' , '=', '2')

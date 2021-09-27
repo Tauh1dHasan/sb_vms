@@ -24,7 +24,7 @@ class UserAuthController extends Controller
     /**
      * Visitor registration method
      */
-    public function user_registration(Request $request)
+    public function userRegistration(Request $request)
     {
         $this->validation($request);
 
@@ -98,7 +98,7 @@ class UserAuthController extends Controller
     /**
      * Visitor log-in method
      */
-    public function user_login(Request $request)
+    public function userLogin(Request $request)
     {
         $request->validate([
             'username' => 'required|min:11',
@@ -143,7 +143,7 @@ class UserAuthController extends Controller
     /**
      * Visitor Logout method
      */
-    public function user_logout(Request $request) 
+    public function userLogout(Request $request) 
     {
         if (session()->has('loggedUser')) {
             Session::flush();
@@ -154,7 +154,7 @@ class UserAuthController extends Controller
     /**
      * Visitor email varification method
      */
-    public function user_verify(User $user_id) {
+    public function userVerify(User $user_id) {
         $user = User::where('user_id', $user_id->user_id)
                     ->update(['is_approved' => 1]);
 

@@ -25,8 +25,17 @@
                                                 </div>
                                             </div>
                                             <div class="widget-content widget-content-area">
-                                                <form action="{{ route('visitor.update-profile') }}" method="POST">
+                                                <form action="{{ route('visitor.update-profile') }}" method="POST" enctype="multipart/form-data">
                                                     @csrf
+
+                                                    <div class="form-group mb-4">
+                                                        {{-- hidden old profile image --}}
+                                                        <input type="hidden" name="old_photo" value="{{$employee->photo}}">
+                                                        
+                                                        <label for="new_photo">Update Profile Picture</label>
+                                                        <input name="new_photo" type="file" class="form-control" id="new_photo">
+                                                    </div>
+
                                                     <div class="form-group mb-4">
                                                         <label for="fname">First Name</label>
                                                         <input name="fname" type="text" class="form-control" id="fname" value="{{ $visitor->first_name }}" required>
@@ -50,6 +59,16 @@
                                                                 <option value="{{ $item->visitor_type_id }}">{{ $item->visitor_type }}</option>    
                                                             @endforeach
                                                         </select>
+                                                    </div>
+
+                                                    <div class="form-group mb-4">
+                                                        <label for="organization">Organization Name</label>
+                                                        <input name="organization" type="text" class="form-control" id="organization" value="{{ $visitor->organization }}" required>
+                                                    </div>
+
+                                                    <div class="form-group mb-4">
+                                                        <label for="designation">Designation</label>
+                                                        <input name="designation" type="text" class="form-control" id="designation" value="{{ $visitor->designation }}" required>
                                                     </div>
                                                     
                                                     <div class="form-group mb-4">

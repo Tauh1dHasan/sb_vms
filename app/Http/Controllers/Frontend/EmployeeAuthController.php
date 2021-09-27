@@ -18,13 +18,14 @@ use App\Models\User;
 use App\Models\Employee;
 use App\Models\Visitor;
 use App\Models\Designation;
+use App\Models\Department;
 
 class EmployeeAuthController extends Controller
 {
     /**
      * Department Wise Designation.
      */
-    public function dept_wise_designation(Request $request){
+    public function deptWiseDesignation(Request $request){
         $data = $request->all();
 
         $designations = Designation::where('designations.dept_id', '=', $data['dept_id'])
@@ -117,7 +118,7 @@ class EmployeeAuthController extends Controller
     /**
      * Employee Login Method.
      */
-    public function employee_login(Request $request)
+    public function employeeLogin(Request $request)
     {
         $request->validate([
             'username' => 'required|min:11',

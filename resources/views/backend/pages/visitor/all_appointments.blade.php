@@ -24,6 +24,7 @@
             <div class="row layout-spacing">
                 <div class="col-lg-12">
                     <div class="statbox widget box box-shadow">
+                        <h3>All Appointments</h3>
                         <div class="widget-content widget-content-area">
                             <div class="table-responsive mb-4">
 
@@ -77,7 +78,7 @@
                                                     @elseif($meeting->meeting_status == 3)
                                                         <span class="shadow-none badge badge-warning">Rescheduled</span>
                                                     @elseif($meeting->meeting_status == 4)
-                                                        <span class="shadow-none badge badge-warning">Canceled</span>
+                                                        <span class="shadow-none badge badge-danger">Canceled</span>
                                                     @elseif($meeting->meeting_status == 11)
                                                         <span class="shadow-none badge badge-info">On Going</span>
                                                     @elseif($meeting->meeting_status == 12)

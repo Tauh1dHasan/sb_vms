@@ -7,7 +7,7 @@
         <div class="row layout-spacing">
             <div class="col-lg-12">
                 <div class="statbox widget box box-shadow">
-                    <h3>All Pending Appointments</h3>
+                    <h3>All Re-scheduled Appointments</h3>
                     <div class="widget-content widget-content-area">
                         <div class="table-responsive mb-4">
                             <table id="style-3" class="table style-3  table-hover">
@@ -57,6 +57,16 @@
                                             </td>
                                             
                                             <td class="text-center">
+                                                <ul class="table-controls">
+                                                    <li>
+                                                        <form action="{{ route('visitor.visitorPass') }}" method="POST">
+                                                            @csrf
+                                                            <input type="hidden" name="meeting_id" value="{{$meeting->meeting_id}}">
+                                                            <input type="hidden" name="user_id" value="{{$meeting->user_id}}">
+                                                            <input type="submit" value="Generate Visitor Pass" class="btn btn-success">
+                                                        </form>
+                                                    </li>
+                                                </ul>
                                                 <ul class="table-controls">
                                                     <li>
                                                         <div class="text-center">
