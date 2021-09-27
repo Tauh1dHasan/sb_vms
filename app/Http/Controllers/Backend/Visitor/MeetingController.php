@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 
 /* included models */
 use App\Models\Meeting;
+use App\Models\Visitor;
 use App\Models\Employee;
 use App\Models\MeetingPurpose;
 
@@ -62,8 +63,7 @@ class MeetingController extends Controller
 
         $purpose = MeetingPurpose::where('purpose_status', '=', 1)->get();
 
-        $visitor = Visitor::select('visitors.*')
-                            ->where('visitors.user_id', '=', $user_id)
+        $visitor = Visitor::where('visitors.user_id', '=', $user_id)
                             ->first();
 
         return view('backend.pages.visitor.make_appointment', compact('purpose', 'visitor'));
@@ -87,7 +87,7 @@ class MeetingController extends Controller
     /**
      * Display employee information AJAX.
      */
-    public function search_employees(Request $request)
+    public function searchEmployees(Request $request)
     {
 
         $data = [];
@@ -147,6 +147,24 @@ class MeetingController extends Controller
     }
 
     /**
+     * Display all reschedule meetings.
+     */
+    public function reschedule()
+    {
+        // User session user_id
+        $user_id = session('loggedUser');
+
+        $meetings = Meeting::join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+                            ->join('employees', 'meetings.employee_id', '=', 'employees.employee_id')
+                            ->where('meetings.user_id', '=', $user_id)
+                            ->where('meetings.meeting_status', '=', '3')
+                            ->orderBy('meeting_id', 'desc')
+                            ->get();
+
+        return view('backend.pages.visitor.reschedule_meetings', compact('meetings'));
+    }
+
+    /**
      * Display all declined meetings.
      */
     public function rejected(Request $req)
@@ -167,7 +185,7 @@ class MeetingController extends Controller
     /**
      * Meeting cancel method.
      */
-    public function cancel_meeting(Request $request)
+    public function cancelMeeting(Request $request)
     {
         $meeting_id = $request->meeting_id;
         $meeting = Meeting::find($meeting_id);
@@ -196,7 +214,7 @@ class MeetingController extends Controller
     /**
      * Visitor pass.
      */
-    public function visitor_pass(Request $req)
+    public function visitorPass(Request $req)
     {
         $meeting_id = $req->meeting_id;
         $user_id = $req->user_id;
@@ -225,7 +243,7 @@ class MeetingController extends Controller
     /**
      * Display meeting info by custom date range.
      */
-    public function custom_report(Request $request)
+    public function customReport(Request $request)
     {
         $user_id = session('loggedUser');
         $from_date = $request->from_date;

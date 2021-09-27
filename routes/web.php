@@ -38,16 +38,16 @@ Route::group(['prefix' => '/', 'as' => 'frontend.'], function() {
     Route::get('contact', [IndexController::class, 'contact'])->name('contact');
 
     Route::get('register', [IndexController::class, 'register'])->name('register');
-    Route::post('user-register', [UserAuthController::class, 'user_registration'])->name('user_registration');
-    Route::get('user-verify/{user_id}', [UserAuthController::class, 'user_verify'])->name('user_verify');
-    Route::post('/visitor', [UserAuthController::class, 'user_login'])->name('user_login');
-    Route::get('user-logout', [UserAuthController::class, 'user_logout'])->name('user_logout');
+    Route::post('user-register', [UserAuthController::class, 'userRegistration'])->name('user_registration');
+    Route::get('user-verify/{user_id}', [UserAuthController::class, 'userVerify'])->name('user_verify');
+    Route::post('/visitor', [UserAuthController::class, 'userLogin'])->name('user_login');
+    Route::get('user-logout', [UserAuthController::class, 'userLogout'])->name('user_logout');
 
     /* Employee Register Routes */
-    Route::get('employee/register', [IndexController::class, 'employee_create'])->name('employee.create');
+    Route::get('employee/register', [IndexController::class, 'employeeCreate'])->name('employee.create');
     Route::post('employee/store', [EmployeeAuthController::class, 'store'])->name('employee.store');
-    Route::post('employee/designations', [EmployeeAuthController::class, 'dept_wise_designation'])->name('employee.designation');
-    Route::post('/employee', [EmployeeAuthController::class, 'employee_login'])->name('employee.login');
+    Route::post('employee/designations', [EmployeeAuthController::class, 'deptWiseDesignation'])->name('employee.designation');
+    Route::post('/employee', [EmployeeAuthController::class, 'employeeLogin'])->name('employee.login');
 }); 
 
 /* Backend Visitor Routes */
@@ -68,7 +68,7 @@ Route::group(['middleware' => ['UserMiddleware'],'prefix' => '/visitor', 'as' =>
     // Store a meeting routes for visitor
     Route::post('/create-meeting', [MeetingController::class, 'store'])->name('store');
     // search employees
-    Route::get('/search-employees', [MeetingController::class, 'search_employees'])->name('search-employees');
+    Route::get('/search-employees', [MeetingController::class, 'searchEmployees'])->name('search-employees');
 
     // Show all meeting status
     Route::get('/all-appointments', [MeetingController::class, 'index'])->name('all_meetings');
@@ -79,14 +79,17 @@ Route::group(['middleware' => ['UserMiddleware'],'prefix' => '/visitor', 'as' =>
     // Show all pending meetings
     Route::get('/pending-meetings', [MeetingController::class, 'pending'])->name('pendingaMeetings');
 
+    // Show all re-scheduled meetings
+    Route::get('/reschedule-meeting', [MeetingController::class, 'reschedule'])->name('rescheduledMeetings');
+
     // Show all rejected meetings
     Route::get('/rejected-meetings', [MeetingController::class, 'rejected'])->name('rejectedMeetings');
 
     // Cancel meeting from visitor panel
-    Route::post('/cancel-meeting', [MeetingController::class, 'cancel_meeting'])->name('cancel-meeting');
+    Route::post('/cancel-meeting', [MeetingController::class, 'cancelMeeting'])->name('cancel-meeting');
 
     // Show meeting visitor-pass QR code to visitor
-    Route::post('/visitor-pass', [MeetingController::class, 'visitor_pass'])->name('visitorPass');
+    Route::post('/visitor-pass', [MeetingController::class, 'visitorPass'])->name('visitorPass');
     // Gate Pass -- This route will be moved to receptionist module -- only receptionist will see this info and provide a gate pass
     Route::get('/gate-pass/{$meeting_id}', [MeetingController::class, 'gate_pass'])->name('gatePass');
 
@@ -94,7 +97,7 @@ Route::group(['middleware' => ['UserMiddleware'],'prefix' => '/visitor', 'as' =>
     Route::get('/get-host', [MeetingController::class, 'getHost'])->name('getHost');
 
     // All appointments custom filtering
-    Route::post('/custom-report', [MeetingController::class, 'custom_report'])->name('custom-report');
+    Route::post('/custom-report', [MeetingController::class, 'customReport'])->name('custom-report');
 }); 
 
 
