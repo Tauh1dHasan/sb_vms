@@ -1,6 +1,5 @@
 <script>
     $('#user_type_id').on('change',function(e){
-
             
         $("#dept_id").on('change',function(e){
             e.preventDefault();

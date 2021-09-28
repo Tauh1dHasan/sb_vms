@@ -26,19 +26,19 @@ class EmployeeAuthController extends Controller
      * Department Wise Designation.
      */
     public function deptWiseDesignation(Request $request, $id){
-        $data = $request->all();
+        $data = $request->dept_id;
 
         if ($id == 2) {
-            $designations = Designation::where('designations.dept_id', '=', $data['dept_id'])
-                                        ->where('designations.designation', 'NOT LIKE', "%Receptionist%")
-                                        ->select('designation_id','designation')
+            $designations = Designation::where('designations.dept_id', $data)
+                                        ->where('designations.slug', '!=', "receptionist")
+                                        ->select('designation_id', 'designation')
                                         ->get();
         }
 
         if ($id == 3) {
-            $designations = Designation::where('designations.dept_id', '=', $data['dept_id'])
-                                        ->where('designations.designation', 'LIKE', "%Receptionist%")
-                                        ->select('designation_id','designation')
+            $designations = Designation::where('designations.dept_id', $data)
+                                        ->where('designations.slug', "receptionist")
+                                        ->select('designation_id', 'designation')
                                         ->get();
         }
        
