@@ -122,6 +122,9 @@ Route::group(['middleware' => ['EmployeeMiddleware'], 'prefix' => '/employee', '
     // Show all approved meetings
     Route::get('/approved-meetings', [EmployeeController::class, 'approvedMeetings'])->name('approvedMeetings');
 
+    // Show all re-scheduled meetings
+    Route::get('/rescheduled-meetings', [EmployeeController::class, 'rescheduledMeetings'])->name('rescheduledMeetings');
+
     // Show all declined meetings
     Route::get('/rejected-meetings', [EmployeeController::class, 'rejectedMeetings'])->name('rejectedMeetings');
 
@@ -142,6 +145,10 @@ Route::group(['middleware' => ['EmployeeMiddleware'], 'prefix' => '/employee', '
 
     // Meeting re-schedule route
     Route::post('/reschedule-meeting', [EmployeeController::class, 'rescheduleMeeting'])->name('rescheduleMeeting');
+
+    // Display employee password update form
+    Route::get('/edit-password', [EmployeeController::class, 'editPassword'])->name('editPassword');
+    Route::post('/update-password', [EmployeeController::class, 'updatePassword'])->name('updatePassword');
 }); 
 
 

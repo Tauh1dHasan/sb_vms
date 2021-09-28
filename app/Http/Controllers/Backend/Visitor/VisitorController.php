@@ -28,11 +28,12 @@ class VisitorController extends Controller
         $total_meeting = Meeting::where('user_id', '=', $user_id)->get();
         $meeting_count = $total_meeting->count();
 
-        // Current datetime
-        $curr_datetime = date('Y-m-d H:i:s');
+        $y_date = date('Y-m-d',strtotime("-1 days"));
+        $t_date = date('Y-m-d',strtotime("+1 days"));
         // Total number of today's appointments
         $today_meeting = Meeting::where('user_id', '=', $user_id)
-                                ->where('meeting_datetime', '>', $curr_datetime)
+                                ->where('meeting_datetime', '>', $y_date)
+                                ->where('meeting_datetime', '<', $t_date)
                                 ->get();
         $today_meeting_count = $today_meeting->count();
 

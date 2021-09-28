@@ -29,9 +29,6 @@
                                                     @csrf
                                                     
                                                     <div class="form-group mb-4">
-                                                        {{-- hidden old profile image --}}
-                                                        <input type="hidden" name="old_photo" value="{{$employee->photo}}">
-                                                        
                                                         <label for="new_photo">Update Profile Picture</label>
                                                         <input name="new_photo" type="file" class="form-control" id="new_photo">
                                                     </div>
@@ -124,8 +121,6 @@
                                                         <input name="driving_license_no" type="number" class="form-control" id="driving_license_no" value="{{ $employee->driving_license_no }}">
                                                     </div>
                                                     
-                                                    {{-- hidden user_id --}}
-                                                    <input name="user_id" type="hidden" value="{{ $employee->user_id }}">
                                                     <input type="submit" name="submit" class="mt-4 mb-4 btn btn-primary">
                                                 </form>
                                             </div>
