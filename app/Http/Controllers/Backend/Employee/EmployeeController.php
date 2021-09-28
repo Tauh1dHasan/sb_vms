@@ -205,7 +205,10 @@ class EmployeeController extends Controller
         $user_id = session('loggedUser');
 
         // get employee ID 
-        $employee = Employee::select('employee_id')->where('user_id', '=', $user_id)->first();
+        $employee = Employee::select('employee_id')
+                            ->where('user_id', '=', $user_id)
+                            ->where('status', '=', '1')
+                            ->first();
         $employee_id = $employee->employee_id;
 
         // Select all meeting for this employee
@@ -268,6 +271,7 @@ class EmployeeController extends Controller
         $employee = Employee::join('departments', 'employees.dept_id', '=', 'departments.dept_id')
                     ->join('designations', 'employees.designation_id', '=', 'designations.designation_id')
                     ->where('user_id', $user_id)
+                    ->where('employees.status', '=', '1')
                     ->first();
         $gender = $employee->gender;
 
@@ -290,6 +294,7 @@ class EmployeeController extends Controller
         $employee = Employee::join('departments', 'employees.dept_id', '=', 'departments.dept_id')
                             ->join('designations', 'employees.designation_id', '=', 'designations.designation_id')
                             ->where('user_id', $user_id)
+                            ->where('employees.status', '=', '1')
                             ->first();
 
         $department = Department::where('status', '=', 1)->get();
@@ -303,14 +308,21 @@ class EmployeeController extends Controller
      */
     public function updateProfile(Request $req)
     {   
+        // Loged user ID from session/hidden field
         $user_id = $req->user_id;
 
-        $employee = Employee::find($user_id);
+        // Update old employee info status
+        $employee_old_data_query = Employee::select('status')
+                            ->where('user_id', '=', $user_id)
+                            ->where('status', '=', '1')
+                            ->first();
+        $employee_old_data_query->status = '3';
+        $employee_old_data_query->save();
+
+        $employee = new Employee;
         $employee->first_name = $req->fname;
         $employee->last_name = $req->lname;
         $employee->availability = $req->availability;
-        // $employee->dept_id = $req->department;
-        // $employee->designation_id = $req->designation;
         $employee->eid_no = $req->eid;
         $employee->email = $req->email;
         $employee->address = $req->address;
@@ -342,7 +354,8 @@ class EmployeeController extends Controller
         $employee_table = $employee->save();
 
         $user = User::find($user_id);
-        $user->username = $req->mobile_no;
+        $user->mobile_no = $req->mobile_no;
+        $user->email = $req->email;
         $user_table = $user->save();
 
         if($employee_table && $user_table){

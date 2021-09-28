@@ -54,26 +54,6 @@
                                                         </select>
                                                     </div>
 
-                                                    {{-- <div class="form-group mb-4">
-                                                        <label for="department">Department</label>
-                                                        <select name="department" class="form-control" id="department" required>
-                                                            <option value="{{ $employee->dept_id }}">{{ $employee->department_name }}</option>
-                                                            @foreach ($department as $item)
-                                                                <option value="{{ $item->dept_id }}">{{ $item->department_name }}</option>    
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="form-group mb-4">
-                                                        <label for="designation">Designation</label>
-                                                        <select name="designation" class="form-control" id="designation" required>
-                                                            <option value="{{ $employee->designation_id }}">{{ $employee->designation }}</option>
-                                                            @foreach ($designation as $item)
-                                                                <option value="{{ $item->designation_id }}">{{ $item->designation }}</option>    
-                                                            @endforeach
-                                                        </select>
-                                                    </div> --}}
-
                                                     <div class="form-group mb-4">
                                                         <label for="eid">EID Number</label>
                                                         <input name="eid" type="number" class="form-control" id="eid" value="{{ $employee->eid_no }}">
@@ -126,7 +106,7 @@
 
                                                     <div class="form-group mb-4">
                                                         <label for="mobile_no">Mobile Number</label>
-                                                        <input name="mobile_no" type="number" class="form-control" id="mobile_no" value="0{{ $employee->mobile_no }}">
+                                                        <input name="mobile_no" type="number" class="form-control" id="mobile_no" value="{{ $employee->mobile_no }}">
                                                     </div>
 
                                                     <div class="form-group mb-4">
