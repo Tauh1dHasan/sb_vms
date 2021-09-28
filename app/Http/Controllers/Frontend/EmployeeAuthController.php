@@ -44,7 +44,8 @@ class EmployeeAuthController extends Controller
 
         $user = new User;
 
-        $user->username = $request->mobile_no;
+        $user->mobile_no = $request->mobile_no;
+        $user->email = $request->email;
         $user->password = bcrypt($request->password);
         $user->user_type_id = $request->user_type_id;
         $user->entry_datetime = now();
@@ -108,41 +109,14 @@ class EmployeeAuthController extends Controller
             'user_type_id' => 'required',
             'dept_id' => 'required',
             'designation_id' => 'required',
-            'mobile_no' => 'required|unique:employees|min:11',
-            'password' => 'required|confirmed|min:6|max:255',
+            'eid_no' => 'required',
+            'start_hour' => 'required',
+            'end_hour' => 'required',
+            'mobile_no' => 'required|unique:users|min:11',
+            'email' => 'required|unique:users',
+            'password' => 'required|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
             'photo' => 'mimes:jpeg,png,jpg|max:2048',
             '_answer'=>'required|simple_captcha',
         ]);
-    }
-
-    /**
-     * Employee Login Method.
-     */
-    public function employeeLogin(Request $request)
-    {
-        $request->validate([
-            'username' => 'required|min:11',
-            'password' => 'required|max:255',
-        ]);
-    
-        $user = User::where([
-                        ['username', '=', $request->username],
-                        ['user_type_id', '=', '2'],])
-                    ->first();
-
-        if (!empty($user)) {
-            $password = Hash::check($request->password, $user->password);
-
-            if ($password) {
-                Session::put(['loggedUser' => $user->user_id, 'loggedUserType' => $user->user_type_id]);
-                return view('backend.index');
-            } else {
-                Session()->flash('sticky_error' , 'Username & Password didnot matched!');
-                return redirect()->back();
-            }
-        } else {
-            Session()->flash('sticky_error' , 'No authorised employee found by this username!');
-            return redirect()->back();
-        }
     }
 }
