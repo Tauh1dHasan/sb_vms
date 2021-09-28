@@ -33,8 +33,8 @@
 
 									<div class="row">
 										<div class="form-group col-md-6">
-											<label class="form-label mb-1 text-2">User Type <span class="text-color-danger">*</span></label>
-											<select data-msg-required="Please enter the user_type." class="form-control text-3 h-auto py-2" name="user_type_id" id="user_type_id" required="">
+											<label class="form-label mb-1 text-2">Employee Type <span class="text-color-danger">*</span></label>
+											<select data-msg-required="Please enter the employee type." class="form-control text-3 h-auto py-2" name="user_type_id" id="user_type_id" required="">
 												<option value="">--Select User Type--</option> 
 												@foreach($user_types as $user_type)
 													<option value="{{ $user_type->user_type_id }}">{{ $user_type->user_type_name }}</option>
