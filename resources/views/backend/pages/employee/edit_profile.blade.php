@@ -29,9 +29,6 @@
                                                     @csrf
                                                     
                                                     <div class="form-group mb-4">
-                                                        {{-- hidden old profile image --}}
-                                                        <input type="hidden" name="old_photo" value="{{$employee->photo}}">
-                                                        
                                                         <label for="new_photo">Update Profile Picture</label>
                                                         <input name="new_photo" type="file" class="form-control" id="new_photo">
                                                     </div>
@@ -53,26 +50,6 @@
                                                             <option value="0">Not Available</option>
                                                         </select>
                                                     </div>
-
-                                                    {{-- <div class="form-group mb-4">
-                                                        <label for="department">Department</label>
-                                                        <select name="department" class="form-control" id="department" required>
-                                                            <option value="{{ $employee->dept_id }}">{{ $employee->department_name }}</option>
-                                                            @foreach ($department as $item)
-                                                                <option value="{{ $item->dept_id }}">{{ $item->department_name }}</option>    
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="form-group mb-4">
-                                                        <label for="designation">Designation</label>
-                                                        <select name="designation" class="form-control" id="designation" required>
-                                                            <option value="{{ $employee->designation_id }}">{{ $employee->designation }}</option>
-                                                            @foreach ($designation as $item)
-                                                                <option value="{{ $item->designation_id }}">{{ $item->designation }}</option>    
-                                                            @endforeach
-                                                        </select>
-                                                    </div> --}}
 
                                                     <div class="form-group mb-4">
                                                         <label for="eid">EID Number</label>
@@ -126,7 +103,7 @@
 
                                                     <div class="form-group mb-4">
                                                         <label for="mobile_no">Mobile Number</label>
-                                                        <input name="mobile_no" type="number" class="form-control" id="mobile_no" value="0{{ $employee->mobile_no }}">
+                                                        <input name="mobile_no" type="number" class="form-control" id="mobile_no" value="{{ $employee->mobile_no }}">
                                                     </div>
 
                                                     <div class="form-group mb-4">
@@ -144,8 +121,6 @@
                                                         <input name="driving_license_no" type="number" class="form-control" id="driving_license_no" value="{{ $employee->driving_license_no }}">
                                                     </div>
                                                     
-                                                    {{-- hidden user_id --}}
-                                                    <input name="user_id" type="hidden" value="{{ $employee->user_id }}">
                                                     <input type="submit" name="submit" class="mt-4 mb-4 btn btn-primary">
                                                 </form>
                                             </div>

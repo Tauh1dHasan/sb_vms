@@ -84,6 +84,17 @@
             </li>
 
             <li class="menu menu-single">
+                <a href="{{ route('employee.rescheduledMeetings') }}" data-active="false" class="menu-toggle">
+                    <div class="base-menu">
+                        <div class="base-icons">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                        </div>
+                        <span>Re-schedule List</span>
+                    </div>
+                </a>
+            </li>
+
+            <li class="menu menu-single">
                 <a href="{{ route('employee.rejectedMeetings') }}" data-active="false" class="menu-toggle">
                     <div class="base-menu">
                         <div class="base-icons">
@@ -273,6 +284,14 @@
                 <li class="menu-block">
                     <a href="{{route('admin.declined.employees')}}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg> Declined Employees </a>
                 </li>
+            </ul>
+        </div>
+
+        <div class="submenu" id="visitor">
+            <ul class="submenu-list menu-block-submenu" data-parent-element="#employee">
+                <li class="menu-block">
+                    <a href="{{route('admin.visitorType.index')}}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg> All Visitor Types </a>
+                </li> 
             </ul>
         </div>
     </div>

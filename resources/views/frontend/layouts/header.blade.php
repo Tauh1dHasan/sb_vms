@@ -81,7 +81,7 @@
 									</div>
 									<div class="header-nav-features header-nav-features-no-border header-nav-features-lg-show-border order-1 order-lg-2" style="margin-left: 20px;">
 										<div class="header-nav-feature header-nav-features-search d-inline-flex">
-											<a href="{{route('frontend.employee.create')}}" class="text-decoration-none" style="color: #212529; font-weight: 600;">Host Registration</a>
+											<a href="{{route('frontend.employee.create')}}" class="text-decoration-none" style="color: #212529; font-weight: 600;">Employee Registration</a>
 										</div>
 									</div>
 								</div>

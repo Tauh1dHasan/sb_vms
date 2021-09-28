@@ -53,8 +53,14 @@ class IndexController extends Controller
      */
     public function employeeCreate()
     {
-        $user_types = UserType::where('user_type_status' , '=', '1')
-                                ->where('user_type_id' , '=', '2')
+        $user_types = UserType::where([
+                                    ['user_type_status' , '=', '1'],
+                                    ['user_type_id' , '=', '2'],
+                                ])
+                                ->orWhere([
+                                    ['user_type_status' , '=', '1'],
+                                    ['user_type_id' , '=', '3'],
+                                ])
                                 ->get();
         $departments = Department::orderBy('dept_id' , 'asc')->get();
         $designations = Designation::orderBy('designation_id' , 'asc')->get();

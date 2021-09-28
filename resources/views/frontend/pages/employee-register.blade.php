@@ -33,8 +33,8 @@
 
 									<div class="row">
 										<div class="form-group col-md-6">
-											<label class="form-label mb-1 text-2">User Type <span class="text-color-danger">*</span></label>
-											<select data-msg-required="Please enter the user_type." class="form-control text-3 h-auto py-2" name="user_type_id" id="user_type_id" required="">
+											<label class="form-label mb-1 text-2">Employee Type <span class="text-color-danger">*</span></label>
+											<select data-msg-required="Please enter the employee type." class="form-control text-3 h-auto py-2" name="user_type_id" id="user_type_id" required="">
 												<option value="">--Select User Type--</option> 
 												@foreach($user_types as $user_type)
 													<option value="{{ $user_type->user_type_id }}">{{ $user_type->user_type_name }}</option>
@@ -43,7 +43,7 @@
 										</div>
 
                                         <div class="form-group col-md-6">
-											<label class="form-label text-color-dark text-3">Employee ID</label>
+											<label class="form-label text-color-dark text-3">Employee ID <span class="text-color-danger">*</span></label>
 											<input type="text" value="{{old('eid_no')}}" name="eid_no" class="form-control form-control-lg text-4" required>
 										</div>
 									</div>
@@ -81,7 +81,7 @@
 									<div class="row">
 										<div class="form-group col-6">
 											<label class="form-label text-color-dark text-3">Password <span class="text-color-danger">*</span></label>
-											<input type="password" value="" name="password" class="form-control form-control-lg text-4" required>
+											<input type="password" value="" name="password" class="form-control form-control-lg text-4" placeholder="at least 1 uppercase, 1 lowercase and 1 number character" required>
 										</div>
 										<div class="form-group col-6">
 											<label class="form-label text-color-dark text-3">Confirm Password <span class="text-color-danger">*</span></label>
@@ -91,11 +91,11 @@
 
                                     <div class="row">
 										<div class="form-group col-6">
-											<label class="form-label text-color-dark text-3">Work Start Hour</label>
+											<label class="form-label text-color-dark text-3">Work Start Hour <span class="text-color-danger">*</span></label>
 											<input type="time" value="{{old('start_hour')}}" name="start_hour" class="form-control form-control-lg text-4" required>
 										</div>
 										<div class="form-group col-6">
-											<label class="form-label text-color-dark text-3">Work End hour</label>
+											<label class="form-label text-color-dark text-3">Work End hour <span class="text-color-danger">*</span></label>
 											<input type="time" value="{{old('end_hour')}}" name="end_hour" class="form-control form-control-lg text-4" required>
 										</div>
 									</div>
@@ -208,7 +208,7 @@
 
 									<div class="row">
 										<div class="form-group col-12">
-											<label class="form-label text-color-dark text-3">Solve The Problem :</label> <span style="margin-left: 5px; font-size: 1.4em; font-weight: 600; line-height: 27px; color: #212529">{!!getCaptchaQuestion()!!}</span>
+											<label class="form-label text-color-dark text-3">Solve The Problem <span class="text-color-danger">*</span>:</label> <span style="margin-left: 5px; font-size: 1.4em; font-weight: 600; line-height: 27px; color: #212529">{!!getCaptchaQuestion()!!}</span>
 											<input name="_answer" type="number" class="form-control form-control-lg text-4">
 										</div>
 									</div>

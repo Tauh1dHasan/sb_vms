@@ -77,7 +77,7 @@
                                                     @elseif($meeting->meeting_status == 3)
                                                         <span class="shadow-none badge badge-warning">Rescheduled</span>
                                                     @elseif($meeting->meeting_status == 4)
-                                                        <span class="shadow-none badge badge-warning">Canceled</span>
+                                                        <span class="shadow-none badge badge-danger">Canceled</span>
                                                     @elseif($meeting->meeting_status == 11)
                                                         <span class="shadow-none badge badge-info">On Going</span>
                                                     @elseif($meeting->meeting_status == 12)

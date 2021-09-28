@@ -30,7 +30,7 @@
 
                                                     <div class="form-group mb-4">
                                                         {{-- hidden old profile image --}}
-                                                        <input type="hidden" name="old_photo" value="{{$employee->photo}}">
+                                                        <input type="hidden" name="old_photo" value="{{$visitor->profile_photo}}">
                                                         
                                                         <label for="new_photo">Update Profile Picture</label>
                                                         <input name="new_photo" type="file" class="form-control" id="new_photo">
@@ -78,7 +78,7 @@
 
                                                     <div class="form-group mb-4">
                                                         <label for="mobile_no">Mobile Number</label>
-                                                        <input name="mobile_no" type="number" class="form-control" id="mobile_no" value="0{{ $visitor->mobile_no }}">
+                                                        <input name="mobile_no" type="number" class="form-control" id="mobile_no" value="{{ $visitor->mobile_no }}">
                                                     </div>
 
                                                     <div class="form-group mb-4">

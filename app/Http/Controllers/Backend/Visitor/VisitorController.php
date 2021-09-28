@@ -12,6 +12,7 @@ use Intervention\Image\Facades\Image;
 use App\Models\MeetingPurpose;
 use App\Models\Meeting;
 use App\Models\Visitor;
+use App\Models\User;
 
 class VisitorController extends Controller
 {
@@ -27,11 +28,12 @@ class VisitorController extends Controller
         $total_meeting = Meeting::where('user_id', '=', $user_id)->get();
         $meeting_count = $total_meeting->count();
 
-        // Current datetime
-        $curr_datetime = date('Y-m-d H:i:s');
+        $y_date = date('Y-m-d',strtotime("-1 days"));
+        $t_date = date('Y-m-d',strtotime("+1 days"));
         // Total number of today's appointments
         $today_meeting = Meeting::where('user_id', '=', $user_id)
-                                ->where('meeting_datetime', '>', $curr_datetime)
+                                ->where('meeting_datetime', '>', $y_date)
+                                ->where('meeting_datetime', '<', $t_date)
                                 ->get();
         $today_meeting_count = $today_meeting->count();
 
@@ -112,10 +114,23 @@ class VisitorController extends Controller
         $nid_no = $req->nid_no;
         $passport_no = $req->passport_no;
         $driving_license_no = $req->driving_license_no;
-         
-        $visitor_table = DB::update('update visitors set visitor_type = ?, first_name = ?, last_name = ?, organization = ?, designation = ?, mobile_no = ?, email = ?, address = ?, nid_no = ?, passport_no = ?, driving_license_no = ? where user_id = ?', [$visitor_type, $first_name, $last_name,$organization, $designation, $mobile_no, $email, $address, $nid_no, $passport_no, $driving_license_no, $user_id]);
 
-        $user_table = DB::update('update users set username = ? WHERE user_id = ?' , [$mobile_no, $user_id]);
+        $old_photo = $req->old_photo;
+
+        if ($req->hasFile('new_photo')) {
+            $new_photo = $req->file('new_photo');
+            $imgName = 'employee'.time().'.'.$new_photo->getClientOriginalExtension();
+            $location = public_path('backend/img/employees/'.$imgName);
+            Image::make($new_photo)->save($location);
+            $employee->photo = $imgName;
+            File::delete(public_path() . '/backend/img/employees/'. $old_photo);
+        } else {
+            $employee->photo = $old_photo;
+        }
+         
+        // $visitor_table = DB::update('update visitors set visitor_type = ?, first_name = ?, last_name = ?, organization = ?, designation = ?, mobile_no = ?, email = ?, address = ?, nid_no = ?, passport_no = ?, driving_license_no = ? where user_id = ?', [$visitor_type, $first_name, $last_name,$organization, $designation, $mobile_no, $email, $address, $nid_no, $passport_no, $driving_license_no, $user_id]);
+
+        // $user_table = DB::update('update users set username = ? WHERE user_id = ?' , [$mobile_no, $user_id]);
 
         if ($visitor_table && $user_table) {
             return redirect(route('visitor.index'))->with('success', 'Profile successfully updated.');

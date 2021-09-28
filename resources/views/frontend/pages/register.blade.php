@@ -73,7 +73,7 @@
 									<div class="row">
 										<div class="form-group col-6">
 											<label class="form-label text-color-dark text-3">Password <span class="text-color-danger">*</span></label>
-											<input type="password" value="" name="password" class="form-control form-control-lg text-4" required>
+											<input type="password" value="" placeholder="at least 1 uppercase, 1 lowercase and 1 number character" name="password" class="form-control form-control-lg text-4" required>
 										</div>
 										<div class="form-group col-6">
 											<label class="form-label text-color-dark text-3">Confirm Password <span class="text-color-danger">*</span></label>
@@ -125,7 +125,7 @@
 
 									<div class="row">
 										<div class="form-group col-12">
-											<label class="form-label text-color-dark text-3">Solve The Problem :</label> <span style="margin-left: 5px; font-size: 1.4em; font-weight: 600; line-height: 27px; color: #212529">{!!getCaptchaQuestion()!!}</span>
+											<label class="form-label text-color-dark text-3">Solve The Problem <span class="text-color-danger">*</span>:</label> <span style="margin-left: 5px; font-size: 1.4em; font-weight: 600; line-height: 27px; color: #212529">{!!getCaptchaQuestion()!!}</span>
 											<input name="_answer" type="number" class="form-control form-control-lg text-4">
 										</div>
 									</div>

@@ -17,6 +17,7 @@ use App\Http\Controllers\Backend\Employee\EmployeeController;
 /* Admin Controllers */
 use App\Http\Controllers\Backend\Admin\AdminIndexController;
 use App\Http\Controllers\Backend\Admin\EmployeeManageController;
+use App\Http\Controllers\Backend\Admin\VisitorTypeController;
 
 
 /*
@@ -46,7 +47,7 @@ Route::group(['prefix' => '/', 'as' => 'frontend.'], function() {
     /* Employee Register Routes */
     Route::get('employee/register', [IndexController::class, 'employeeCreate'])->name('employee.create');
     Route::post('employee/store', [EmployeeAuthController::class, 'store'])->name('employee.store');
-    Route::post('employee/designations', [EmployeeAuthController::class, 'deptWiseDesignation'])->name('employee.designation');
+    Route::post('employee/designations/{id}', [EmployeeAuthController::class, 'deptWiseDesignation'])->name('employee.designation');
     Route::post('/employee', [EmployeeAuthController::class, 'employeeLogin'])->name('employee.login');
 }); 
 
@@ -122,6 +123,9 @@ Route::group(['middleware' => ['EmployeeMiddleware'], 'prefix' => '/employee', '
     // Show all approved meetings
     Route::get('/approved-meetings', [EmployeeController::class, 'approvedMeetings'])->name('approvedMeetings');
 
+    // Show all re-scheduled meetings
+    Route::get('/rescheduled-meetings', [EmployeeController::class, 'rescheduledMeetings'])->name('rescheduledMeetings');
+
     // Show all declined meetings
     Route::get('/rejected-meetings', [EmployeeController::class, 'rejectedMeetings'])->name('rejectedMeetings');
 
@@ -142,6 +146,10 @@ Route::group(['middleware' => ['EmployeeMiddleware'], 'prefix' => '/employee', '
 
     // Meeting re-schedule route
     Route::post('/reschedule-meeting', [EmployeeController::class, 'rescheduleMeeting'])->name('rescheduleMeeting');
+
+    // Display employee password update form
+    Route::get('/edit-password', [EmployeeController::class, 'editPassword'])->name('editPassword');
+    Route::post('/update-password', [EmployeeController::class, 'updatePassword'])->name('updatePassword');
 }); 
 
 
@@ -167,5 +175,7 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
 
         Route::get('/approve-employee/{user_id}', [EmployeeManageController::class, 'approve'])->name('approve.employee');
         Route::get('/decline-employee/{user_id}', [EmployeeManageController::class, 'decline'])->name('decline.employee');
+
+        Route::get('/visitorTypes', [VisitorTypeController::class, 'index'])->name('visitorType.index');
     }); 
 }); 
