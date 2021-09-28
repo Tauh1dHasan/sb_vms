@@ -7,11 +7,11 @@ use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Frontend\UserAuthController;
 use App\Http\Controllers\Frontend\EmployeeAuthController;
 
-// Visitor's Controller
+/* Visitor's Controller */
 use App\Http\Controllers\Backend\Visitor\VisitorController;
 use App\Http\Controllers\Backend\Visitor\MeetingController;
 
-// Employee's Controller
+/* Employee's Controller */
 use App\Http\Controllers\Backend\Employee\EmployeeController;
 
 /* Admin Controllers */
