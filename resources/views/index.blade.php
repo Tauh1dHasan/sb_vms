@@ -30,7 +30,7 @@
 									@csrf
 									<div class="row">
 										<div class="form-group col">
-											<label class="form-label text-color-dark text-3">Mobile No <span class="text-color-danger">*</span></label>
+											<label class="form-label text-color-dark text-3">Email or Mobile No <span class="text-color-danger">*</span></label>
 											<input type="text" value="" name="username" class="form-control form-control-lg text-4" required>
 										</div>
 									</div>

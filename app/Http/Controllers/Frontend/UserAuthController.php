@@ -30,7 +30,8 @@ class UserAuthController extends Controller
 
         $user = new User;
 
-        $user->username = $request->mobile_no;
+        $user->mobile_no = $request->mobile_no;
+        $user->email = $request->email;
         $user->password = bcrypt($request->password);
         $user->user_type_id = '4';
         $user->entry_datetime = now();
@@ -88,8 +89,9 @@ class UserAuthController extends Controller
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'organization' => 'required|max:255',
-            'mobile_no' => 'required|unique:visitors|min:11',
-            'password' => 'required|confirmed|min:6|max:255',
+            'mobile_no' => 'required|unique:users',
+            'email' => 'required|unique:users',
+            'password' => 'required|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
             'profile_photo' => 'mimes:jpeg,png,jpg|max:2048',
             '_answer'=>'required|simple_captcha',
         ]);
@@ -101,11 +103,13 @@ class UserAuthController extends Controller
     public function userLogin(Request $request)
     {
         $request->validate([
-            'username' => 'required|min:11',
-            'password' => 'required|max:255',
+            'username' => 'required',
+            'password' => 'required',
         ]);
 
-        $user = User::where('username', '=', $request->username)->first();
+        $user = User::where('mobile_no', '=', $request->username)
+                    ->orWhere('email', '=', $request->username)
+                    ->first();
         
         if (!empty($user)) {
             if ($user->is_approved == 1) {
@@ -127,7 +131,7 @@ class UserAuthController extends Controller
                         return redirect(route('visitor.index'));
                     }
                 } else {
-                    Session()->flash('sticky_error' , 'Username & Password didnot matched!');
+                    Session()->flash('sticky_error' , 'Login Credentials didnot matched!');
                     return redirect()->back();
                 }
             } else {
