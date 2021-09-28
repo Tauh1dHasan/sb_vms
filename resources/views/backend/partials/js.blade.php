@@ -38,7 +38,7 @@
             },
             "stripeClasses": [],
             "lengthMenu": [5, 10, 20, 50],
-            "pageLength": 5
+            "pageLength": 10
         });
 
         multiCheck(c3);
