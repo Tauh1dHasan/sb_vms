@@ -21,12 +21,12 @@ class VisitorType extends Model
 
     public function getRouteKeyName()
     {
-        return 'slug';
+        return 'visitor_type_id';
     }
 
-    public function setNameAttribute($value)
-    {
-        $this->attributes['visitor_type'] = $value;
-        $this->attributes['slug'] = Str::slug($value);
-    }
+    // public function setNameAttribute($value)
+    // {
+    //     $this->attributes['visitor_type'] = $value;
+    //     $this->attributes['slug'] = Str::slug($value);
+    // }
 }

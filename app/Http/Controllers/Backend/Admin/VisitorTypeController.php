@@ -17,7 +17,9 @@ class VisitorTypeController extends Controller
      */
     public function index()
     {
-        $visitor_types = VisitorType::get();
+        $visitor_types = VisitorType::where('visitor_type_status', 0)
+                                    ->orWhere('visitor_type_status', 1)
+                                    ->get();
 
         return view('backend.pages.admin.visitorType.index', compact('visitor_types'));
     }
@@ -29,7 +31,7 @@ class VisitorTypeController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.pages.admin.visitorType.create');
     }
 
     /**
@@ -40,7 +42,19 @@ class VisitorTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user_id = session('loggedUser');
+
+        $visitor_type = new VisitorType;
+
+        $visitor_type->visitor_type = $request->visitor_type;
+        $visitor_type->slug = strtolower($request->visitor_type);
+        $visitor_type->entry_user_id = $user_id;
+        $visitor_type->entry_datetime = now();
+
+        $visitor_type->save();
+
+        Session()->flash('success' , 'Visitor Type Added Successfully !!!');
+        return redirect()->route('admin.visitorType.index');
     }
 
     /**
@@ -51,7 +65,9 @@ class VisitorTypeController extends Controller
      */
     public function show($id)
     {
-        //
+        $visitor_type = VisitorType::where('visitor_type_id', $id)->first();
+
+        return view('backend.pages.admin.visitorType.show', compact('visitor_type'));
     }
 
     /**
@@ -62,7 +78,9 @@ class VisitorTypeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $visitor_type = VisitorType::where('visitor_type_id', $id)->first();
+
+        return view('backend.pages.admin.visitorType.edit', compact('visitor_type'));
     }
 
     /**
@@ -74,7 +92,28 @@ class VisitorTypeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user_id = session('loggedUser');
+
+        $old_visitor_type = VisitorType::find($id);
+
+        $old_visitor_type->visitor_type_status = 2;
+        $old_visitor_type->modified_user_id = $user_id;
+        $old_visitor_type->modified_datetime = now();
+
+        $visitor_type = new VisitorType;
+
+        $visitor_type->visitor_type = $request->visitor_type;
+        $visitor_type->slug = strtolower($request->visitor_type);
+        $visitor_type->visitor_type_status = $request->visitor_type_status;
+        $visitor_type->old_visitor_type_id = $old_visitor_type->visitor_type_id;
+        $visitor_type->entry_user_id = $user_id;
+        $visitor_type->entry_datetime = now();
+
+        $visitor_type->save();
+        $old_visitor_type->save();
+
+        Session()->flash('success' , 'Visitor Type Updated Successfully !!!');
+        return redirect()->route('admin.visitorType.index');
     }
 
     /**

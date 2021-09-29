@@ -174,13 +174,16 @@ Route::group(['middleware' => ['ReceptionMiddleware'], 'prefix' => '/reception',
 
 
 
-/* Backend Admin Routes */
+/* Backend Admin Panel Routes */
 Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
+    /* Admin Panel Login Route */
     Route::get('/', [AdminIndexController::class, 'login'])->name('login');
 
     Route::group(['middleware' => ['AdminMiddleware']], function() {
+        /* Admin Panel Dashboard Route */
         Route::get('/dashboard', [AdminIndexController::class, 'index'])->name('index');
 
+        /* Admin Panel Employee Routes */
         Route::get('/employees', [EmployeeManageController::class, 'index'])->name('employees');
         Route::get('/pending-employees', [EmployeeManageController::class, 'pending'])->name('pending.employees');
         Route::get('/approved-employees', [EmployeeManageController::class, 'approved'])->name('approved.employees');
@@ -189,6 +192,13 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
         Route::get('/approve-employee/{user_id}', [EmployeeManageController::class, 'approve'])->name('approve.employee');
         Route::get('/decline-employee/{user_id}', [EmployeeManageController::class, 'decline'])->name('decline.employee');
 
-        Route::get('/visitorTypes', [VisitorTypeController::class, 'index'])->name('visitorType.index');
+        /* Admin Panel Visitor Type Routes */
+        Route::get('/visitorType/index', [VisitorTypeController::class, 'index'])->name('visitorType.index');
+        Route::get('/visitorType/create', [VisitorTypeController::class, 'create'])->name('visitorType.create');
+        Route::post('/visitorType/store', [VisitorTypeController::class, 'store'])->name('visitorType.store');
+        Route::get('/visitorType/show/{id}', [VisitorTypeController::class, 'show'])->name('visitorType.show');
+        Route::get('/visitorType/edit/{id}', [VisitorTypeController::class, 'edit'])->name('visitorType.edit');
+        Route::patch('/visitorType/update/{id}', [VisitorTypeController::class, 'update'])->name('visitorType.update');
+        Route::delete('/visitorType/destroy/{id}', [VisitorTypeController::class, 'destroy'])->name('visitorType.destroy');
     }); 
 }); 

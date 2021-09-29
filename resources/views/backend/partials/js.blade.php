@@ -23,6 +23,15 @@
     <script src="{{asset('backend/plugins/select2/custom-select2.js')}}"></script>
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
 
+    {{-- Datetime picker --}}
+    <script src="{{asset('backend/datetimepicker/jquery.js')}}"></script>
+    <script src="{{asset('backend/datetimepicker/jquery.datetimepicker.full.js')}}"></script>
+    <script>
+        $("#meeting_datetime").datetimepicker({
+            step:5
+        });
+    </script>
+
     <script> 
 
         c3 = $('#style-3').DataTable({
@@ -44,10 +53,17 @@
         multiCheck(c3);
     </script>
 
+    <script type="text/javascript"> 
+        $('.select2').select2({
+            allowClear: true,
+        });
+    </script>
+
     <script type="text/javascript">
+
         $('#employee_id').select2({
             placeholder: "Write Host Name",
-            allowClear: true,
+            allowClear: false,
             ajax: {
                 url: '{{ route('visitor.search-employees') }}',
                 dataType: 'json',
@@ -67,12 +83,19 @@
         });
     </script>
 
-    {{-- Datetime picker --}}
-    <script src="{{asset('backend/datetimepicker/jquery.js')}}"></script>
-    <script src="{{asset('backend/datetimepicker/jquery.datetimepicker.full.js')}}"></script>
-    <script>
-        $("#meeting_datetime").datetimepicker({
-            step:5
-        });
+    <script> 
+        $('form')
+            .each(function(){
+                $(this).data('serialized', $(this).serialize())
+            })
+            .on('change input', function(){
+                $(this)             
+                    .find('input:submit, button:submit')
+                        .prop('disabled', $(this).serialize() == $(this).data('serialized'))
+                ;
+            })
+            .find('input:submit, button:submit')
+                .prop('disabled', true)
+        ;
     </script>
 
