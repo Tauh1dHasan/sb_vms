@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
-
+use Illuminate\Support\Facades\Hash;
+use Auth;
 
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MeetingReschedule;
@@ -42,8 +43,8 @@ class EmployeeController extends Controller
         $meeting = Meeting::where('employee_id', '=', $employee_id)->get();
         $total_appointment = $meeting->count();
 
-        $y_date = date('Y-m-d',strtotime("-1 days"));
-        $t_date = date('Y-m-d',strtotime("+1 days"));
+        $y_date = date('Y-m-d 00:00:00',strtotime("-1 days"));
+        $t_date = date('Y-m-d 00:00:00',strtotime("+1 days"));
 
         // Today's appointment count
         $meetings = Meeting::join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
@@ -102,6 +103,7 @@ class EmployeeController extends Controller
         $meetings = Meeting::join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
                             ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
                             ->where('meetings.employee_id', '=', $employee_id)
+                            ->orderBy('meeting_id', 'desc')
                             ->get();
 
         return view('backend.pages.employee.all_appointment', compact('meetings'));
@@ -398,7 +400,7 @@ class EmployeeController extends Controller
         $employee_old_data_query = Employee::where('user_id', '=', $user_id)->where('status', '=', '1')->first();
         $employee_old_data_query->status = '3';
         $employee_old_data_query->save();
-        // get employee's old data
+        // get required old data
         $employee_type = $employee_old_data_query->user_type_id;
         $employee_slug = $employee_old_data_query->slug;
         $employee_gender = $employee_old_data_query->gender;
@@ -456,9 +458,10 @@ class EmployeeController extends Controller
         $user->email = $req->email;
         $user_table = $user->save();
 
-        if($employee_table && $user_table){
+        if ($employee_table && $user_table)
+        {
             return redirect(route('employee.index'))->with('success', 'Profile successfully updated.');
-        }else{
+        } else {
             return redirect(route('employee.index'))->with('fail', 'Something went wrong, Please try agrain.');
         }
     }
@@ -472,7 +475,31 @@ class EmployeeController extends Controller
     // Update and store new password
     public function updatePassword(Request $req)
     {
-        return $req;
+        // loged user_id
+        $user_id = session('loggedUser');
+
+        $req->validate([
+            'password' => 'required|confirmed|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
+        ]);
+
+        $old_password = User::where('user_id', '=', $user_id)
+                        ->first();
+        if (!empty($old_password))
+        {
+            $password = Hash::check($req->curr_password, $old_password->password);
+            if ($password)
+            {
+                $old_password->password = bcrypt($req->password);
+                $old_password->modified_datetime = date('Y-m-d H:i:s');
+                $old_password->save();
+                return redirect(route('employee.index'))->with('success', 'Password changed successfully...!');
+            } else {
+                return redirect(route('employee.index'))->with('fail', 'Password did not matched, Please try again...!');
+            }
+        } else {
+            return redirect(route('employee.index'))->with('fail', 'New Password can not be empty...!');
+        }
+
     }
 
 }

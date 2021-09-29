@@ -14,7 +14,7 @@
                     @endif
                     @if (session('fail'))
                         <div class="alert alert-light-success border-0 mb-4" role="alert"> 
-                            <p class="text-success">{{ session('success') }}</p> 
+                            <p class="text-danger">{{ session('fail') }}</p> 
                         </div>
                     @endif
                     

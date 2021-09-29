@@ -29,9 +29,6 @@
                                                     @csrf
 
                                                     <div class="form-group mb-4">
-                                                        {{-- hidden old profile image --}}
-                                                        <input type="hidden" name="old_photo" value="{{$visitor->profile_photo}}">
-                                                        
                                                         <label for="new_photo">Update Profile Picture</label>
                                                         <input name="new_photo" type="file" class="form-control" id="new_photo">
                                                     </div>
@@ -54,7 +51,7 @@
                                                     <div class="form-group mb-4">
                                                         <label for="visitor_type">Visitor Type</label>
                                                         <select name="visitor_type" class="form-control" id="visitor_type" required>
-                                                            <option value="">Select</option>
+                                                            <option value="{{ $visitor->visitor_type_id }}">{{ $visitor->visitor_type }}</option>
                                                             @foreach ($visitor_type as $item)
                                                                 <option value="{{ $item->visitor_type_id }}">{{ $item->visitor_type }}</option>    
                                                             @endforeach

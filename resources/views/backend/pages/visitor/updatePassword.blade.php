@@ -25,7 +25,7 @@
                                                 </div>
                                             </div>
                                             <div class="widget-content widget-content-area">
-                                                <form action="{{ route('employee.updatePassword') }}" method="POST">
+                                                <form action="{{ route('visitor.updatePassword') }}" method="POST">
                                                     @csrf
 
                                                     <div class="form-group mb-4">

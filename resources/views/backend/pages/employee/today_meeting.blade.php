@@ -72,7 +72,7 @@
                                                         <form action="{{ route('employee.declineMeeting') }}" method="POST">
                                                             @csrf
                                                             <input type="hidden" name="meeting_id" value="{{ $meeting->meeting_id }}">
-                                                            <input type="submit" value="Decline" class="btn btn-danger">
+                                                            <input type="submit" value="Decline" class="btn btn-danger btn-sm">
                                                         </form>
                                                     </div>
 
@@ -80,13 +80,13 @@
                                                         <form action="{{ route('employee.approveMeeting') }}" method="POST">
                                                             @csrf
                                                             <input type="hidden" name="meeting_id" value="{{ $meeting->meeting_id }}">
-                                                            <input type="submit" value="Approve" class="btn btn-success">
+                                                            <input type="submit" value="Approve" class="btn btn-success btn-sm">
                                                         </form>
                                                     </div>
 
                                                     <div class="text-center">
                                                         <!-- Button trigger modal -->
-                                                        <button type="button" class="btn btn-warning mb-2 mr-2" data-toggle="modal" data-target="#exampleModalCenter" data-id="{{$meeting->meeting_id}}" onclick="meeting_func(this)">
+                                                        <button type="button" class="btn btn-warning mb-2 mr-2 btn-sm" data-toggle="modal" data-target="#exampleModalCenter" data-id="{{$meeting->meeting_id}}" onclick="meeting_func(this)">
                                                         Re-schedule
                                                         </button>
                                                     </div>

@@ -14,6 +14,9 @@ use App\Http\Controllers\Backend\Visitor\MeetingController;
 /* Employee's Controller */
 use App\Http\Controllers\Backend\Employee\EmployeeController;
 
+// Reception Controller
+use App\Http\Controllers\Backend\Reception\ReceptionController;
+
 /* Admin Controllers */
 use App\Http\Controllers\Backend\Admin\AdminIndexController;
 use App\Http\Controllers\Backend\Admin\EmployeeManageController;
@@ -99,6 +102,10 @@ Route::group(['middleware' => ['UserMiddleware'],'prefix' => '/visitor', 'as' =>
 
     // All appointments custom filtering
     Route::post('/custom-report', [MeetingController::class, 'customReport'])->name('custom-report');
+
+    // Visitor change password
+    Route::get('/edit-password', [VisitorController::class, 'editPassword'])->name('editPassword');
+    Route::post('/update-password', [VisitorController::class, 'updatePassword'])->name('updatePassword');
 }); 
 
 
@@ -147,7 +154,7 @@ Route::group(['middleware' => ['EmployeeMiddleware'], 'prefix' => '/employee', '
     // Meeting re-schedule route
     Route::post('/reschedule-meeting', [EmployeeController::class, 'rescheduleMeeting'])->name('rescheduleMeeting');
 
-    // Display employee password update form
+    // Employee change password
     Route::get('/edit-password', [EmployeeController::class, 'editPassword'])->name('editPassword');
     Route::post('/update-password', [EmployeeController::class, 'updatePassword'])->name('updatePassword');
 }); 
@@ -156,7 +163,13 @@ Route::group(['middleware' => ['EmployeeMiddleware'], 'prefix' => '/employee', '
 /* Backend Reception Routes */
 Route::group(['middleware' => ['ReceptionMiddleware'], 'prefix' => '/reception', 'as' => 'reception.'], function() {
     // Dashboard page for visitor
-    Route::get('/', [EmployeeController::class, 'dashboard'])->name('index');
+    Route::get('/', [ReceptionController::class, 'dashboard'])->name('index');
+
+    // Display reception Profile route
+    Route::get('/profile', [ReceptionController::class, 'profile'])->name('profile');
+
+    // Reception change password
+    Route::get('/edit-password', [ReceptionController::class, 'editPassword'])->name('editPassword');
 });
 
 

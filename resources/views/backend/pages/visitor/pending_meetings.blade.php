@@ -61,7 +61,7 @@
                                                     <li>
                                                         <div class="text-center">
                                                             <!-- Button trigger modal -->
-                                                            <button type="button" class="btn btn-danger mb-2 mr-2" data-toggle="modal" data-target="#exampleModalCenter" data-id="{{$meeting->meeting_id}}" onclick="meeting_func(this)">
+                                                            <button type="button" class="btn btn-danger mb-2 mr-2 btn-sm" data-toggle="modal" data-target="#exampleModalCenter" data-id="{{$meeting->meeting_id}}" onclick="meeting_func(this)">
                                                             Cancel
                                                             </button>
                                                         </div>
