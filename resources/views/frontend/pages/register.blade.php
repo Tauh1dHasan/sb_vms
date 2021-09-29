@@ -23,7 +23,7 @@
 									<div class="row">
 										<div class="form-group col-6">
 											<label class="form-label text-color-dark text-3">First Name <span class="text-color-danger">*</span></label>
-											<input type="text" value="{{old('first_name')}}" name="first_name" class="form-control form-control-lg text-4" required>
+											<input type="text" value="{{old('first_name')}}" name="first_name" class="form-control form-control-lg text-4" required="">
 										</div>
 										<div class="form-group col-6">
 											<label class="form-label text-color-dark text-3">Last Name <span class="text-color-danger">*</span></label>
@@ -127,6 +127,13 @@
 										<div class="form-group col-12">
 											<label class="form-label text-color-dark text-3">Solve The Problem <span class="text-color-danger">*</span>:</label> <span style="margin-left: 5px; font-size: 1.4em; font-weight: 600; line-height: 27px; color: #212529">{!!getCaptchaQuestion()!!}</span>
 											<input name="_answer" type="number" class="form-control form-control-lg text-4">
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="form-group col-12">
+											<p class="text-3 mt-3" style="amrgin-bottom: 0;"><input type="checkbox" class="form-check-input" id="checkbox" style="margin-right: 8px" data-msg-required="Please accept terms and conditions." required=""> Creating an account means you are accepting our <a href="#">Terms and Services</a> and <a href="#">Privacy Policy</a>.</p>
+											<span id="errorContent" class="text-2 text-danger hidden">Please accept our terms and conditions !!!</span>
 										</div>
 									</div>
 
