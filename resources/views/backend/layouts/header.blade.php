@@ -14,8 +14,6 @@
     <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700&amp;display=swap" rel="stylesheet">
 
     @include('backend.partials.css')
-    {{-- Datetime picker plugin --}}
-    <link rel="stylesheet" href="{{asset('backend/datetimepicker/jquery.datetimepicker.min.css')}}">
 
 </head>
 

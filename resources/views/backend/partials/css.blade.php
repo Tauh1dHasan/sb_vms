@@ -22,3 +22,28 @@
     <!-- END GLOBAL MANDATORY STYLES -->
     <link rel="stylesheet" type="text/css" href="{{asset('backend/assets/css/forms/theme-checkbox-radio.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('backend/assets/css/forms/switches.css')}}">
+
+    {{-- Datetime picker plugin --}}
+    <link rel="stylesheet" href="{{asset('backend/datetimepicker/jquery.datetimepicker.min.css')}}">
+
+    <style> 
+        table tbody tr td .dropdown .dropdown-menu {
+            padding: 9px!important;
+        }
+        .dropdown-menu a.dropdown-item.action-view {
+            background: #DDF5F0 !important;
+            color: #1abc9c !important;
+            margin-bottom: 7px;
+        }
+        .dropdown-menu a.dropdown-item.action-edit {
+            background: #e7f7ff !important;
+            color: #2196f3 !important;
+            margin-bottom: 7px;
+        }
+        .dropdown-menu a.dropdown-item.action-delete {
+            background: #fff5f5 !important;
+            color: #e7515a !important;
+            margin-bottom: 7px;
+        }
+    
+    </style>
