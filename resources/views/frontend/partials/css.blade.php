@@ -18,3 +18,10 @@
 
 		<!-- Theme Custom CSS -->
 		<link rel="stylesheet" href="{{asset('frontend/css/custom.css')}}">
+		
+		<!-- Theme Custom Styles -->
+		<style> 
+			.hidden{
+				display: none !important;
+			}
+		</style>

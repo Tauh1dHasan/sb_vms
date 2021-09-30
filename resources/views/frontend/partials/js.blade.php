@@ -25,3 +25,21 @@
 
 		<!-- Ajax Files -->
 		@include('frontend/ajax/' . 'dept-wise-designation')
+
+		<!-- validations -->
+		<script> 
+			$("#frmSignIn").on('submit', function(e) {
+
+				// if (!$('#checkbox').is(":checked")) {
+                // 	$('#error-content').removeClass('hidden');
+            	// }
+
+				e.preventDefault();
+
+				if ($("#checkbox").checked) {
+					$('#errorContent').addClass('hidden');
+				} else {
+					$('#errorContent').removeClass('hidden');
+				}
+			});
+		</script>
