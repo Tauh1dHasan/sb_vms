@@ -56,6 +56,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    
 <!---------------------------------------------------  ADMIN HEADER TOP AREA START  ---------------------------------------------------->
                                         @if(session('loggedUserType') == 1)
                                             <ul class="navbar-item flex-row navbar-dropdown search-ul">

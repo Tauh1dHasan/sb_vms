@@ -1,7 +1,7 @@
 <!--  BEGIN SIDEBAR  -->
 <div class="sidebar-wrapper sidebar-theme">
 
-<!----------------------------------------------------------  LOGO REDIRECT  -------------------------------------------------------------->
+<!----------------------------------------------------  LOGO REDIRECT Start  ------------------------------------------------------->
 <div class="theme-logo">
     @if(session('loggedUserType') == 1)
         <a href="{{route('admin.index')}}">
@@ -25,6 +25,7 @@
         </a>
     @endif
 </div>
+<!----------------------------------------------------  LOGO REDIRECT END  ------------------------------------------------------->
 
 <div class="sidebarCollapseFixed">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
@@ -33,7 +34,7 @@
 <nav id="compactSidebar">
     <ul class="menu-categories">
 
-<!--------------------------------------------------  Admin Sidebar  ----------------------------------------------------->
+<!--------------------------------------------------  Admin Sidebar Start  ----------------------------------------------------->
         @if(session('loggedUserType') == 1)
 
         <li class="menu active menu-single">
@@ -133,8 +134,9 @@
                 </div>
             </a>
         </li>
+<!--------------------------------------------------  Admin Sidebar END  ----------------------------------------------------->
 
-<!--------------------------------------------------  Employee Sidebar  ----------------------------------------------------->  
+<!--------------------------------------------------  Employee Sidebar Start  ----------------------------------------------------->  
         @elseif(session('loggedUserType') == 2)
 
             <li class="menu active menu-single">
@@ -212,9 +214,10 @@
                         <span>Declined List</span>
                     </div>
                 </a>
-            </li>    
+            </li>   
+<!--------------------------------------------------  Employee Sidebar End  ----------------------------------------------------->   
 
-<!--------------------------------------------------  Reception Sidebar  ----------------------------------------------------->  
+<!--------------------------------------------------  Reception Sidebar Start  ----------------------------------------------------->  
         @elseif(session('loggedUserType') == 3)
 
         <li class="menu active menu-single">
@@ -271,8 +274,9 @@
                     </div>
                 </a>
             </li>  
+<!--------------------------------------------------  Reception Sidebar End  ----------------------------------------------------->  
 
-<!--------------------------------------------------  Visitor Sidebar  ----------------------------------------------------->        
+<!--------------------------------------------------  Visitor Sidebar Start  ----------------------------------------------------->        
         @elseif(session('loggedUserType') == 4)
         
             <li class="menu active menu-single">
@@ -350,7 +354,7 @@
                     </div>
                 </a>
             </li>
-
+<!--------------------------------------------------  Visitor Sidebar End  ----------------------------------------------------->  
         @endif
 
         <li class="menu menu-single">
@@ -368,7 +372,7 @@
 
     <div id="compact_submenuSidebar" class="submenu-sidebar">
 
-<!--------------------------------------------------  Admin Manage Employee Submenu  ----------------------------------------------------->
+<!-------------------------------------------  Admin Manage Employee Submenu Start  -------------------------------------------->
         <div class="submenu" id="employee">
             <ul class="submenu-list menu-block-submenu" data-parent-element="#employee">
                 <li class="menu-block">
@@ -385,7 +389,9 @@
                 </li>
             </ul>
         </div>
+<!-------------------------------------------  Admin Manage Employee Submenu End  -------------------------------------------->
 
+<!-------------------------------------------  Admin Manage Visitor Submenu Start  -------------------------------------------->
         <div class="submenu" id="visitor">
             <ul class="submenu-list menu-block-submenu" data-parent-element="#employee">
                 <li class="menu-block">
@@ -396,7 +402,9 @@
                 </li> 
             </ul>
         </div>
+<!-------------------------------------------  Admin Manage Visitor Submenu End  -------------------------------------------->
 
+<!-------------------------------------------  Admin Manage Dept & Designation Submenu Start  -------------------------------------------->
         <div class="submenu" id="dept">
             <ul class="submenu-list menu-block-submenu" data-parent-element="#dept">
                 <li class="menu-block">
@@ -414,6 +422,8 @@
                 </li>
             </ul>
         </div>
+<!-------------------------------------------  Admin Manage Dept & Designation Submenu End  -------------------------------------------->
+
     </div>
 
 </div>
