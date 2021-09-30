@@ -165,6 +165,12 @@ Route::group(['middleware' => ['ReceptionMiddleware'], 'prefix' => '/reception',
     // Dashboard page for visitor
     Route::get('/', [ReceptionController::class, 'dashboard'])->name('index');
 
+    // Display visitor list
+    Route::get('/visitor-list', [ReceptionController::class, 'visitorList'])->name('visitorList');
+
+    // Search Visitor
+    Route::post('search-visitor', [ReceptionController::class, 'searchVisitor'])->name('searchVisitor');
+
     // Display reception Profile route
     Route::get('/profile', [ReceptionController::class, 'profile'])->name('profile');
 
