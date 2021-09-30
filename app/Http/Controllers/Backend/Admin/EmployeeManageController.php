@@ -27,7 +27,7 @@ class EmployeeManageController extends Controller
                             ->join('designations', 'designations.designation_id', '=', 'employees.designation_id')
                             ->get(['employees.*', 'departments.department_name as department_name', 'designations.designation as designation']);
 
-        return view('backend.pages.admin.all-employees', compact('employees'));
+        return view('backend.pages.admin.employee.allEmployees', compact('employees'));
     }
 
 
@@ -43,7 +43,7 @@ class EmployeeManageController extends Controller
                     ->orderBy('employee_id' , 'desc')
                     ->get();
 
-        return view('backend.pages.admin.pending-employee', compact('employees'));
+        return view('backend.pages.admin.employee.pendingEmployee', compact('employees'));
     }
 
     /**
@@ -58,7 +58,7 @@ class EmployeeManageController extends Controller
                     ->orderBy('employee_id' , 'desc')
                     ->get();
 
-        return view('backend.pages.admin.approved-employee', compact('employees'));
+        return view('backend.pages.admin.employee.approvedEmployee', compact('employees'));
     }
 
     /**
@@ -73,7 +73,7 @@ class EmployeeManageController extends Controller
                     ->orderBy('employee_id' , 'desc')
                     ->get();
 
-        return view('backend.pages.admin.declined-employee', compact('employees'));
+        return view('backend.pages.admin.employee.declinedEmployee', compact('employees'));
     }
 
     /**

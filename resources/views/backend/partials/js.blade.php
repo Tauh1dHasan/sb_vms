@@ -24,7 +24,6 @@
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
 
     {{-- Datetime picker --}}
-    <script src="{{asset('backend/datetimepicker/jquery.js')}}"></script>
     <script src="{{asset('backend/datetimepicker/jquery.datetimepicker.full.js')}}"></script>
     <script>
         $("#meeting_datetime").datetimepicker({
@@ -45,12 +44,14 @@
                 "sSearchPlaceholder": "Search...",
             "sLengthMenu": "Results :  _MENU_",
             },
+            "order": [[ 0, "desc" ]],
             "stripeClasses": [],
             "lengthMenu": [5, 10, 20, 50],
             "pageLength": 10
         });
 
         multiCheck(c3);
+        
     </script>
 
     <script type="text/javascript"> 

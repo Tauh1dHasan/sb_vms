@@ -21,6 +21,8 @@ use App\Http\Controllers\Backend\Reception\ReceptionController;
 use App\Http\Controllers\Backend\Admin\AdminIndexController;
 use App\Http\Controllers\Backend\Admin\EmployeeManageController;
 use App\Http\Controllers\Backend\Admin\VisitorTypeController;
+use App\Http\Controllers\Backend\Admin\DepartmentController;
+use App\Http\Controllers\Backend\Admin\DesignationController;
 
 
 /*
@@ -199,6 +201,24 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
         Route::get('/visitorType/show/{id}', [VisitorTypeController::class, 'show'])->name('visitorType.show');
         Route::get('/visitorType/edit/{id}', [VisitorTypeController::class, 'edit'])->name('visitorType.edit');
         Route::patch('/visitorType/update/{id}', [VisitorTypeController::class, 'update'])->name('visitorType.update');
-        Route::delete('/visitorType/destroy/{id}', [VisitorTypeController::class, 'destroy'])->name('visitorType.destroy');
+        Route::get('/visitorType/destroy/{id}', [VisitorTypeController::class, 'destroy'])->name('visitorType.destroy');
+
+        /* Admin Panel Department Routes */
+        Route::get('/department/index', [DepartmentController::class, 'index'])->name('department.index');
+        Route::get('/department/create', [DepartmentController::class, 'create'])->name('department.create');
+        Route::post('/department/store', [DepartmentController::class, 'store'])->name('department.store');
+        Route::get('/department/show/{id}', [DepartmentController::class, 'show'])->name('department.show');
+        Route::get('/department/edit/{id}', [DepartmentController::class, 'edit'])->name('department.edit');
+        Route::patch('/department/update/{id}', [DepartmentController::class, 'update'])->name('department.update');
+        Route::get('/department/destroy/{id}', [DepartmentController::class, 'destroy'])->name('department.destroy');
+
+        /* Admin Panel Designation Routes */
+        Route::get('/designation/index', [DesignationController::class, 'index'])->name('designation.index');
+        Route::get('/designation/create', [DesignationController::class, 'create'])->name('designation.create');
+        Route::post('/designation/store', [DesignationController::class, 'store'])->name('designation.store');
+        Route::get('/designation/show/{id}', [DesignationController::class, 'show'])->name('designation.show');
+        Route::get('/designation/edit/{id}', [DesignationController::class, 'edit'])->name('designation.edit');
+        Route::patch('/designation/update/{id}', [DesignationController::class, 'update'])->name('designation.update');
+        Route::get('/designation/destroy/{id}', [DesignationController::class, 'destroy'])->name('designation.destroy');
     }); 
 }); 

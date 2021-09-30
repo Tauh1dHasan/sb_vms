@@ -23,27 +23,9 @@ class Department extends Model
 
     protected $fillable = ['department_name', 'slug', 'entry_user_id', 'entry_datetime', 'modified_user_id', 'modified_datetime', 'status'];
 
-    public function setTitleAttribute($value)
-	{
-		$this->attributes['department_name'] = $value;
-        $this->attributes['slug'] = Str::slug($value);
-	}
-
-
-    /**
-     * a single department has many employees
-     */
-    public function employees()
-    {
-        return $this->hasMany(Employee::class);
-    }
-
-
-    /**
-     * a single department has many designations
-     */
-    public function designations()
-    {
-        return $this->hasMany(Designation::class);
-    }
+    // public function setTitleAttribute($value)
+	// {
+	// 	$this->attributes['department_name'] = $value;
+    //     $this->attributes['slug'] = Str::slug($value);
+	// }
 }

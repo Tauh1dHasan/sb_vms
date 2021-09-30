@@ -28,18 +28,16 @@
 
 		<!-- validations -->
 		<script> 
-			$("#frmSignIn").on('submit', function(e) {
 
-				// if (!$('#checkbox').is(":checked")) {
-                // 	$('#error-content').removeClass('hidden');
-            	// }
-
-				e.preventDefault();
-
-				if ($("#checkbox").checked) {
-					$('#errorContent').addClass('hidden');
-				} else {
-					$('#errorContent').removeClass('hidden');
-				}
-			});
+			// function validateForm()
+			// {
+				
+			// 	var checkbox = document.forms['frmSignIn']['agree'];
+			// 	if (!checkbox.checked) {
+			// 		alert('Please accept our terms and conditions !!!');
+			// 		return false;
+			// 	}
+				
+			// 	return true;
+			// }
 		</script>

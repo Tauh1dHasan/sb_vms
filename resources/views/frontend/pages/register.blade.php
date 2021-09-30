@@ -15,7 +15,7 @@
 							@include('backend.partials.message')
 
 							<div class="col-md-12 col-lg-12 mb-5 mb-lg-0">
-								<form action="{{route('frontend.user_registration')}}" id="frmSignIn" method="post" class="needs-validation" style="margin-top: 10px;" enctype="multipart/form-data">
+								<form action="{{route('frontend.user_registration')}}" id="frmSignIn" method="post" class="needs-validation" style="margin-top: 10px;" enctype="multipart/form-data" name="frmSignIn">
 									{{csrf_field()}}
 
 									<input type="hidden" value="4" name="user_type_id" class="form-control form-control-lg text-4">
@@ -132,8 +132,8 @@
 
 									<div class="row">
 										<div class="form-group col-12">
-											<p class="text-3 mt-3" style="amrgin-bottom: 0;"><input type="checkbox" class="form-check-input" id="checkbox" style="margin-right: 8px" data-msg-required="Please accept terms and conditions." required=""> Creating an account means you are accepting our <a href="#">Terms and Services</a> and <a href="#">Privacy Policy</a>.</p>
-											<span id="errorContent" class="text-2 text-danger hidden">Please accept our terms and conditions !!!</span>
+											<p class="text-3 mt-3" style="margin-bottom: 0;"><input type="checkbox" class="form-check-input" id="checkbox" style="margin-right: 8px" data-msg-required="Please accept terms and conditions." required name="agree"> Creating an account means you are accepting our <a href="#">Terms and Services</a> and <a href="#">Privacy Policy</a>.</p>
+											{{-- <span id="errorContent" class="text-2 text-danger hidden">Please accept our terms and conditions !!!</span> --}}
 										</div>
 									</div>
 

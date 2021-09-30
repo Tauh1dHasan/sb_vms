@@ -39,7 +39,7 @@
                                     </div>
                                 @endif
                                 
-                                <table id="style-3" class="table style-3  table-hover">
+                                <table id="style-3" class="table style-3 table-hover">
                                     <thead>
                                         <tr>
                                             <th class="text-center">Meeting ID </th>

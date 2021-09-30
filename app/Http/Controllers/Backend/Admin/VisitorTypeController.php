@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 /* included models */
 use App\Models\VisitorType;
+use App\Models\AdminLog;
 
 class VisitorTypeController extends Controller
 {
@@ -94,23 +95,26 @@ class VisitorTypeController extends Controller
     {
         $user_id = session('loggedUser');
 
-        $old_visitor_type = VisitorType::find($id);
+        $old_visitor_type = VisitorType::where('visitor_type_id', $id)->first();
 
-        $old_visitor_type->visitor_type_status = 2;
-        $old_visitor_type->modified_user_id = $user_id;
-        $old_visitor_type->modified_datetime = now();
+        $admin_log = new AdminLog;
 
-        $visitor_type = new VisitorType;
+        $admin_log->visitor_type_id = $old_visitor_type->visitor_type_id;
+        $admin_log->visitor_type = $old_visitor_type->visitor_type;
+        $admin_log->visitor_type_status = $old_visitor_type->visitor_type_status;
+        $admin_log->entry_user_id = $user_id;
+        $admin_log->entry_datetime = now();
 
-        $visitor_type->visitor_type = $request->visitor_type;
-        $visitor_type->slug = strtolower($request->visitor_type);
-        $visitor_type->visitor_type_status = $request->visitor_type_status;
-        $visitor_type->old_visitor_type_id = $old_visitor_type->visitor_type_id;
-        $visitor_type->entry_user_id = $user_id;
-        $visitor_type->entry_datetime = now();
-
-        $visitor_type->save();
-        $old_visitor_type->save();
+        $visitor_type = VisitorType::where('visitor_type_id', $id)
+                                    ->update([
+                                        'visitor_type'=>$request->visitor_type,
+                                        'slug'=>strtolower($request->visitor_type),
+                                        'visitor_type_status'=>$request->visitor_type_status,
+                                        'modified_user_id'=>$user_id,
+                                        'modified_datetime'=>now()
+                                    ]);
+        
+        $admin_log->save();
 
         Session()->flash('success' , 'Visitor Type Updated Successfully !!!');
         return redirect()->route('admin.visitorType.index');
@@ -124,6 +128,28 @@ class VisitorTypeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user_id = session('loggedUser');
+
+        $old_visitor_type = VisitorType::where('visitor_type_id', $id)->first();
+
+        $admin_log = new AdminLog;
+
+        $admin_log->visitor_type_id = $old_visitor_type->visitor_type_id;
+        $admin_log->visitor_type = $old_visitor_type->visitor_type;
+        $admin_log->visitor_type_status = $old_visitor_type->visitor_type_status;
+        $admin_log->entry_user_id = $user_id;
+        $admin_log->entry_datetime = now();
+        
+        $visitor_type = VisitorType::where('visitor_type_id', $id)
+                                    ->update([
+                                        'visitor_type_status'=>2,
+                                        'modified_user_id'=>$user_id,
+                                        'modified_datetime'=>now()
+                                    ]);
+        
+        $admin_log->save();
+
+        Session()->flash('success' , 'Visitor Type Deleted Successfully !!!');
+        return redirect()->route('admin.visitorType.index');
     }
 }
