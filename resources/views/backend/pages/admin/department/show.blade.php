@@ -34,7 +34,7 @@
                                             </li>
                                             <li class="contacts-block__item" style="margin: 5px 0;">
                                                 <div class="form-group row mb-4">
-                                                    <label for="status" class="col-lg-4 col-form-label text-right"><span style="font-weight: 800; font-size: 1.25rem; color: #3b3f5c;">Visitor Type Status: </span></label>
+                                                    <label for="status" class="col-lg-4 col-form-label text-right"><span style="font-weight: 800; font-size: 1.25rem; color: #3b3f5c;">Department Status: </span></label>
                                                     <div class="col-lg-8" style="padding-left: 0">
                                                         <label for="status" class="col-form-label" style="font-size: 1.25rem;">
                                                             @if($department->status == 1)

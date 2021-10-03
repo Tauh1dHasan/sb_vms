@@ -57,6 +57,9 @@
     <script type="text/javascript"> 
         $('.select2').select2({
             allowClear: true,
+            width: 'auto',
+            dropdownAutoWidth: true,
+            allowClear: true,
         });
     </script>
 

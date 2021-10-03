@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Backend\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Str;
+
 /* included models */
 use App\Models\Designation;
 use App\Models\Department;
@@ -19,11 +21,12 @@ class DesignationController extends Controller
      */
     public function index()
     {
-        $departments = Department::where('status', 0)
-                                ->orWhere('status', 1)
-                                ->get();
+        $designations = Designation::with('department')
+                                    ->where('status', 0)
+                                    ->orWhere('status', 1)
+                                    ->get();
 
-        return view('backend.pages.admin.department.index', compact('departments'));
+        return view('backend.pages.admin.designation.index', compact('designations'));
     }
 
     /**
@@ -33,7 +36,9 @@ class DesignationController extends Controller
      */
     public function create()
     {
-        //
+        $departments = Department::where('status', 1)->get();
+
+        return view('backend.pages.admin.designation.create', compact('departments'));
     }
 
     /**
@@ -44,7 +49,18 @@ class DesignationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user_id = session('loggedUser');
+
+        $designation = Designation::create([
+                                    'designation'=>$request->designation,
+                                    'slug'=>Str::slug($request->designation),
+                                    'dept_id'=>Str::slug($request->dept_id),
+                                    'entry_user_id'=>$user_id,
+                                    'entry_datetime'=>now()
+                                ]);
+
+        Session()->flash('success' , 'Designation Added Successfully !!!');
+        return redirect()->route('admin.designation.index');
     }
 
     /**
@@ -55,7 +71,11 @@ class DesignationController extends Controller
      */
     public function show($id)
     {
-        //
+        $designation = Designation::with('department')
+                                    ->where('designation_id', $id)
+                                    ->first();
+
+        return view('backend.pages.admin.designation.show', compact('designation'));
     }
 
     /**
@@ -66,7 +86,13 @@ class DesignationController extends Controller
      */
     public function edit($id)
     {
-        //
+        $departments = Department::where('status', 1)->get();
+
+        $designation = Designation::with('department')
+                                    ->where('designation_id', $id)
+                                    ->first();
+
+        return view('backend.pages.admin.designation.edit', compact( 'departments', 'designation'));
     }
 
     /**
@@ -78,7 +104,31 @@ class DesignationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user_id = session('loggedUser');
+
+        $old_designation = Designation::where('designation_id', $id)->first();
+
+        $designation = Designation::where('designation_id', $id)
+                                    ->update([
+                                        'designation'=>$request->designation,
+                                        'slug'=>Str::slug($request->designation),
+                                        'dept_id'=>$request->dept_id,
+                                        'status'=>$request->status,
+                                        'modified_user_id'=>$user_id,
+                                        'modified_datetime'=>now()
+                                    ]);
+
+        $admin_log = AdminLog::create([
+                                        'designation_id'=>$old_designation->designation_id,
+                                        'designation'=>$old_designation->designation,
+                                        'designation_dept_id'=>$old_designation->dept_id,
+                                        'designation_status'=>$old_designation->status,
+                                        'entry_user_id'=>$user_id,
+                                        'entry_datetime'=>now()
+                                    ]);
+
+        Session()->flash('success' , 'Designation Updated Successfully !!!');
+        return redirect()->route('admin.designation.index');
     }
 
     /**
@@ -89,6 +139,27 @@ class DesignationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user_id = session('loggedUser');
+
+        $old_designation = Designation::where('designation_id', $id)->first();
+        
+        $designation = Designation::where('designation_id', $id)
+                                    ->update([
+                                        'status'=>2,
+                                        'modified_user_id'=>$user_id,
+                                        'modified_datetime'=>now()
+                                    ]);
+
+        $admin_log = AdminLog::create([
+                                        'designation_id'=>$old_designation->designation_id,
+                                        'designation'=>$old_designation->designation,
+                                        'designation_dept_id'=>$old_designation->dept_id,
+                                        'designation_status'=>$old_designation->status,
+                                        'entry_user_id'=>$user_id,
+                                        'entry_datetime'=>now()
+                                    ]);
+
+        Session()->flash('success' , 'Designation Deleted Successfully !!!');
+        return redirect()->route('admin.designation.index');
     }
 }

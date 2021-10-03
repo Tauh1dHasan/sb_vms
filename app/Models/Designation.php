@@ -28,12 +28,6 @@ class Designation extends Model
      */
     public function department()
     {
-        return $this->belongsTo(Department::class);
+        return $this->hasOne(Department::class, 'dept_id', 'dept_id');
     }
-
-    // public function setTitleAttribute($value)
-	// {
-	// 	$this->attributes['designation'] = $value;
-    //     $this->attributes['slug'] = Str::slug($value);
-	// }
 }

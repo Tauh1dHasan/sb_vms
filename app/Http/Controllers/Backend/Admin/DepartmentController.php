@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Backend\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Str;
+
 /* included models */
 use App\Models\Department;
 use App\Models\AdminLog;
@@ -45,14 +47,12 @@ class DepartmentController extends Controller
     {
         $user_id = session('loggedUser');
 
-        $department = new Department;
-
-        $department->department_name = $request->department_name;
-        $department->slug = strtolower($request->department_name);
-        $department->entry_user_id = $user_id;
-        $department->entry_datetime = now();
-
-        $department->save();
+        $department = Department::create([
+                                    'department_name'=>$request->department_name,
+                                    'slug'=>Str::slug($request->department_name),
+                                    'entry_user_id'=>$user_id,
+                                    'entry_datetime'=>now()
+                                ]);
 
         Session()->flash('success' , 'Department Added Successfully !!!');
         return redirect()->route('admin.department.index');
@@ -79,7 +79,7 @@ class DepartmentController extends Controller
      */
     public function edit($id)
     {
-        $department = Department ::where('dept_id', $id)->first();
+        $department = Department::where('dept_id', $id)->first();
 
         return view('backend.pages.admin.department.edit', compact('department'));
     }
@@ -108,7 +108,7 @@ class DepartmentController extends Controller
         $department = Department::where('dept_id', $id)
                                     ->update([
                                         'department_name'=>$request->department_name,
-                                        'slug'=>strtolower($request->department),
+                                        'slug'=>Str::slug($request->department_name),
                                         'status'=>$request->status,
                                         'modified_user_id'=>$user_id,
                                         'modified_datetime'=>now()

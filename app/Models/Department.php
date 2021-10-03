@@ -22,10 +22,4 @@ class Department extends Model
     public $timestamps = false;
 
     protected $fillable = ['department_name', 'slug', 'entry_user_id', 'entry_datetime', 'modified_user_id', 'modified_datetime', 'status'];
-
-    // public function setTitleAttribute($value)
-	// {
-	// 	$this->attributes['department_name'] = $value;
-    //     $this->attributes['slug'] = Str::slug($value);
-	// }
 }
