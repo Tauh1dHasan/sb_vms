@@ -167,17 +167,48 @@ Route::group(['middleware' => ['ReceptionMiddleware'], 'prefix' => '/reception',
     // Dashboard page for visitor
     Route::get('/', [ReceptionController::class, 'dashboard'])->name('index');
 
+    // Display reception Profile route
+    Route::get('/profile', [ReceptionController::class, 'profile'])->name('profile');
+
+    // Display edit profile form
+    Route::get('/edit-profile/{user_id}', [ReceptionController::class, 'edit']);
+
+    // Update reception profile
+    Route::post('update-profile', [ReceptionController::class, 'updateProfile'])->name('updateProfile');
+
     // Display visitor list
     Route::get('/visitor-list', [ReceptionController::class, 'visitorList'])->name('visitorList');
 
     // Search Visitor
-    Route::post('search-visitor', [ReceptionController::class, 'searchVisitor'])->name('searchVisitor');
+    Route::post('/search-visitor', [ReceptionController::class, 'searchVisitor'])->name('searchVisitor');
 
-    // Display reception Profile route
-    Route::get('/profile', [ReceptionController::class, 'profile'])->name('profile');
+    // Display meeting list
+    Route::get('/meeting-list', [ReceptionController::class, 'meetingList'])->name('meetingList');
+
+    // Search Meeting
+    Route::post('/search-meeting', [ReceptionController::class, 'searchMeeting'])->name('searchMeeting');
 
     // Reception change password
     Route::get('/edit-password', [ReceptionController::class, 'editPassword'])->name('editPassword');
+
+    // Reception update password
+    Route::post('/update-password', [ReceptionController::class, 'updatePassword'])->name('updatePassword');
+
+    // Display Create visitor account form
+    Route::get('/create-visitor-account', [ReceptionController::class, 'createVisitorAccount'])->name('createVisitorAccount');
+
+    // Create new visitor account from reception panel
+    Route::post('/create-visitor-account', [ReceptionController::class, 'visitorRegister'])->name('visitorRegister');
+
+    // Display make an appointment visitor list
+    Route::get('/appoint-visitor', [ReceptionController::class, 'appointVisitor'])->name('appointVisitor');
+
+    // Display make an appointment form
+    Route::get('/make-an-appointment/{visitor_id}', [ReceptionController::class, 'makeAnAppointment']);
+    // Place new appointment from reception
+    Route::post('/place-an-appointment', [ReceptionController::class, 'placeAnAppointment'])->name('placeAnAppointment');
+    // search employees
+    Route::get('/search-employees', [ReceptionController::class, 'searchEmployees'])->name('search-employees');
 });
 
 

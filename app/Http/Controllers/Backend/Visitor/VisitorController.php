@@ -183,8 +183,8 @@ class VisitorController extends Controller
             'password' => 'required|confirmed|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
         ]);
 
-        $old_password = User::where('user_id', '=', $user_id)
-                        ->first();
+        $old_password = User::where('user_id', '=', $user_id)->first();
+        
         if (!empty($old_password))
         {
             $password = Hash::check($req->curr_password, $old_password->password);

@@ -22,6 +22,24 @@ use App\Models\Visitor;
 class UserAuthController extends Controller
 {
     /**
+     * Visitor information validation
+     */
+    public function validation($request)
+    {
+        return $this->validate($request, [
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'organization' => 'required|max:255',
+            'mobile_no' => 'required|unique:users',
+            'email' => 'required|unique:users',
+            'password' => 'required|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
+            'profile_photo' => 'mimes:jpeg,png,jpg|max:2048',
+            '_answer'=>'required|simple_captcha',
+        ]);
+    }
+
+    
+    /**
      * Visitor registration method
      */
     public function userRegistration(Request $request)
@@ -78,23 +96,6 @@ class UserAuthController extends Controller
 
         Session()->flash('success' , 'Registration Successfull! Please check your email for verification.');
         return redirect()->route('index');
-    }
-
-    /**
-     * Visitor information validation
-     */
-    public function validation($request)
-    {
-        return $this->validate($request, [
-            'first_name' => 'required|max:255',
-            'last_name' => 'required|max:255',
-            'organization' => 'required|max:255',
-            'mobile_no' => 'required|unique:users',
-            'email' => 'required|unique:users',
-            'password' => 'required|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
-            'profile_photo' => 'mimes:jpeg,png,jpg|max:2048',
-            '_answer'=>'required|simple_captcha',
-        ]);
     }
 
     /**
