@@ -20,6 +20,10 @@ use App\Models\Department;
 use App\Models\Designation;
 use App\Models\MeetingPurpose;
 use App\Models\VisitorType;
+use App\Models\ReceptionLog;
+
+/* included mails */
+use App\Mail\AppointmentRequest;
 
 class ReceptionController extends Controller
 {
@@ -43,7 +47,31 @@ class ReceptionController extends Controller
     // Reception Dashboard method
     public function dashboard()
     {
-        return view('backend.pages.reception.index');
+        $user_id = session('loggedUser');
+        $user_name = Employee::select('first_name', 'last_name')->where('user_id', '=', $user_id)->first();
+
+        // Total Appointment count
+        $total_appopintment = Meeting::all()->count();
+
+        $y_date = date('Y-m-d 00:00:00',strtotime("-1 days"));
+        $t_date = date('Y-m-d 00:00:00',strtotime("+1 days"));
+        // Total number of today's appointments
+        $today_meeting = Meeting::where('meeting_datetime', '>', $y_date)
+                                ->where('meeting_datetime', '<', $t_date)
+                                ->get()
+                                ->count();
+
+        // Total pending appointments
+        $pending_meetings = Meeting::where('meeting_status', '=', 0)
+                                    ->get()
+                                    ->count();
+
+        // Total rejected appointments
+        $rejected_meeting = Meeting::where('meeting_status', '=', 2)
+                                    ->get()
+                                    ->count();
+
+        return view('backend.pages.reception.index', compact('user_name', 'total_appopintment', 'today_meeting', 'pending_meetings', 'rejected_meeting'));
     }
 
     // Reception Display Profile method
@@ -79,86 +107,85 @@ class ReceptionController extends Controller
                             ->where('employees.status', '=', '1')
                             ->first();
 
-        $department = Department::where('status', '=', 1)->get();
-        $designation = Designation::where('status', '=', 1)->get();
+        $gender = $employee->gender;
 
-        return view('backend.pages.reception.editProfile', compact('employee', 'department', 'designation'));
+        if($gender == '1'){
+            $gender_id = '1';
+            $gender = "Male";
+        }elseif($gender == '2'){
+            $gender_id = '2';
+            $gender = "Female";
+        }else{
+            $gender_id = '3';
+            $gender = "Not Given";
+        }
+
+        $departments = Department::where('status', '=', 1)->get();
+        $designations = Designation::where('status', '=', 1)->get();
+
+        return view('backend.pages.reception.editProfile', compact('employee', 'departments', 'designations', 'gender', 'gender_id'));
     }
 
     // Update and store new profile information
     public function updateProfile(Request $req)
     {
-        // loged user_id
+        // get employee old data
         $user_id = session('loggedUser');
-
-        // Update employee's old data info status
-        $employee_old_data_query = Employee::where('user_id', '=', $user_id)->where('status', '=', '1')->first();
-        $employee_old_data_query->status = '3';
-        $employee_old_data_query->save();
-        // get required old data
-        $employee_type = $employee_old_data_query->user_type_id;
-        $employee_slug = $employee_old_data_query->slug;
-        $employee_gender = $employee_old_data_query->gender;
-        $employee_dob = $employee_old_data_query->dob;
+        $employee_old_data_query = Employee::where('user_id', '=', $user_id)->first();
+        $employee_id = $employee_old_data_query->employee_id;
+        $user_type_id = $employee_old_data_query->user_type_id;
         $employee_dept_id = $employee_old_data_query->dept_id;
         $employee_designation_id = $employee_old_data_query->designation_id;
         $employee_old_photo = $employee_old_data_query->photo;
 
-        $employee = new Employee;
-        $employee->user_id = $user_id;
-        $employee->user_type_id = $employee_type;
-        $employee->first_name = $req->fname;
-        $employee->last_name = $req->lname;
-        $employee->slug = $employee_slug;
-        $employee->gender = $employee_gender;
-        $employee->dob = $employee_dob;
-        $employee->eid_no = $req->eid;
-        $employee->dept_id = $employee_dept_id;
-        $employee->designation_id = $employee_designation_id;
-        $employee->mobile_no = $req->mobile_no;
-        $employee->email = $req->email;
-        $employee->address = $req->address;
-        $employee->nid_no = $req->nid_no;
-        $employee->passport_no = $req->passport_no;
-        $employee->driving_license_no = $req->driving_license_no;
-        $employee->start_hour = $req->start_hour;
-        $employee->end_hour = $req->end_hour;
-        $employee->building_no = $req->building_no;
-        $employee->gate_no = $req->gate_no;
-        $employee->floor_no = $req->floor_no;
-        $employee->elevator_no = $req->elevator_no;
-        $employee->room_no = $req->room_no;
-        $employee->entry_user_id = $user_id;
-        $employee->entry_datetime = date('Y-m-d H:i:s');
-        $employee->modified_user_id = $user_id;
-        $employee->modified_datetime = date('Y-m-d H:i:s');
-        $employee->availability = $req->availability;
-        $employee->status = '1';
+        // insert new/updated data into reception_logs table
+        $receptionlog = new ReceptionLog;
+        $receptionlog->employee_id = $employee_id;
+        $receptionlog->user_id = $user_id;
+        $receptionlog->user_type_id = $user_type_id;
+        $receptionlog->first_name = $req->first_name;
+        $receptionlog->last_name = $req->last_name;
+        $receptionlog->gender = $req->gender;
+        $receptionlog->dob = $req->dob;
+        $receptionlog->eid_no = $req->eid_no;
+        $receptionlog->dept_id = $employee_dept_id;
+        $receptionlog->designation_id = $employee_designation_id;
+        $receptionlog->mobile_no = $req->mobile_no;
+        $receptionlog->email = $req->email;
+        $receptionlog->address = $req->address;
+        $receptionlog->nid_no = $req->nid_no;
+        $receptionlog->passport_no = $req->passport_no;
+        $receptionlog->driving_license_no = $req->driving_license_no;
+        $receptionlog->start_hour = $req->start_hour;
+        $receptionlog->end_hour = $req->end_hour;
+        $receptionlog->building_no = $req->building_no;
+        $receptionlog->gate_no = $req->gate_no;
+        $receptionlog->floor_no = $req->floor_no;
+        $receptionlog->elevator_no = $req->elevator_no;
+        $receptionlog->room_no = $req->room_no;
+        $receptionlog->entry_user_id = $user_id;
+        $receptionlog->entry_datetime = date('Y-m-d H:i:s');
+        $receptionlog->log_type = 2;
+        $receptionlog->status = 1;
 
         if ($req->hasFile('new_photo')) {
             $new_photo = $req->file('new_photo');
             $imgName = 'employee'.time().'.'.$new_photo->getClientOriginalExtension();
             $location = public_path('backend/img/employees/'.$imgName);
             Image::make($new_photo)->save($location);
-            $employee->photo = $imgName;
-            File::delete(public_path() . '/backend/img/employees/'. $employee_old_photo);
+            $receptionlog->photo = $imgName;
         } else {
-            $employee->photo = $employee_old_photo;
+            $receptionlog->photo = $employee_old_photo;
         }
 
-        $employee_table = $employee->save();
+        $done = $receptionlog->save();
 
-        $user = User::find($user_id);
-        $user->mobile_no = $req->mobile_no;
-        $user->email = $req->email;
-        $user_table = $user->save();
-
-        if ($employee_table && $user_table)
-        {
-            return redirect(route('reception.index'))->with('success', 'Profile successfully updated.');
-        } else {
+        if($done){
+            return redirect(route('reception.index'))->with('success', 'Profile update request send to admin...');
+        }else{
             return redirect(route('reception.index'))->with('fail', 'Something went wrong, Please try agrain.');
         }
+
     }
 
     // Reception change password form display
@@ -293,6 +320,7 @@ class ReceptionController extends Controller
         $visitor->nid_no = $request->nid_no;
         $visitor->passport_no = $request->passport_no;
         $visitor->driving_license_no = $request->driving_license_no;
+        $visitor->entry_user_id = session('loggedUser');
         $visitor->slug = strtolower($request->first_name.'-'.$request->last_name);
         $visitor->entry_datetime = now();
 
@@ -329,17 +357,10 @@ class ReceptionController extends Controller
     // Display make an appointment form
     public function makeAnAppointment($visitor_id)
     {
-        $user_id = session('loggedUser');
 
         $purpose = MeetingPurpose::where('purpose_status', '=', 1)->get();
 
-        return view('backend.pages.reception.makeAnAppointment', compact('purpose', 'visitor_id', 'user_id'));
-    }
-
-    // Place/store an appointment from reception
-    public function placeAnAppointment(Request $req)
-    {
-        return $req;
+        return view('backend.pages.reception.makeAnAppointment', compact('purpose', 'visitor_id'));
     }
 
     // Search Employee
@@ -365,5 +386,59 @@ class ReceptionController extends Controller
         }
         return response()->json($data);
     }
+
+    // Place/store an appointment from reception
+    public function placeAnAppointment(Request $req)
+    {
+        $meeting = new Meeting;
+
+        $user_id = session('loggedUser');
+
+        $meeting->user_id = $user_id;
+        $meeting->visitor_id = $req->visitor_id;
+        $meeting->employee_id = $req->employee_id;
+        $meeting->meeting_purpose_id = $req->meeting_purpose_id;
+        $meeting->purpose_describe = $req->meeting_purpose_describe;
+        $meeting->meeting_datetime = $req->meeting_datetime;
+        $meeting->entry_user_id = $user_id;
+        $meeting->entry_datetime = date('Y-m-d H:i:s');
+        $meeting->meeting_status = '0';
+        $meeting->has_vehicle = $req->has_vehicle;
+        $done = $meeting->save();
+
+        $employee_mail = Meeting::join('visitors', 'visitors.visitor_id', '=', 'meetings.visitor_id')
+                                ->join('employees', 'employees.employee_id', '=', 'meetings.employee_id')
+                                ->select('meetings.*', 'visitors.first_name as vfname', 'visitors.last_name as vlname','employees.first_name as efname', 'employees.last_name as elname',  'employees.email')
+                                ->where('visitors.visitor_id', '=', $req->visitor_id)
+                                ->where('employees.employee_id', '=', $req->employee_id)
+                                ->first();
+
+        if ($done) {
+            mail::to($employee_mail->email)->send(new AppointmentRequest($employee_mail));
+            return redirect()->route('reception.index')->with('success', 'Your meeting placed successfully');
+        } else {
+            return redirect()->route('reception.index')->with('fail', 'Sorry...! Something went wrong, Please try again');
+        }
+    }
+
+    // Display visitor profile
+    public function visitorProfile($visitor_id)
+    {
+        $visitor = Visitor::where('visitor_id', '=', $visitor_id)
+                            ->join('visitor_types', 'visitors.visitor_type', '=', 'visitor_types.visitor_type_id')
+                            ->first();
+        $gender = $visitor->gender;
+        if ($gender == '1')
+        {
+            $gender = "Male";
+        } elseif ($gender == '2')
+        {
+            $gender = "Female";
+        } else {
+            $gender = "Not Provided";
+        }
+        return view('backend.pages.reception.visitorProfile', compact('visitor', 'gender'));
+    }
+    
 
 }

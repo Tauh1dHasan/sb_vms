@@ -52,6 +52,7 @@
                                                 <td class="text-center"> {{ $visitor->email }} </td>
                                                 <td class="text-center mt-4">
                                                     <a href="/reception/make-an-appointment/{{ $visitor->visitor_id }}" class="btn btn-success btn-sm">Make Appointment</a>
+                                                    <a href="/reception/visitor-profile/{{ $visitor->visitor_id }}" class="btn btn-danger btn-sm">View Profile</a>
                                                 </td>
                                             </tr>
                                         @endforeach

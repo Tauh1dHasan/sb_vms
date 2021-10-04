@@ -73,6 +73,7 @@ Route::group(['middleware' => ['UserMiddleware'],'prefix' => '/visitor', 'as' =>
 
     // Store a meeting routes for visitor
     Route::post('/create-meeting', [MeetingController::class, 'store'])->name('store');
+    
     // search employees
     Route::get('/search-employees', [MeetingController::class, 'searchEmployees'])->name('search-employees');
 
@@ -206,10 +207,16 @@ Route::group(['middleware' => ['ReceptionMiddleware'], 'prefix' => '/reception',
 
     // Display make an appointment form
     Route::get('/make-an-appointment/{visitor_id}', [ReceptionController::class, 'makeAnAppointment']);
-    // Place new appointment from reception
-    Route::post('/place-an-appointment', [ReceptionController::class, 'placeAnAppointment'])->name('placeAnAppointment');
+
     // search employees
     Route::get('/search-employees', [ReceptionController::class, 'searchEmployees'])->name('search-employees');
+
+    // Place new appointment from reception
+    Route::post('/place-an-appointment', [ReceptionController::class, 'placeAnAppointment'])->name('placeAnAppointment');
+
+    // Display visitor profile
+    Route::get('/visitor-profile/{visitor_id}', [ReceptionController::class, 'visitorProfile']);
+    
 });
 
 

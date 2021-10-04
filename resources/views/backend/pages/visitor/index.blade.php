@@ -28,7 +28,7 @@
                             <div class="w-chart-section total-visits-content">
                                 <div class="w-detail">
                                     <p class="w-title">Total Appointments</p>
-                                    <p class="w-stats">{{ $meeting_count }}</p>
+                                    <p class="w-stats">{{ $total_meeting }}</p>
                                 </div>
                                 <div class="w-chart-render-one">
                                     
@@ -39,7 +39,7 @@
                             <div class="w-chart-section paid-visits-content">
                                 <div class="w-detail">
                                     <p class="w-title">Today's Appointments</p>
-                                    <p class="w-stats">{{ $today_meeting_count }}</p>
+                                    <p class="w-stats">{{ $today_meeting }}</p>
                                 </div>
                                 <div class="w-chart-render-one">
                                     
@@ -49,7 +49,7 @@
                             <div class="w-chart-section total-visits-content">
                                 <div class="w-detail">
                                     <p class="w-title">Pending Appointments</p>
-                                    <p class="w-stats">{{ $pending_meeting_count }}</p>
+                                    <p class="w-stats">{{ $pending_meetings }}</p>
                                 </div>
                                 <div class="w-chart-render-one">
                                     
@@ -60,7 +60,7 @@
                             <div class="w-chart-section paid-visits-content">
                                 <div class="w-detail">
                                     <p class="w-title">Rejected Appointments</p>
-                                    <p class="w-stats">{{ $rejected_meeting_count }}</p>
+                                    <p class="w-stats">{{ $rejected_meeting }}</p>
                                 </div>
                                 <div class="w-chart-render-one">
                                     

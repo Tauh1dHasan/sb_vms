@@ -19,7 +19,6 @@
                                         @csrf
                                         {{-- needed hidden field --}}
                                         <input type="hidden" name="visitor_id" value="{{ $visitor_id }}">
-                                        <input type="hidden" name="user_id" value="{{ $user_id }}">
 
                                         <div class="form-group mb-4">
                                             <select name="employee_id" id="employee_id" class="form-control"></select>

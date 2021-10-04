@@ -27,8 +27,7 @@ class VisitorController extends Controller
         $user_id = session('loggedUser');
 
         // Total number of appointments
-        $total_meeting = Meeting::where('user_id', '=', $user_id)->get();
-        $meeting_count = $total_meeting->count();
+        $total_meeting = Meeting::where('user_id', '=', $user_id)->get()->count();
 
         $y_date = date('Y-m-d',strtotime("-1 days"));
         $t_date = date('Y-m-d',strtotime("+1 days"));
@@ -36,22 +35,22 @@ class VisitorController extends Controller
         $today_meeting = Meeting::where('user_id', '=', $user_id)
                                 ->where('meeting_datetime', '>', $y_date)
                                 ->where('meeting_datetime', '<', $t_date)
-                                ->get();
-        $today_meeting_count = $today_meeting->count();
+                                ->get()
+                                ->count();
 
         // Total pending appointments
         $pending_meetings = Meeting::where('user_id', '=', $user_id)
                                     ->where('meeting_status', '=', 0)
-                                    ->get();
-        $pending_meeting_count = $pending_meetings->count();
+                                    ->get()
+                                    ->count();
 
         // Total rejected appointments
         $rejected_meeting = Meeting::where('user_id', '=', $user_id)
                                     ->where('meeting_status', '=', 2)
-                                    ->get();
-        $rejected_meeting_count = $rejected_meeting->count();
+                                    ->get()
+                                    ->count();
 
-        return view('backend.pages.visitor.index', compact('meeting_count', 'today_meeting_count', 'pending_meeting_count', 'rejected_meeting_count'));
+        return view('backend.pages.visitor.index', compact('total_meeting', 'today_meeting', 'pending_meetings', 'rejected_meeting'));
     }
 
     /**
