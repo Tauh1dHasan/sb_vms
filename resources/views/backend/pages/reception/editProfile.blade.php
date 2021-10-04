@@ -34,13 +34,13 @@
                                                     </div>
 
                                                     <div class="form-group mb-4">
-                                                        <label for="fname">First Name</label>
-                                                        <input name="fname" type="text" class="form-control" id="fname" value="{{ $employee->first_name }}" required>
+                                                        <label for="first_name">First Name</label>
+                                                        <input name="first_name" type="text" class="form-control" id="first_name" value="{{ $employee->first_name }}" required>
                                                     </div>
 
                                                     <div class="form-group mb-4">
-                                                        <label for="lname">Last Name</label>
-                                                        <input name="lname" type="text" class="form-control" id="lname" value="{{ $employee->last_name }}" required>
+                                                        <label for="last_name">Last Name</label>
+                                                        <input name="last_name" type="text" class="form-control" id="last_name" value="{{ $employee->last_name }}" required>
                                                     </div>
 
                                                     <div class="form-group mb-4">
@@ -52,8 +52,32 @@
                                                     </div>
 
                                                     <div class="form-group mb-4">
-                                                        <label for="eid">EID Number</label>
-                                                        <input name="eid" type="number" class="form-control" id="eid" value="{{ $employee->eid_no }}">
+                                                        <label for="dept_id">Department</label>
+                                                        <select name="dept_id" class="form-control" id="dept_id" required>
+                                                                <option value="{{ $employee->dept_id }}">{{ $employee->department_name }}</option>
+                                                            @foreach ($departments as $department)
+                                                                <option value="{{ $department->dept_id }}">{{ $department->department_name }}</option>    
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-group mb-4">
+                                                        <label for="dob">Date of Birth</label>
+                                                        <input name="dob" type="date" class="form-control" id="dob" value="{{ $employee->dob }}">
+                                                    </div>
+
+                                                    <div class="form-group mb-4">
+                                                        <label for="gender">Gender</label>
+                                                        <select name="gender" class="form-control" id="gender" required>
+                                                            <option value="{{ $gender_id }}">{{ $gender }}</option>
+                                                            <option value="1">Male</option>
+                                                            <option value="2">Female</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-group mb-4">
+                                                        <label for="eid_no">EID Number</label>
+                                                        <input name="eid_no" type="number" class="form-control" id="eid" value="{{ $employee->eid_no }}">
                                                     </div>
 
                                                     <div class="form-group mb-4">

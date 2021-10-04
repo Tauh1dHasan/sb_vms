@@ -31,16 +31,12 @@
                                             <th class="text-center">Visitor ID</th>
                                             <th class="text-center">Visitor Photo</th>
                                             <th class="text-center">Visitor Name</th>
-                                            <th class="text-center">Visitor Type</th>
                                             <th class="text-center">Organization</th>
                                             <th class="text-center">Designation</th>
-                                            <th class="text-center">Gender</th>
                                             <th class="text-center">Mobile</th>
                                             <th class="text-center">Email</th>
                                             <th class="text-center">Address</th>
-                                            <th class="text-center">NID Number</th>
-                                            <th class="text-center">Passport Number</th>
-                                            <th class="text-center">Driving License Number</th>
+                                            <th class="text-center">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -51,24 +47,15 @@
                                                     <img style="max-width: 100px" src="{{ asset('backend/img/visitors/').'/'.$visitor->profile_photo }}" alt="{{ $visitor->first_name }} {{ $visitor->last_name }}">
                                                 </td>
                                                 <td class="text-center"> {{ $visitor->first_name }} {{ $visitor->last_name }} </td>
-                                                <td class="text-center"> {{ $visitor->visitor_type }} </td>
                                                 <td class="text-center"> {{ $visitor->organization }} </td>
                                                 <td class="text-center"> {{ $visitor->designation }} </td>
-                                                <td class="text-center">
-                                                    @if ($visitor->gender == 1)
-                                                        Male
-                                                    @elseif ($visitor->gender == 2)
-                                                        Female
-                                                    @else
-                                                        Not Given
-                                                    @endif
-                                                </td>
                                                 <td class="text-center"> {{ $visitor->mobile_no }} </td>
                                                 <td class="text-center"> {{ $visitor->email }} </td>
                                                 <td class="text-center"> {{ $visitor->address }} </td>
-                                                <td class="text-center"> {{ $visitor->nid_no }} </td>
-                                                <td class="text-center"> {{ $visitor->passport_no }} </td>
-                                                <td class="text-center"> {{ $visitor->driving_license_no }} </td>
+                                                <td class="text-center">
+                                                    <a href="/reception/make-an-appointment/{{ $visitor->visitor_id }}" class="btn btn-success btn-sm mb-1">Make Appointment</a><br>
+                                                    <a href="/reception/visitor-profile/{{ $visitor->visitor_id }}" class="btn btn-danger btn-sm">View Profile</a>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
