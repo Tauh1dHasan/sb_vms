@@ -29,7 +29,7 @@
                                         <span class="input-group-text" id="basic-addon5">Department Name</span>
                                     </div>
                                     
-                                    <select class="form-control">
+                                    <select class="form-control" name="dept_id">
                                         <option value="">---Select Department---</option>
 
                                         @foreach($departments as $department)
