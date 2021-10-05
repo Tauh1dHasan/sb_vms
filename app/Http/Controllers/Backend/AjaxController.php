@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Response;
+
+/* included models */
+use App\Models\Designation;
 
 class AjaxController extends Controller
 {

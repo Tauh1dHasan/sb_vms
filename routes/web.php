@@ -24,6 +24,9 @@ use App\Http\Controllers\Backend\Admin\VisitorTypeController;
 use App\Http\Controllers\Backend\Admin\DepartmentController;
 use App\Http\Controllers\Backend\Admin\DesignationController;
 
+/* Backend Ajax Controller */
+use App\Http\Controllers\Backend\AjaxController;
+
 
 /*
 |--------------------------------------------------------------------------

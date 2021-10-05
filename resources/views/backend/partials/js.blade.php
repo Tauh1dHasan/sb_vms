@@ -79,5 +79,5 @@
         ;
     </script>
 
-    @include('backend.ajax.employeeSearch')
+    @include('backend.ajax.ajax')
 
