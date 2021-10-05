@@ -45,5 +45,8 @@
             color: #e7515a !important;
             margin-bottom: 7px;
         }
+        .input-group .input-group-prepend .input-group-text {
+            width: 170px;
+        }
     
     </style>

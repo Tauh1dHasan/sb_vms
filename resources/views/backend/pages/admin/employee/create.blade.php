@@ -229,41 +229,41 @@
                                 <div class="row"> 
                                     <div class="input-group mb-4 col-md-5" style="padding-left: 0;">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text" id="basic-addon5">Address</span>
-                                        </div>
-                                        <textarea type="text" row="3" name="address" class="form-control form-control-lg">{{ old('address') }}</textarea>
-                                    </div>
-
-                                    <div class="input-group mb-4 col-md-5" style="padding-left: 0;">
-                                        <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon5">NID</span>
                                         </div>
-                                        <textarea type="text" row="3" name="nid_no" class="form-control form-control-lg">{{ old('nid_no') }}</textarea>
+                                        <input type="text" value="{{ old('nid_no') }}" name="nid_no" class="form-control form-control-lg" placeholder="Enter NID" aria-label="NID">
                                     </div>
-                                </div>
 
-                                <div class="row"> 
                                     <div class="input-group mb-4 col-md-5" style="padding-left: 0;">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon5">Passport</span>
                                         </div>
                                         <input type="text" value="{{ old('passport_no') }}" name="passport_no" class="form-control form-control-lg" placeholder="Enter Passport ID" aria-label="Passport ID">
                                     </div>
+                                </div>
 
+                                <div class="row">
                                     <div class="input-group mb-4 col-md-5" style="padding-left: 0;">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon5">Driving License</span>
                                         </div>
                                         <input type="text" value="{{ old('driving_license_no') }}" name="driving_license_no" class="form-control form-control-lg" placeholder="Enter Driving License" aria-label="Driving License">
                                     </div>
+
+                                    <div class="input-group mb-4 col-md-5" style="padding-left: 0;">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon5">Profile Photo</span>
+                                        </div>
+                                        <input class="form-control form-control-lg" name="photo" type="file" id="photo">
+                                    </div>
                                 </div>
 
                                 <div class="row"> 
                                     <div class="input-group mb-4 col-md-5" style="padding-left: 0;">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text" id="basic-addon5">Profile Photo</span>
+                                            <span class="input-group-text" id="basic-addon5">Address</span>
                                         </div>
-                                        <input class="form-control d-block" name="photo" type="file" id="photo">
+                                        <textarea type="text" row="3" name="address" class="form-control form-control-lg">{{ old('address') }}</textarea>
                                     </div>
                                 </div>
 

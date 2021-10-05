@@ -21,7 +21,7 @@
                 <div class="widget widget-one">
                     <div class="widget-heading">
                         <h1 class="text-center pb-4">Welcome to VMS Reception Panel</h1>
-                        <h4 class="text-center pb-4">{{ $user_name->first_name }} {{ $user_name->last_name }}</h4>
+                        {{-- <h4 class="text-center pb-4">{{ $user_name->first_name }} {{ $user_name->last_name }}</h4> --}}
                     </div>
                     <div class="w-chart">
 

@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="register-mail text-center"> 
-        <h1>Hello <br> {{ $data1['first_name'] }} {{ $data1['last_name'] }}</h1>
+        <h1>Greetings!!! {{ $data1['first_name'] }} {{ $data1['last_name'] }}</h1>
         <p>Your account is approved by VMS Admin. </p>
         <p>Login using your mobile number: {{ $data1['mobile_no'] }} or email: {{ $data1['email'] }}</p>
         <p>And Password: {{ $data1['password'] }}</p>

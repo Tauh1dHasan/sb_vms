@@ -30,6 +30,6 @@ class EmployeeApprovedMail extends Mailable
      */
     public function build()
     {
-        return $this->view('backend.mails.employee-approved');
+        return $this->view('backend.mails.employeeApproved');
     }
 }
