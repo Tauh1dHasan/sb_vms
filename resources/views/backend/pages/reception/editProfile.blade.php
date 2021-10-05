@@ -48,8 +48,13 @@
                                                     <div class="form-group mb-4">
                                                         <label for="availability">Availability</label>
                                                         <select name="availability" class="form-control" id="availability" required>
-                                                            <option value="1">Available</option>
-                                                            <option value="0">Not Available</option>
+                                                            @if ($employee->availability == 1)
+                                                                <option value="1">Available</option>
+                                                                <option value="0">Not Available</option> 
+                                                            @elseif ($employee->availability == 0)
+                                                                <option value="0">Not Available</option>
+                                                                <option value="1">Available</option>
+                                                            @endif
                                                         </select>
                                                     </div>
 
@@ -85,17 +90,17 @@
 
                                                     <div class="form-group mb-4">
                                                         <label for="eid_no">EID Number</label>
-                                                        <input name="eid_no" type="number" class="form-control" id="eid" value="{{ $employee->eid_no }}">
+                                                        <input name="eid_no" type="number" class="form-control" id="eid" value="{{ $employee->eid_no }}" required>
                                                     </div>
 
                                                     <div class="form-group mb-4">
                                                         <label for="start_hour">Starting Office Hour</label>
-                                                        <input name="start_hour" type="time" class="form-control" id="start_hour" value="{{ $employee->start_hour }}">
+                                                        <input name="start_hour" type="time" class="form-control" id="start_hour" value="{{ $employee->start_hour }}" required>
                                                     </div>
 
                                                     <div class="form-group mb-4">
                                                         <label for="end_hour">Ending Office Hour</label>
-                                                        <input name="end_hour" type="time" class="form-control" id="end_hour" value="{{ $employee->end_hour }}">
+                                                        <input name="end_hour" type="time" class="form-control" id="end_hour" value="{{ $employee->end_hour }}" required>
                                                     </div>
 
                                                     <div class="form-group mb-4">
@@ -125,7 +130,7 @@
 
                                                     <div class="form-group mb-4">
                                                         <label for="email">Email address</label>
-                                                        <input name="email" type="email" class="form-control" id="email" value="{{ $employee->email }}">
+                                                        <input name="email" type="email" class="form-control" id="email" value="{{ $employee->email }}" required>
                                                     </div>
                                                     
                                                     <div class="form-group mb-4">
@@ -135,7 +140,7 @@
 
                                                     <div class="form-group mb-4">
                                                         <label for="mobile_no">Mobile Number</label>
-                                                        <input name="mobile_no" type="number" class="form-control" id="mobile_no" value="{{ $employee->mobile_no }}">
+                                                        <input name="mobile_no" type="number" class="form-control" id="mobile_no" value="{{ $employee->mobile_no }}" requried>
                                                     </div>
 
                                                     <div class="form-group mb-4">

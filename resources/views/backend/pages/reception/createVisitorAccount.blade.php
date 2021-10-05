@@ -12,7 +12,18 @@
 
                         <!-- Content -->
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 layout-top-spacing">
-                    
+
+                            @if (session('success'))
+                                <div class="alert alert-light-success border-0 mb-4" role="alert"> 
+                                    <p class="text-success">{{ session('success') }}</p> 
+                                </div>
+                            @endif
+                            @if (session('fail'))
+                                <div class="alert alert-light-success border-0 mb-4" role="alert"> 
+                                    <p class="text-danger">{{ session('fail') }}</p> 
+                                </div>
+                            @endif
+
                             <div class="user-profile layout-spacing">
                                 <div class="widget-content widget-content-area" style="padding: 40px">
                                     <div class="col-lg-12 col-12 layout-spacing">
@@ -33,7 +44,7 @@
                                                     <div class="row">
                                                         <div class="form-group col-6">
                                                             <label class="form-label text-color-dark text-3">First Name <span class="text-color-danger">*</span></label>
-                                                            <input type="text" value="{{old('first_name')}}" name="first_name" class="form-control form-control-lg text-4" required="">
+                                                            <input type="text" value="{{old('first_name')}}" name="first_name" class="form-control form-control-lg text-4" required>
                                                         </div>
                                                         <div class="form-group col-6">
                                                             <label class="form-label text-color-dark text-3">Last Name <span class="text-color-danger">*</span></label>

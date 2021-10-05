@@ -21,6 +21,8 @@ use App\Models\Designation;
 use App\Models\MeetingPurpose;
 use App\Models\VisitorType;
 use App\Models\ReceptionLog;
+use App\Models\VisitorLog;
+use App\Models\MeetingLog;
 
 /* included mails */
 use App\Mail\AppointmentRequest;
@@ -170,6 +172,7 @@ class ReceptionController extends Controller
         $receptionlog->room_no = $req->room_no;
         $receptionlog->entry_user_id = $user_id;
         $receptionlog->entry_datetime = date('Y-m-d H:i:s');
+        $receptionlog->description = "Reception profile update request";
         $receptionlog->log_type = 2;
         $receptionlog->status = 1;
 
@@ -185,9 +188,10 @@ class ReceptionController extends Controller
 
         $done = $receptionlog->save();
 
-        if($done){
+        if ($done) 
+        {
             return redirect(route('reception.index'))->with('success', 'Profile update request send to admin...');
-        }else{
+        } else {
             return redirect(route('reception.index'))->with('fail', 'Something went wrong, Please try agrain.');
         }
 
@@ -295,22 +299,29 @@ class ReceptionController extends Controller
     // Register new visitor
     public function visitorRegister(Request $request)
     {
+        // check if mobile number or email exist in users table
+        $mobileCheck = User::where('mobile_no', '=', $request->mobile_no)->first();
+        $emailCheck = User::where('email', '=', $request->email)->first();
+
+        if ($mobileCheck || $emailCheck)
+        {
+            return redirect()->back()->with('fail', 'Email address or Mobile number already exist');
+        }
         $this->validation($request);
 
+        
+        // Login credentials into users table 
         $user = new User;
-
         $user->mobile_no = $request->mobile_no;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
         $user->user_type_id = '4';
         $user->entry_datetime = now();
-
         $user->save();
 
+        // Visitor information into visitors table
         $user_id = User::orderBy('user_id', 'desc')->first();
-
         $visitor = new Visitor;
-
         $visitor->user_id = $user_id->user_id;
         $visitor->visitor_type = $request->visitor_type;
         $visitor->first_name = $request->first_name;
@@ -328,23 +339,47 @@ class ReceptionController extends Controller
         $visitor->entry_user_id = session('loggedUser');
         $visitor->slug = strtolower($request->first_name.'-'.$request->last_name);
         $visitor->entry_datetime = now();
-
-        $visitor->profile_photo = $request->profile_photo;
-        
         if ($request->hasFile('profile_photo')) {
             $image = $request->file('profile_photo');
             $imgName = 'visitor'.time().'.'.$image->getClientOriginalExtension();
             $location = public_path('backend/img/visitors/'.$imgName);
             Image::make($image)->save($location);
-
             $visitor->profile_photo = $imgName;
         }
-
         $visitor->save();
 
-        if($visitor->email != NULL){
+        // Activation mail to visitor email
+        if ($visitor->email != NULL) 
+        {
             mail::to($visitor->email)->send(new RegisterMail($visitor));
         }
+
+        // Visitor data into visitor_logs table
+        $visitor_id = Visitor::orderBy('visitor_id', 'desc')->first();
+        $visitorLog = new VisitorLog;
+        $visitorLog->visitor_id = $visitor_id->visitor_id;
+        $visitorLog->user_id = $user_id->user_id;
+        $visitorLog->visitor_type = $request->visitor_type;
+        $visitorLog->first_name = $request->first_name;
+        $visitorLog->last_name = $request->last_name;
+        $visitorLog->organization = $request->organization;
+        $visitorLog->designation = $request->designation;
+        $visitorLog->gender = $request->gender;
+        $visitorLog->dob = $request->dob;
+        $visitorLog->mobile_no = $request->mobile_no;
+        $visitorLog->email = $request->email;
+        $visitorLog->address = $request->address;
+        $visitorLog->profile_photo = $imgName;
+        $visitorLog->nid_no = $request->nid_no;
+        $visitorLog->passport_no = $request->passport_no;
+        $visitorLog->driving_license_no = $request->driving_license_no;
+        $visitorLog->entry_user_id = session('loggedUser');
+        $visitorLog->entry_datetime = now();
+        $visitorLog->description = "Visitor account created form reception panel";
+        $visitorLog->log_type = 1;
+        $visitorLog->status = 1;
+        $visitorLog->save();
+
 
         Session()->flash('success' , 'Registration Successfull! Please check your email for verification.');
         return redirect()->route('reception.index');
@@ -395,10 +430,9 @@ class ReceptionController extends Controller
     // Place/store an appointment from reception
     public function placeAnAppointment(Request $req)
     {
+        // Insert meeting info into meetings table
         $meeting = new Meeting;
-
         $user_id = session('loggedUser');
-
         $meeting->user_id = $user_id;
         $meeting->visitor_id = $req->visitor_id;
         $meeting->employee_id = $req->employee_id;
@@ -410,6 +444,26 @@ class ReceptionController extends Controller
         $meeting->meeting_status = '0';
         $meeting->has_vehicle = $req->has_vehicle;
         $done = $meeting->save();
+
+        // Insert data into meeting_logs table
+        $meeting_id = Meeting::orderBy('meeting_id', 'desc')->first();
+        $meetingLog = new MeetingLog;
+        $meetingLog->meeting_id = $meeting_id->meeting_id;
+        $meetingLog->user_id = $user_id;
+        $meetingLog->visitor_id = $req->visitor_id;
+        $meetingLog->employee_id = $req->employee_id;
+        $meetingLog->meeting_purpose_id = $req->meeting_purpose_id;
+        $meetingLog->purpose_describe = $req->meeting_purpose_describe;
+        $meetingLog->meeting_datetime = $req->meeting_datetime;
+        $meetingLog->meeting_status = '0';
+        $meetingLog->has_vehicle = $req->has_vehicle;
+        $meetingLog->entry_user_id = $user_id;
+        $meetingLog->entry_datetime = date('Y-m-d H:i:s');
+        $meetingLog->description = "Appointment placed from reception panel";
+        $meetingLog->log_type = '1';
+        $meetingLog->status = '1';
+        $meetingLog->save();
+
 
         $employee_mail = Meeting::join('visitors', 'visitors.visitor_id', '=', 'meetings.visitor_id')
                                 ->join('employees', 'employees.employee_id', '=', 'meetings.employee_id')
