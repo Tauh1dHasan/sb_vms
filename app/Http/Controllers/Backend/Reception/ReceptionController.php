@@ -85,11 +85,12 @@ class ReceptionController extends Controller
                     ->where('user_id', $user_id)
                     ->where('employees.status', '=', '1')
                     ->first();
+
         $gender = $employee->gender;
 
-        if ($gender == 1){
+        if ($gender == 1) {
             $gender = "Male";
-        } elseif ($gender == 2){
+        } elseif ($gender == 2) {
             $gender = "Female";
         } else {
             $gender = "Not given";
@@ -120,8 +121,12 @@ class ReceptionController extends Controller
             $gender = "Not Given";
         }
 
-        $departments = Department::where('status', '=', 1)->get();
-        $designations = Designation::where('status', '=', 1)->get();
+        $departments = Department::where('status', '=', 1)
+                                ->orderBy('dept_id', 'asc')
+                                ->get();
+        $designations = Designation::where('status', '=', 1)
+                                    ->orderBy('designation_id', 'asc')
+                                    ->get();
 
         return view('backend.pages.reception.editProfile', compact('employee', 'departments', 'designations', 'gender', 'gender_id'));
     }

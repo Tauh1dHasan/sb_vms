@@ -62,8 +62,12 @@ class IndexController extends Controller
                                     ['user_type_id' , '=', '3'],
                                 ])
                                 ->get();
-        $departments = Department::orderBy('dept_id' , 'asc')->get();
-        $designations = Designation::orderBy('designation_id' , 'asc')->get();
+        $departments = Department::where('status', '=', 1)
+                                ->orderBy('dept_id', 'asc')
+                                ->get();
+        $designations = Designation::where('status', '=', 1)
+                                    ->orderBy('designation_id', 'asc')
+                                    ->get();
 
         return view('frontend.pages.employee-register', compact('user_types', 'departments', 'designations'));
     }

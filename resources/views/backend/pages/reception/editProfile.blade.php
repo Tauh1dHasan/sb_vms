@@ -27,7 +27,9 @@
                                             <div class="widget-content widget-content-area">
                                                 <form action="{{ route('reception.updateProfile') }}" method="POST" enctype="multipart/form-data">
                                                     @csrf
-                                                    
+
+                                                    <input type="hidden" name="user_type_id" id="user_type_id" value="{{ $employee->user_type_id }}">
+
                                                     <div class="form-group mb-4">
                                                         <label for="new_photo">Update Profile Picture</label>
                                                         <input name="new_photo" type="file" class="form-control" id="new_photo">
@@ -54,10 +56,16 @@
                                                     <div class="form-group mb-4">
                                                         <label for="dept_id">Department</label>
                                                         <select name="dept_id" class="form-control" id="dept_id" required>
-                                                                <option value="{{ $employee->dept_id }}">{{ $employee->department_name }}</option>
                                                             @foreach ($departments as $department)
-                                                                <option value="{{ $department->dept_id }}">{{ $department->department_name }}</option>    
+                                                                <option value="{{ $department->dept_id }}" @if($department->dept_id == $employee->dept_id ? 'selected' : '') @endif>{{ $department->department_name }}</option>    
                                                             @endforeach
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-group mb-4">
+                                                        <label for="dept_id">Designation</label>
+                                                        <select class="form-control" name="designation_id" id="designation_id" required="">
+                                                            <option value="{{ $employee->designation_id }}">{{ $employee->designation }}</option> 
                                                         </select>
                                                     </div>
 
@@ -68,7 +76,7 @@
 
                                                     <div class="form-group mb-4">
                                                         <label for="gender">Gender</label>
-                                                        <select name="gender" class="form-control" id="gender" required>
+                                                        <select name="gender" class="form-control" id="gender">
                                                             <option value="{{ $gender_id }}">{{ $gender }}</option>
                                                             <option value="1">Male</option>
                                                             <option value="2">Female</option>
@@ -92,27 +100,27 @@
 
                                                     <div class="form-group mb-4">
                                                         <label for="building_no">Building</label>
-                                                        <input name="building_no" type="text" class="form-control" id="building_no" value="{{ $employee->building_no }}" required>
+                                                        <input name="building_no" type="text" class="form-control" id="building_no" value="{{ $employee->building_no }}">
                                                     </div>
 
                                                     <div class="form-group mb-4">
                                                         <label for="gate_no">Gate</label>
-                                                        <input name="gate_no" type="text" class="form-control" id="gate_no" value="{{ $employee->gate_no }}" required>
+                                                        <input name="gate_no" type="text" class="form-control" id="gate_no" value="{{ $employee->gate_no }}">
                                                     </div>
 
                                                     <div class="form-group mb-4">
                                                         <label for="floor_no">Floor No</label>
-                                                        <input name="floor_no" type="text" class="form-control" id="floor_no" value="{{ $employee->floor_no }}" required>
+                                                        <input name="floor_no" type="text" class="form-control" id="floor_no" value="{{ $employee->floor_no }}">
                                                     </div>
 
                                                     <div class="form-group mb-4">
                                                         <label for="elevator_no">Elevator</label>
-                                                        <input name="elevator_no" type="text" class="form-control" id="elevator_no" value="{{ $employee->elevator_no }}" required>
+                                                        <input name="elevator_no" type="text" class="form-control" id="elevator_no" value="{{ $employee->elevator_no }}">
                                                     </div>
 
                                                     <div class="form-group mb-4">
                                                         <label for="room_no">Room No</label>
-                                                        <input name="room_no" type="text" class="form-control" id="room_no" value="{{ $employee->room_no }}" required>
+                                                        <input name="room_no" type="text" class="form-control" id="room_no" value="{{ $employee->room_no }}">
                                                     </div>
 
                                                     <div class="form-group mb-4">

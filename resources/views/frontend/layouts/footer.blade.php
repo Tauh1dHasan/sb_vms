@@ -36,8 +36,8 @@
 						<div class="col-md-6 col-lg-2 mb-5 mb-lg-0">
 							<h5 class="text-4 text-color-light mb-3">RECENT PAGES</h5>
 							<ul class="list list-unstyled mb-0">
-								<li class="mb-0"><a href="{{route('frontend.about')}">About Us</a></li>
-								<li class="mb-0"><a href="{{route('frontend.contact')}">Contact Us</a></li>
+								<li class="mb-0"><a href="{{route('frontend.about')}}">About Us</a></li>
+								<li class="mb-0"><a href="{{route('frontend.contact')}}">Contact Us</a></li>
 								<li class="mb-0"><a href="https://sebpo.com/jobs/">Careers</a></li>
 								<li class="mb-0"><a href="https://sebpo.com/news-and-views/">Blog</a></li>
 							</ul>
@@ -45,7 +45,7 @@
 						<div class="col-md-6 col-lg-3" style="padding-left: 40px;">
 							<h5 class="text-4 text-color-light mb-3">USEFUL LINKS</h5>
 							<ul class="list list-unstyled mb-0">
-								<li class="mb-0"><a href="{{route('frontend.contact')}">Help Center</a></li>
+								<li class="mb-0"><a href="{{route('frontend.contact')}}">Help Center</a></li>
 								<li class="mb-0"><a href="https://sebpo.com/client-stories/">Client Stories</a></li>
 								<li class="mb-0"><a href="https://sebpo.com/why-sebpo/business-benefits/">SEBPO Benefits</a></li>
 								<li class="mb-0"><a href="https://goo.gl/maps/K5fLsGawUSoHF1ja6">Sitemap</a></li>

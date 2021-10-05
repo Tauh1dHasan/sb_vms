@@ -54,6 +54,17 @@ class DepartmentController extends Controller
                                     'entry_datetime'=>now()
                                 ]);
 
+        $department_id = Department::orderBy('dept_id', 'desc')->first();
+
+        $admin_log = AdminLog::create([
+                                    'dept_id'=>$department_id->dept_id,
+                                    'department_name'=>$request->department_name,
+                                    'department_status'=>$request->status,
+                                    'log_type'=>1,
+                                    'entry_user_id'=>$user_id,
+                                    'entry_datetime'=>now()
+                                ]);
+
         Session()->flash('success' , 'Department Added Successfully !!!');
         return redirect()->route('admin.department.index');
     }
@@ -97,24 +108,23 @@ class DepartmentController extends Controller
 
         $old_department = Department::where('dept_id', $id)->first();
 
-        $admin_log = new AdminLog;
-
-        $admin_log->dept_id = $old_department->dept_id;
-        $admin_log->department_name = $old_department->department_name;
-        $admin_log->department_status = $old_department->status;
-        $admin_log->entry_user_id = $user_id;
-        $admin_log->entry_datetime = now();
-
         $department = Department::where('dept_id', $id)
-                                    ->update([
-                                        'department_name'=>$request->department_name,
-                                        'slug'=>Str::slug($request->department_name),
-                                        'status'=>$request->status,
-                                        'modified_user_id'=>$user_id,
-                                        'modified_datetime'=>now()
+                                ->update([
+                                            'department_name'=>$request->department_name,
+                                            'slug'=>Str::slug($request->department_name),
+                                            'status'=>$request->status,
+                                            'modified_user_id'=>$user_id,
+                                            'modified_datetime'=>now()
+                                        ]);
+
+        $admin_log = AdminLog::create([
+                                        'dept_id'=>$old_department->dept_id,
+                                        'department_name'=>$old_department->department_name,
+                                        'department_status'=>$old_department->status,
+                                        'log_type'=>2,
+                                        'entry_user_id'=>$user_id,
+                                        'entry_datetime'=>now()
                                     ]);
-        
-        $admin_log->save();
 
         Session()->flash('success' , 'Department Updated Successfully !!!');
         return redirect()->route('admin.department.index');
@@ -131,14 +141,6 @@ class DepartmentController extends Controller
         $user_id = session('loggedUser');
 
         $old_department = Department::where('dept_id', $id)->first();
-
-        $admin_log = new AdminLog;
-
-        $admin_log->dept_id = $old_department->dept_id;
-        $admin_log->department_name = $old_department->department_name;
-        $admin_log->department_status = $old_department->status;
-        $admin_log->entry_user_id = $user_id;
-        $admin_log->entry_datetime = now();
         
         $department = Department::where('dept_id', $id)
                                     ->update([
@@ -147,7 +149,14 @@ class DepartmentController extends Controller
                                         'modified_datetime'=>now()
                                     ]);
         
-        $admin_log->save();
+        $admin_log = AdminLog::create([
+                                        'dept_id'=>$old_department->dept_id,
+                                        'department_name'=>$old_department->department_name,
+                                        'department_status'=>$old_department->status,
+                                        'log_type'=>3,
+                                        'entry_user_id'=>$user_id,
+                                        'entry_datetime'=>now()
+                                    ]);
 
         Session()->flash('success' , 'Department Deleted Successfully !!!');
         return redirect()->route('admin.department.index');

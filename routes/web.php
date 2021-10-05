@@ -24,6 +24,9 @@ use App\Http\Controllers\Backend\Admin\VisitorTypeController;
 use App\Http\Controllers\Backend\Admin\DepartmentController;
 use App\Http\Controllers\Backend\Admin\DesignationController;
 
+/* Backend Ajax Controller */
+use App\Http\Controllers\Backend\AjaxController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -97,6 +100,7 @@ Route::group(['middleware' => ['UserMiddleware'],'prefix' => '/visitor', 'as' =>
 
     // Show meeting visitor-pass QR code to visitor
     Route::post('/visitor-pass', [MeetingController::class, 'visitorPass'])->name('visitorPass');
+
     // Gate Pass -- This route will be moved to receptionist module -- only receptionist will see this info and provide a gate pass
     Route::get('/gate-pass/{$meeting_id}', [MeetingController::class, 'gate_pass'])->name('gatePass');
 
@@ -222,6 +226,7 @@ Route::group(['middleware' => ['ReceptionMiddleware'], 'prefix' => '/reception',
 
 /* Backend Admin Panel Routes */
 Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
+
     /* Admin Panel Login Route */
     Route::get('/', [AdminIndexController::class, 'login'])->name('login');
 
@@ -230,7 +235,9 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
         Route::get('/dashboard', [AdminIndexController::class, 'index'])->name('index');
 
         /* Admin Panel Employee Routes */
-        Route::get('/employees', [EmployeeManageController::class, 'index'])->name('employees');
+        Route::get('/employees', [EmployeeManageController::class, 'index'])->name('employee.index');
+        Route::get('/employees/create', [EmployeeManageController::class, 'create'])->name('employee.create');
+        Route::get('/employees/store', [EmployeeManageController::class, 'store'])->name('employee.store');
         Route::get('/pending-employees', [EmployeeManageController::class, 'pending'])->name('pending.employees');
         Route::get('/approved-employees', [EmployeeManageController::class, 'approved'])->name('approved.employees');
         Route::get('/declined-employees', [EmployeeManageController::class, 'declined'])->name('declined.employees');
@@ -266,3 +273,7 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
         Route::get('/designation/destroy/{id}', [DesignationController::class, 'destroy'])->name('designation.destroy');
     }); 
 }); 
+
+
+/* Backend Ajax Routes */
+Route::post('backend/designations/{id}', [AjaxController::class, 'deptWiseDesignation'])->name('deptWiseDesignation');

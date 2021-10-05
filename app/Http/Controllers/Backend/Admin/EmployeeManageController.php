@@ -14,10 +14,34 @@ use App\Mail\EmployeeDeclinedMail;
 
 /* included models */
 use App\Models\User;
+use App\Models\UserType;
 use App\Models\Employee;
+use App\Models\Department;
+use App\Models\Designation;
 
 class EmployeeManageController extends Controller
 {
+    /**
+     * Employee Create validation.
+     */
+    public function validation($request)
+    {
+        return $this->validate($request, [
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'dept_id' => 'required',
+            'designation_id' => 'required',
+            'eid_no' => 'required',
+            'start_hour' => 'required',
+            'end_hour' => 'required',
+            'mobile_no' => 'required|unique:users|min:11',
+            'email' => 'required|unique:users',
+            'password' => 'required|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
+            'photo' => 'mimes:jpeg,png,jpg|max:2048',
+        ]);
+    }
+
+
     /**
      * Display list of all employees.
      */
@@ -27,7 +51,28 @@ class EmployeeManageController extends Controller
                             ->join('designations', 'designations.designation_id', '=', 'employees.designation_id')
                             ->get(['employees.*', 'departments.department_name as department_name', 'designations.designation as designation']);
 
-        return view('backend.pages.admin.employee.allEmployees', compact('employees'));
+        return view('backend.pages.admin.employee.index', compact('employees'));
+    }
+
+    /**
+     * Show the form for creating an employee.
+     */
+    public function create()
+    {
+        $user_types = UserType::where([
+                                    ['user_type_status' , '=', '1'],
+                                    ['user_type_id' , '=', '2'],
+                                ])
+                                ->orWhere([
+                                    ['user_type_status' , '=', '1'],
+                                    ['user_type_id' , '=', '3'],
+                                ])
+                                ->get();
+
+        $departments = Department::orderBy('dept_id' , 'asc')->get();
+        $designations = Designation::orderBy('designation_id' , 'asc')->get();
+
+        return view('backend.pages.admin.employee.create', compact('user_types', 'departments', 'designations'));
     }
 
 
