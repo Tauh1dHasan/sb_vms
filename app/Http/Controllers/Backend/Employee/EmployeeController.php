@@ -382,10 +382,27 @@ class EmployeeController extends Controller
                             ->where('employees.status', '=', '1')
                             ->first();
 
-        $department = Department::where('status', '=', 1)->get();
-        $designation = Designation::where('status', '=', 1)->get();
+        $gender = $employee->gender;
 
-        return view('backend.pages.employee.edit_profile', compact('employee', 'department', 'designation'));
+        if($gender == '1'){
+            $gender_id = '1';
+            $gender = "Male";
+        }elseif($gender == '2'){
+            $gender_id = '2';
+            $gender = "Female";
+        }else{
+            $gender_id = '3';
+            $gender = "Select";
+        }
+
+        $departments = Department::where('status', '=', 1)
+                                ->orderBy('dept_id', 'asc')
+                                ->get();
+        $designations = Designation::where('status', '=', 1)
+                                    ->orderBy('designation_id', 'asc')
+                                    ->get();
+
+        return view('backend.pages.employee.edit_profile', compact('employee', 'departments', 'designations', 'gender', 'gender_id'));
     }
 
     /**

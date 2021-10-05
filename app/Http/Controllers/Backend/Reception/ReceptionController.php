@@ -120,7 +120,7 @@ class ReceptionController extends Controller
             $gender = "Female";
         }else{
             $gender_id = '3';
-            $gender = "Not Given";
+            $gender = "Select";
         }
 
         $departments = Department::where('status', '=', 1)
