@@ -171,7 +171,7 @@
                                     <a href="https://www.linkedin.com/in/matthew-kochan-363236/"><div>
                                         <img class="img-fluid rounded-0 mb-4" src="{{asset('frontend/img/leadership/2.jpg')}}" alt="" />
                                         <h3 class="font-weight-bold text-color-dark text-4 mb-0">Matt Kochan</h3>
-                                        <p class="text-2 mb-0">CEO and Co-Founder</p>
+                                        <p class="text-2 mb-0">Co-Founder</p>
                                     </div></a>
                                     <a href="https://www.linkedin.com/in/kevin-kochan-a18ba71"><div>
                                         <img class="img-fluid rounded-0 mb-4" src="{{asset('frontend/img/leadership/3.jpg')}}" alt="" />

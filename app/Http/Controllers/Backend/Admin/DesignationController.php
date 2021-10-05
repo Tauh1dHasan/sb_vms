@@ -62,6 +62,8 @@ class DesignationController extends Controller
         $designation_id = Designation::orderBy('designation_id', 'desc')->first();
 
         $admin_log = AdminLog::create([
+                                    'log_type'=>1,
+                                    'description'=>'Create Desigantion',
                                     'designation_id'=>$designation_id->designation_id,
                                     'designation'=>$request->designation,
                                     'designation_dept_id'=>$request->dept_id,
@@ -131,11 +133,12 @@ class DesignationController extends Controller
                                     ]);
 
         $admin_log = AdminLog::create([
+                                        'log_type'=>2,
+                                        'description'=>'Update Designation',
                                         'designation_id'=>$old_designation->designation_id,
                                         'designation'=>$old_designation->designation,
                                         'designation_dept_id'=>$old_designation->dept_id,
                                         'designation_status'=>$old_designation->status,
-                                        'log_type'=>2,
                                         'entry_user_id'=>$user_id,
                                         'entry_datetime'=>now()
                                     ]);
@@ -164,11 +167,12 @@ class DesignationController extends Controller
                                     ]);
 
         $admin_log = AdminLog::create([
+                                        'log_type'=>3,
+                                        'description'=>'Delete Designation',
                                         'designation_id'=>$old_designation->designation_id,
                                         'designation'=>$old_designation->designation,
                                         'designation_dept_id'=>$old_designation->dept_id,
                                         'designation_status'=>$old_designation->status,
-                                        'log_type'=>3,
                                         'entry_user_id'=>$user_id,
                                         'entry_datetime'=>now()
                                     ]);

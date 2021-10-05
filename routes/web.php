@@ -39,6 +39,7 @@ use App\Http\Controllers\Backend\AjaxController;
 |
 */
 
+
 /* Frontend Routes */
 Route::get('/', [IndexController::class, 'index'])->name('index');
 
@@ -59,8 +60,9 @@ Route::group(['prefix' => '/', 'as' => 'frontend.'], function() {
     Route::post('/employee', [EmployeeAuthController::class, 'employeeLogin'])->name('employee.login');
 }); 
 
+
 /* Backend Visitor Routes */
-Route::group(['middleware' => ['UserMiddleware'],'prefix' => '/visitor', 'as' => 'visitor.'], function() {
+Route::group(['middleware' => ['UserMiddleware'], 'prefix' => '/visitor', 'as' => 'visitor.'], function() {
     // Dashboard page for visitor
     Route::get('/', [VisitorController::class, 'dashboard'])->name('index');
 
@@ -114,7 +116,6 @@ Route::group(['middleware' => ['UserMiddleware'],'prefix' => '/visitor', 'as' =>
     Route::get('/edit-password', [VisitorController::class, 'editPassword'])->name('editPassword');
     Route::post('/update-password', [VisitorController::class, 'updatePassword'])->name('updatePassword');
 }); 
-
 
 
 /* Backend Employee Routes */
@@ -223,7 +224,6 @@ Route::group(['middleware' => ['ReceptionMiddleware'], 'prefix' => '/reception',
 });
 
 
-
 /* Backend Admin Panel Routes */
 Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
 
@@ -234,16 +234,16 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
         /* Admin Panel Dashboard Route */
         Route::get('/dashboard', [AdminIndexController::class, 'index'])->name('index');
 
-        /* Admin Panel Employee Routes */
-        Route::get('/employees', [EmployeeManageController::class, 'index'])->name('employee.index');
-        Route::get('/employees/create', [EmployeeManageController::class, 'create'])->name('employee.create');
-        Route::get('/employees/store', [EmployeeManageController::class, 'store'])->name('employee.store');
-        Route::get('/pending-employees', [EmployeeManageController::class, 'pending'])->name('pending.employees');
-        Route::get('/approved-employees', [EmployeeManageController::class, 'approved'])->name('approved.employees');
-        Route::get('/declined-employees', [EmployeeManageController::class, 'declined'])->name('declined.employees');
+        /* Admin Panel Host Routes */
+        Route::get('/host', [EmployeeManageController::class, 'index'])->name('employee.index');
+        Route::get('/host/create', [EmployeeManageController::class, 'create'])->name('employee.create');
+        Route::post('/host/store', [EmployeeManageController::class, 'store'])->name('employee.store');
+        Route::get('/pending-host', [EmployeeManageController::class, 'pending'])->name('pending.employees');
+        Route::get('/approved-host', [EmployeeManageController::class, 'approved'])->name('approved.employees');
+        Route::get('/declined-host', [EmployeeManageController::class, 'declined'])->name('declined.employees');
 
-        Route::get('/approve-employee/{user_id}', [EmployeeManageController::class, 'approve'])->name('approve.employee');
-        Route::get('/decline-employee/{user_id}', [EmployeeManageController::class, 'decline'])->name('decline.employee');
+        Route::get('/approve-host/{user_id}', [EmployeeManageController::class, 'approve'])->name('approve.employee');
+        Route::get('/decline-host/{user_id}', [EmployeeManageController::class, 'decline'])->name('decline.employee');
 
         /* Admin Panel Visitor Type Routes */
         Route::get('/visitorType/index', [VisitorTypeController::class, 'index'])->name('visitorType.index');

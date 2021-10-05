@@ -8,8 +8,8 @@
                     <nav class="breadcrumb-one" aria-label="breadcrumb">
                         <ol class="breadcrumb" style="background: none; padding: 0;">
                             <li class="breadcrumb-item"><a href="{{ route('admin.index') }}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('admin.employee.index') }}">Manage Employee</a></li>
-                            <li class="breadcrumb-item active" aria-current="page"><span>Pending Employees</span></li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.employee.index') }}">Manage Hosts</a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><span>Pending Hosts</span></li>
                         </ol>
                     </nav>
 
@@ -18,7 +18,7 @@
                             <div class="widget widget-card-four" style="padding-left: 0"> 
                                 <div class="w-header">
                                     <div class="w-info">
-                                        <h6 class="value">Pending Employees</h6>
+                                        <h6 class="value">Pending Hosts</h6>
                                     </div>
                                 </div>
                             </div>
@@ -30,9 +30,8 @@
                                         <tr>
                                             <th class="text-center">EID </th>
                                             <th class="text-center">Profile Photo </th>
-                                            <th class="text-center">Employee Name </th>
-                                            <th class="text-center">Employee Type</th>
-                                            {{-- <!-- <th class="text-center">Gender</th> --> --}}
+                                            <th class="text-center">Host Name </th>
+                                            <th class="text-center">Gender</th>
                                             <th class="text-center">Dept. & Designation</th>
                                             <th class="text-center">Mobile Number</th>
                                             <th class="text-center">Email</th>
@@ -48,19 +47,12 @@
                                                 <td class="text-center"> <img src="{{asset('backend/img/employees/' . $employee->photo)}}" alt="" style="max-height: 40px;"> </td>
                                                 <td class="text-center"> {{$employee->first_name}} {{$employee->last_name}}</td>
                                                 <td class="text-center"> 
-                                                    @if($employee->user_type_id == 2)
-                                                        {{ 'Employee' }}
-                                                    @elseif($employee->user_type_id == 3)
-                                                        {{ 'Receptionist' }}
-                                                    @endif
-                                                </td>
-                                                {{-- <!-- <td class="text-center"> 
                                                     @if($employee->gender == 1)
                                                         {{ 'Male' }}
                                                     @elseif($employee->gender == 2)
                                                         {{ 'Female' }}
                                                     @endif
-                                                </td> --> --}}
+                                                </td>
                                                 <td class="text-center"> {{$employee->designation}} <br> Dept: {{$employee->department_name}} </td>
                                                 <td class="text-center"> {{$employee->mobile_no}} </td>
                                                 <td class="text-center"> {{$employee->email}} </td>

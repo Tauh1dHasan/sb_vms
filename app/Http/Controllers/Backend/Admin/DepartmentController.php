@@ -57,10 +57,11 @@ class DepartmentController extends Controller
         $department_id = Department::orderBy('dept_id', 'desc')->first();
 
         $admin_log = AdminLog::create([
+                                    'log_type'=>1,
+                                    'description'=>'Create Department',
                                     'dept_id'=>$department_id->dept_id,
                                     'department_name'=>$request->department_name,
                                     'department_status'=>$request->status,
-                                    'log_type'=>1,
                                     'entry_user_id'=>$user_id,
                                     'entry_datetime'=>now()
                                 ]);
@@ -118,10 +119,11 @@ class DepartmentController extends Controller
                                         ]);
 
         $admin_log = AdminLog::create([
+                                        'log_type'=>2,
+                                        'description'=>'Update Department',
                                         'dept_id'=>$old_department->dept_id,
                                         'department_name'=>$old_department->department_name,
                                         'department_status'=>$old_department->status,
-                                        'log_type'=>2,
                                         'entry_user_id'=>$user_id,
                                         'entry_datetime'=>now()
                                     ]);
@@ -150,10 +152,11 @@ class DepartmentController extends Controller
                                     ]);
         
         $admin_log = AdminLog::create([
+                                        'log_type'=>3,
+                                        'description'=>'Delete Department',
                                         'dept_id'=>$old_department->dept_id,
                                         'department_name'=>$old_department->department_name,
                                         'department_status'=>$old_department->status,
-                                        'log_type'=>3,
                                         'entry_user_id'=>$user_id,
                                         'entry_datetime'=>now()
                                     ]);

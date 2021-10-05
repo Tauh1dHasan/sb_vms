@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Str;
 
 /* included mails */
 use App\Mail\EmployeeApprovedMail;
@@ -49,6 +51,8 @@ class EmployeeManageController extends Controller
     {
         $employees = Employee::join('departments', 'departments.dept_id', '=', 'employees.dept_id')
                             ->join('designations', 'designations.designation_id', '=', 'employees.designation_id')
+                            ->where('employees.user_type_id', 2)
+                            ->orderBy('employees.employee_id', 'asc')
                             ->get(['employees.*', 'departments.department_name as department_name', 'designations.designation as designation']);
 
         return view('backend.pages.admin.employee.index', compact('employees'));
@@ -59,20 +63,90 @@ class EmployeeManageController extends Controller
      */
     public function create()
     {
-        $user_types = UserType::where([
-                                    ['user_type_status' , '=', '1'],
-                                    ['user_type_id' , '=', '2'],
-                                ])
-                                ->orWhere([
-                                    ['user_type_status' , '=', '1'],
-                                    ['user_type_id' , '=', '3'],
-                                ])
-                                ->get();
-
         $departments = Department::orderBy('dept_id' , 'asc')->get();
         $designations = Designation::orderBy('designation_id' , 'asc')->get();
 
-        return view('backend.pages.admin.employee.create', compact('user_types', 'departments', 'designations'));
+        return view('backend.pages.admin.employee.create', compact('departments', 'designations'));
+    }
+
+    /**
+     * Store employee data.
+     */
+    public function store(Request $request)
+    {
+        $this->validation($request);
+
+        $session_user = session('loggedUser');
+
+        $password = $request->password;
+
+        $user = User::create([
+                                'mobile_no'=>$request->mobile_no,
+                                'email'=>$request->email,
+                                'password'=>bcrypt($password),
+                                'user_type_id'=>$request->user_type_id,
+                                'is_approved'=>1,
+                                'entry_datetime'=>now()
+                            ]);
+
+        $user_id = User::orderBy('user_id', 'desc')->first();
+        
+        if ($request->hasFile('photo')) {
+            $image = $request->file('photo');
+            $imgName = 'employee'.time().'.'.$image->getClientOriginalExtension();
+            $location = public_path('backend/img/employees/'.$imgName);
+            Image::make($image)->save($location);
+        } else {
+            $imgName = NULL;
+        }
+
+        $employee = Employee::create([
+                                        'user_id'=>$user_id->user_id,
+                                        'user_type_id'=>$request->user_type_id,
+                                        'first_name'=>$request->first_name,
+                                        'last_name'=>$request->last_name,
+                                        'slug'=>Str::slug($request->first_name.$request->last_name),
+                                        'eid_no'=>$request->eid_no,
+                                        'dept_id'=>$request->dept_id,
+                                        'designation_id'=>$request->designation_id,
+                                        'gender'=>$request->gender,
+                                        'dob'=>$request->dob,
+                                        'mobile_no'=>$request->mobile_no,
+                                        'email'=>$request->email,
+                                        'start_hour'=>$request->start_hour,
+                                        'end_hour'=>$request->end_hour,
+                                        'building_no'=>$request->building_no,
+                                        'gate_no'=>$request->gate_no,
+                                        'elevator_no'=>$request->elevator_no,
+                                        'floor_no'=>$request->floor_no,
+                                        'room_no'=>$request->room_no,
+                                        'address'=>$request->address,
+                                        'nid_no'=>$request->nid_no,
+                                        'passport_no'=>$request->passport_no,
+                                        'driving_license_no'=>$request->driving_license_no,
+                                        'photo'=>$imgName,
+                                        'entry_user_id'=>$session_user,
+                                        'entry_datetime'=>now(),
+                                        'status'=>1
+                                    ]);
+
+        if($request->email != NULL){
+            $data = [
+                'mobile_no'=>$user->mobile_no,
+                'email'=>$user->email,
+                'first_name'=>$employee->first_name,
+                'last_name'=>$employee->last_name,
+                'password' => $password
+            ];
+
+            Mail::send('backend.mails.employee-approved', ["data1"=>$data] , function($message) use($user){
+                $message->to($user->email, 'VMS Host Account')
+                        ->subject('Test Purpose');
+            });
+        }
+
+        Session()->flash('success' , 'Host Created Successfully!!!');
+        return redirect()->route('admin.employee.index');
     }
 
 
@@ -84,8 +158,9 @@ class EmployeeManageController extends Controller
         $employees = Employee::join('departments', 'employees.dept_id', '=', 'departments.dept_id')
                     ->join('designations', 'employees.designation_id', '=', 'designations.designation_id')
                     ->select('employees.*', 'departments.department_name as department_name', 'designations.designation as designation')
+                    ->where('employees.user_type_id', 2)
                     ->where('employees.status', '=', 0)
-                    ->orderBy('employee_id' , 'desc')
+                    ->orderBy('employee_id' , 'asc')
                     ->get();
 
         return view('backend.pages.admin.employee.pendingEmployee', compact('employees'));
@@ -99,8 +174,9 @@ class EmployeeManageController extends Controller
         $employees = Employee::join('departments', 'employees.dept_id', '=', 'departments.dept_id')
                     ->join('designations', 'employees.designation_id', '=', 'designations.designation_id')
                     ->select('employees.*', 'departments.department_name as department_name', 'designations.designation as designation')
+                    ->where('employees.user_type_id', 2)
                     ->where('employees.status', '=', 1)
-                    ->orderBy('employee_id' , 'desc')
+                    ->orderBy('employee_id' , 'asc')
                     ->get();
 
         return view('backend.pages.admin.employee.approvedEmployee', compact('employees'));
@@ -114,8 +190,9 @@ class EmployeeManageController extends Controller
         $employees = Employee::join('departments', 'employees.dept_id', '=', 'departments.dept_id')
                     ->join('designations', 'employees.designation_id', '=', 'designations.designation_id')
                     ->select('employees.*', 'departments.department_name as department_name', 'designations.designation as designation')
+                    ->where('employees.user_type_id', 2)
                     ->where('employees.status', '=', 2)
-                    ->orderBy('employee_id' , 'desc')
+                    ->orderBy('employee_id' , 'asc')
                     ->get();
 
         return view('backend.pages.admin.employee.declinedEmployee', compact('employees'));
@@ -139,7 +216,7 @@ class EmployeeManageController extends Controller
             mail::to($employees->email)->send(new EmployeeApprovedMail($employees));
         }
 
-        Session()->flash('success', 'Employee Account Approved Succesfully.');
+        Session()->flash('success', 'Host Account Approved Succesfully.');
         return redirect()->back();
     }
 
@@ -161,7 +238,7 @@ class EmployeeManageController extends Controller
             mail::to($employees->email)->send(new EmployeeDeclinedMail($employees));
         }
 
-        Session()->flash('success', 'Employee Account Declined Succesfully.');
+        Session()->flash('success', 'Host Account Declined Succesfully.');
         return redirect()->back();
     }
 }
