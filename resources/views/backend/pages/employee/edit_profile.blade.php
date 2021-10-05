@@ -27,6 +27,7 @@
                                             <div class="widget-content widget-content-area">
                                                 <form action="{{ route('employee.updateProfile') }}" method="POST" enctype="multipart/form-data">
                                                     @csrf
+                                                    <input type="hidden" name="user_type_id" id="user_type_id" value="{{ $employee->user_type_id }}">
                                                     
                                                     <div class="form-group mb-4">
                                                         <label for="new_photo">Update Profile Picture</label>
@@ -46,8 +47,43 @@
                                                     <div class="form-group mb-4">
                                                         <label for="availability">Availability</label>
                                                         <select name="availability" class="form-control" id="availability" required>
-                                                            <option value="1">Available</option>
-                                                            <option value="0">Not Available</option>
+                                                            @if ($employee->availability == 1)
+                                                                <option value="1">Available</option>
+                                                                <option value="0">Not Available</option> 
+                                                            @elseif ($employee->availability == 0)
+                                                                <option value="0">Not Available</option>
+                                                                <option value="1">Available</option>
+                                                            @endif
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-group mb-4">
+                                                        <label for="dept_id">Department</label>
+                                                        <select name="dept_id" class="form-control" id="dept_id" required>
+                                                            @foreach ($departments as $department)
+                                                                <option value="{{ $department->dept_id }}" @if($department->dept_id == $employee->dept_id ? 'selected' : '') @endif>{{ $department->department_name }}</option>    
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-group mb-4">
+                                                        <label for="dept_id">Designation</label>
+                                                        <select class="form-control" name="designation_id" id="designation_id" required="">
+                                                            <option value="{{ $employee->designation_id }}">{{ $employee->designation }}</option> 
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-group mb-4">
+                                                        <label for="dob">Date of Birth</label>
+                                                        <input name="dob" type="date" class="form-control" id="dob" value="{{ $employee->dob }}">
+                                                    </div>
+
+                                                    <div class="form-group mb-4">
+                                                        <label for="gender">Gender</label>
+                                                        <select name="gender" class="form-control" id="gender">
+                                                            <option value="{{ $gender_id }}">{{ $gender }}</option>
+                                                            <option value="1">Male</option>
+                                                            <option value="2">Female</option>
                                                         </select>
                                                     </div>
 
