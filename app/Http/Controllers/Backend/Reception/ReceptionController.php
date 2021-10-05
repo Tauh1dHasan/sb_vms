@@ -337,7 +337,7 @@ class ReceptionController extends Controller
             mail::to($visitor->email)->send(new RegisterMail($visitor));
         }
 
-        // Visitor into visitor_logs table
+        // Visitor data into visitor_logs table
 
         Session()->flash('success' , 'Registration Successfull! Please check your email for verification.');
         return redirect()->route('reception.index');
