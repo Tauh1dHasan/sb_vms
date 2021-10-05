@@ -165,6 +165,7 @@ class ReceptionController extends Controller
         $receptionlog->room_no = $req->room_no;
         $receptionlog->entry_user_id = $user_id;
         $receptionlog->entry_datetime = date('Y-m-d H:i:s');
+        $receptionlog->description = "Reception profile update request";
         $receptionlog->log_type = 2;
         $receptionlog->status = 1;
 
@@ -180,9 +181,10 @@ class ReceptionController extends Controller
 
         $done = $receptionlog->save();
 
-        if($done){
+        if ($done) 
+        {
             return redirect(route('reception.index'))->with('success', 'Profile update request send to admin...');
-        }else{
+        } else {
             return redirect(route('reception.index'))->with('fail', 'Something went wrong, Please try agrain.');
         }
 
@@ -292,20 +294,18 @@ class ReceptionController extends Controller
     {
         $this->validation($request);
 
+        // Login credentials into users table 
         $user = new User;
-
         $user->mobile_no = $request->mobile_no;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
         $user->user_type_id = '4';
         $user->entry_datetime = now();
-
         $user->save();
 
+        // Visitor information into visitors table
         $user_id = User::orderBy('user_id', 'desc')->first();
-
         $visitor = new Visitor;
-
         $visitor->user_id = $user_id->user_id;
         $visitor->visitor_type = $request->visitor_type;
         $visitor->first_name = $request->first_name;
@@ -323,23 +323,21 @@ class ReceptionController extends Controller
         $visitor->entry_user_id = session('loggedUser');
         $visitor->slug = strtolower($request->first_name.'-'.$request->last_name);
         $visitor->entry_datetime = now();
-
-        $visitor->profile_photo = $request->profile_photo;
-        
         if ($request->hasFile('profile_photo')) {
             $image = $request->file('profile_photo');
             $imgName = 'visitor'.time().'.'.$image->getClientOriginalExtension();
             $location = public_path('backend/img/visitors/'.$imgName);
             Image::make($image)->save($location);
-
             $visitor->profile_photo = $imgName;
         }
-
         $visitor->save();
 
+        // Activation mail to visitor email
         if($visitor->email != NULL){
             mail::to($visitor->email)->send(new RegisterMail($visitor));
         }
+
+        // Visitor into visitor_logs table
 
         Session()->flash('success' , 'Registration Successfull! Please check your email for verification.');
         return redirect()->route('reception.index');
