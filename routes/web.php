@@ -151,7 +151,7 @@ Route::group(['middleware' => ['EmployeeMiddleware'], 'prefix' => '/employee', '
     Route::get('/profile', [EmployeeController::class, 'profile'])->name('profile');
 
     // Employee edit profile route
-    Route::get('/edit-profile/{user_id}', [EmployeeController::class, 'edit']);
+    Route::get('/edit-profile/{user_id}', [EmployeeController::class, 'edit'])->name('editProfile');
 
     // Updade host profile
     Route::post('/update-profile', [EmployeeController::class, 'updateProfile'])->name('updateProfile');
@@ -180,7 +180,7 @@ Route::group(['middleware' => ['ReceptionMiddleware'], 'prefix' => '/reception',
     Route::get('/profile', [ReceptionController::class, 'profile'])->name('profile');
 
     // Display edit profile form
-    Route::get('/edit-profile/{user_id}', [ReceptionController::class, 'edit']);
+    Route::get('/edit-profile/{user_id}', [ReceptionController::class, 'edit'])->name('editProfile');
 
     // Update reception profile
     Route::post('update-profile', [ReceptionController::class, 'updateProfile'])->name('updateProfile');
@@ -213,7 +213,7 @@ Route::group(['middleware' => ['ReceptionMiddleware'], 'prefix' => '/reception',
     Route::get('/appoint-visitor', [ReceptionController::class, 'appointVisitor'])->name('appointVisitor');
 
     // Display make an appointment form
-    Route::get('/make-an-appointment/{visitor_id}', [ReceptionController::class, 'makeAnAppointment']);
+    Route::get('/make-an-appointment/{visitor_id}', [ReceptionController::class, 'makeAnAppointment'])->name('makeAnAppointment');
 
     // search employees
     Route::get('/search-employees', [ReceptionController::class, 'searchEmployees'])->name('search-employees');
@@ -222,7 +222,7 @@ Route::group(['middleware' => ['ReceptionMiddleware'], 'prefix' => '/reception',
     Route::post('/place-an-appointment', [ReceptionController::class, 'placeAnAppointment'])->name('placeAnAppointment');
 
     // Display visitor profile
-    Route::get('/visitor-profile/{visitor_id}', [ReceptionController::class, 'visitorProfile']);
+    Route::get('/visitor-profile/{visitor_id}', [ReceptionController::class, 'visitorProfile'])->name('visitorProfile');
     
 });
 

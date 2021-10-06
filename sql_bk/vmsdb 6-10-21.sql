@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 06, 2021 at 11:51 AM
+-- Generation Time: Oct 06, 2021 at 12:04 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 8.0.9
 
@@ -20,6 +20,52 @@ SET time_zone = "+00:00";
 --
 -- Database: `vmsdb`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin_logs`
+--
+
+CREATE TABLE `admin_logs` (
+  `log_id` int(11) NOT NULL,
+  `log_type` tinyint(4) NOT NULL COMMENT '0=pending, 1=add, 2=update, 3=delete, 4=approved, 5=declined, 6=rescheduled',
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `visitor_type_id` int(11) DEFAULT NULL,
+  `visitor_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `visitor_type_status` tinyint(1) DEFAULT NULL COMMENT '0=inactive, 1=active, 2=removed',
+  `dept_id` int(11) DEFAULT NULL,
+  `department_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `department_status` tinyint(11) DEFAULT NULL COMMENT '1=active, 0=inactive, 2=removed',
+  `designation_id` int(11) DEFAULT NULL,
+  `designation` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `designation_dept_id` int(11) DEFAULT NULL,
+  `designation_status` tinyint(4) DEFAULT NULL,
+  `entry_user_id` int(11) DEFAULT NULL,
+  `entry_datetime` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '0=removed, 1=displayed'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `admin_logs`
+--
+
+INSERT INTO `admin_logs` (`log_id`, `log_type`, `description`, `visitor_type_id`, `visitor_type`, `visitor_type_status`, `dept_id`, `department_name`, `department_status`, `designation_id`, `designation`, `designation_dept_id`, `designation_status`, `entry_user_id`, `entry_datetime`, `status`) VALUES
+(1, 0, '', 2, 'Official Employee', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2021-09-30 06:45:21', 1),
+(2, 0, '', 2, 'Official Employees', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2021-09-30 07:02:38', 1),
+(3, 0, '', NULL, NULL, NULL, 3, 'IT', 1, NULL, NULL, NULL, NULL, 1, '2021-09-30 11:26:40', 1),
+(4, 0, '', NULL, NULL, NULL, 3, 'IT Department', 0, NULL, NULL, NULL, NULL, 1, '2021-09-30 11:27:36', 1),
+(5, 0, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(6, 0, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(7, 0, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(8, 0, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(9, 0, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(10, 0, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(11, 0, '', NULL, NULL, NULL, NULL, NULL, NULL, 9, 'Executive', 3, 1, NULL, NULL, 1),
+(12, 0, '', NULL, NULL, NULL, NULL, NULL, NULL, 9, 'Executive', 2, 1, 1, '2021-10-03 11:56:50', 1),
+(13, 0, '', NULL, NULL, NULL, NULL, NULL, NULL, 9, 'Executives', 3, 1, 1, '2021-10-03 11:57:11', 1),
+(14, 0, '', NULL, NULL, NULL, NULL, NULL, NULL, 9, 'Executive', 2, 1, 1, '2021-10-03 11:58:26', 1),
+(15, 0, '', NULL, NULL, NULL, NULL, NULL, NULL, 20, 'Senior Analyst', 4, 1, 1, '2021-10-04 09:16:48', 1);
 
 -- --------------------------------------------------------
 
@@ -676,6 +722,12 @@ INSERT INTO `visitor_types` (`visitor_type_id`, `visitor_type`, `visitor_type_st
 --
 
 --
+-- Indexes for table `admin_logs`
+--
+ALTER TABLE `admin_logs`
+  ADD PRIMARY KEY (`log_id`);
+
+--
 -- Indexes for table `custom_messages`
 --
 ALTER TABLE `custom_messages`
@@ -816,6 +868,12 @@ ALTER TABLE `visitor_types`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `admin_logs`
+--
+ALTER TABLE `admin_logs`
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `custom_messages`

@@ -49,6 +49,23 @@
                                                     </div>
 
                                                     <div class="form-group mb-4">
+                                                        <label for="gender">Gender</label>
+                                                        <select name="gender" class="form-control" id="gender" required>
+                                                            @if ($visitor->gender == 1)
+                                                                <option value="1">Male</option>
+                                                                <option value="2">Female</option>
+                                                            @elseif ($visitor->gender == 2)
+                                                                <option value="2">Female</option>
+                                                                <option value="1">Male</option>
+                                                            @else
+                                                                <option value="">Select</option>
+                                                                <option value="1">Male</option>
+                                                                <option value="2">Female</option>
+                                                            @endif
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-group mb-4">
                                                         <label for="visitor_type">Visitor Type</label>
                                                         <select name="visitor_type" class="form-control" id="visitor_type" required>
                                                             <option value="{{ $visitor->visitor_type_id }}">{{ $visitor->visitor_type }}</option>
