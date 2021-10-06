@@ -7,12 +7,11 @@
     <title>VMS</title>
 </head>
 <body>
+
     <div class="register-mail text-center"> 
-        <h1>Greetings!!! {{ $data1['first_name'] }} {{ $data1['last_name'] }}</h1>
-        <p>Your account is approved by VMS Admin. </p>
-        <p>Login using your mobile number: {{ $data1['mobile_no'] }} or email: {{ $data1['email'] }}</p>
-        <p>And Password: {{ $data1['password'] }}</p>
-        <p><a href="{{route('index')}}" class="btn btn-success">Login</a> to your dashboard</p>
+        <h1>Greetings {{ $user->first_name}} {{ $user->last_name }}</h1>
+        <p>Congratulations! Your account is approved by VMS Admin.</p>
+        <p><a href="{{ route('index') }}" class="btn btn-success">Login</a> to your dashboard</p>
     </div>
 </body>
 </html>

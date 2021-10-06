@@ -7,12 +7,10 @@
     <title>VMS</title>
 </head>
 <body>
-    <!-- <h1>Welcome {{ $user->first_name}} {{ $user->last_name }}</h1>
-    <p>Your mail: {{ $user->email}}</p> -->
-
     <div class="register-mail text-center"> 
-        <h1>Hello <br> {{ $user->first_name}} {{ $user->last_name }}</h1>
-        <p>Your account is declined by VMS Admin.</p>
+        <h1>Greetings!!! {{ $user->first_name}} {{ $user->last_name }}</h1>
+        <p>Your account is declined by VMS Admin. </p>
+        <p><a href="{{route('frontend.employee.create')}}" class="btn btn-success">Register</a> again.</p>
     </div>
 </body>
 </html>

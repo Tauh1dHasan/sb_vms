@@ -38,7 +38,7 @@
                                             <th class="text-center">Email</th>
                                             <th class="text-center">Work Hour</th>
                                             <th class="text-center">Status</th>
-                                            {{-- <th class="text-center">Action</th> --}}
+                                            <th class="text-center">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -66,10 +66,9 @@
                                                 <td class="text-center"> 
                                                     <span class="shadow-none badge badge-success">Approved</span>
                                                 </td>
-                                                {{-- <!-- <td class="text-center">
-                                                    <a href="{{route('admin.approve.employee', $employee->user_id)}}" class="btn btn-success btn-sm d-block">Approve</a>
+                                                <td class="text-center">
                                                     <a href="{{route('admin.decline.employee', $employee->user_id)}}" class="btn btn-danger btn-sm mt-2 d-block">Decline</a>
-                                                </td> --> --}}
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>

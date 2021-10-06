@@ -8,8 +8,8 @@
                     <nav class="breadcrumb-one" aria-label="breadcrumb">
                         <ol class="breadcrumb" style="background: none; padding: 0;">
                             <li class="breadcrumb-item"><a href="{{ route('admin.index') }}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('admin.employee.index') }}">Manage Hosts</a></li>
-                            <li class="breadcrumb-item active" aria-current="page"><span>Declined Hosts</span></li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.employee.index') }}">Manage Receptionists</a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><span>Pending Receptionists</span></li>
                         </ol>
                     </nav>
 
@@ -18,7 +18,7 @@
                             <div class="widget widget-card-four" style="padding-left: 0"> 
                                 <div class="w-header">
                                     <div class="w-info">
-                                        <h6 class="value">Declined Hosts</h6>
+                                        <h6 class="value">Pending Receptionists</h6>
                                     </div>
                                 </div>
                             </div>
@@ -30,7 +30,7 @@
                                         <tr>
                                             <th class="text-center">EID </th>
                                             <th class="text-center">Profile Photo </th>
-                                            <th class="text-center">Host Name </th>
+                                            <th class="text-center">Receptionist Name </th>
                                             <th class="text-center">Gender</th>
                                             <th class="text-center">Dept. & Designation</th>
                                             <th class="text-center">Mobile Number</th>
@@ -44,11 +44,7 @@
                                         @foreach($employees as $employee)
                                             <tr>
                                                 <td class="text-center"> #{{$employee->eid_no}} </td>
-                                                @if($employee->photo)
-                                                    <td class="text-center"> <img src="{{asset('backend/img/employees/' . $employee->photo)}}" alt="" style="max-height: 40px;"> </td>
-                                                @else
-                                                    <td class="text-center"> <img src="{{asset('backend/img/avatar.png')}}" alt="" style="max-height: 40px;"> </td>
-                                                @endif
+                                                <td class="text-center"> <img src="{{asset('backend/img/employees/' . $employee->photo)}}" alt="" style="max-height: 40px;"> </td>
                                                 <td class="text-center"> {{$employee->first_name}} {{$employee->last_name}}</td>
                                                 <td class="text-center"> 
                                                     @if($employee->gender == 1)
@@ -62,10 +58,11 @@
                                                 <td class="text-center"> {{$employee->email}} </td>
                                                 <td class="text-center"> <?php echo date("h:i a", strtotime($employee->start_hour)); ?> <br> to <br> <?php echo date("h:i a", strtotime($employee->end_hour)); ?></td>
                                                 <td class="text-center"> 
-                                                    <span class="shadow-none badge badge-danger">Declined</span>
+                                                    <span class="shadow-none badge badge-primary">Pending</span>
                                                 </td>
                                                 <td class="text-center">
-                                                    <a href="{{route('admin.approve.employee', $employee->user_id)}}" class="btn btn-success btn-sm d-block">Approve</a>
+                                                    <a href="{{route('admin.approve.receptionist', $employee->user_id)}}" class="btn btn-success btn-sm d-block">Approve</a>
+                                                    <a href="{{route('admin.decline.receptionist', $employee->user_id)}}" class="btn btn-danger btn-sm mt-2 d-block">Decline</a>
                                                 </td>
                                             </tr>
                                         @endforeach

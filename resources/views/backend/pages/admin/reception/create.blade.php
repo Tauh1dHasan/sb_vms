@@ -7,8 +7,8 @@
                 <nav class="breadcrumb-one" aria-label="breadcrumb">
                     <ol class="breadcrumb" style="background: none; padding: 0;">
                         <li class="breadcrumb-item"><a href="{{ route('admin.index') }}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('admin.employee.index') }}">Manage Host</a></li>
-                        <li class="breadcrumb-item active" aria-current="page"><span>Add Host</span></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.receptionist.index') }}">Manage Receptionists</a></li>
+                        <li class="breadcrumb-item active" aria-current="page"><span>Add Receptionist</span></li>
                     </ol>
                 </nav>
 
@@ -18,15 +18,15 @@
                             <div class="widget widget-card-four" style="padding-left: 0"> 
                                 <div class="w-header">
                                     <div class="w-info">
-                                        <h6 class="value">Add Host</h6>
+                                        <h6 class="value">Add Receptionist</h6>
                                     </div>
                                 </div>
                             </div>
                             @include('backend.partials.message')
-                            <form class="" action="{{ route('admin.employee.store') }}" method="post" enctype="multipart/form-data">
+                            <form class="" action="{{ route('admin.receptionist.store') }}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 
-                                <input type="hidden" name="user_type_id" id="user_type_id" value="2">
+                                <input type="hidden" name="user_type_id" id="user_type_id" value="3">
                                 <div class="row"> 
                                     <div class="input-group mb-4 col-md-5" style="padding-left: 0;">
                                         <div class="input-group-prepend">
@@ -46,7 +46,7 @@
                                 <div class="row"> 
                                     <div class="input-group mb-4 col-md-5" style="padding-left: 0;">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text" id="basic-addon5">Employee ID</span>
+                                            <span class="input-group-text" id="basic-addon5">Receptionist ID</span>
                                         </div>
                                         <input type="text" name="eid_no" class="form-control" placeholder="Enter Employee ID" aria-label="Employee ID" value="{{ old('eid_no') }}" required>
                                     </div>
