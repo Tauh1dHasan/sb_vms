@@ -123,6 +123,8 @@ Route::group(['middleware' => ['UserMiddleware'], 'prefix' => '/visitor', 'as' =
 Route::group(['middleware' => ['EmployeeMiddleware'], 'prefix' => '/employee', 'as' => 'employee.'], function() {
     // Dashboard page for visitor
     Route::get('/', [EmployeeController::class, 'dashboard'])->name('index');
+    // Change availability status
+    Route::post('/availability-status', [EmployeeController::class, 'availabilityStatus'])->name('availabilityStatus');
 
     // Show all meeting of this host
     Route::get('/all-meetings', [EmployeeController::class, 'allMeetings'])->name('allMeetings');
@@ -155,10 +157,10 @@ Route::group(['middleware' => ['EmployeeMiddleware'], 'prefix' => '/employee', '
     Route::post('/update-profile', [EmployeeController::class, 'updateProfile'])->name('updateProfile');
 
     // Meeting decline route
-    Route::post('/decline-meeting', [EmployeeController::class, 'declineMeeting'])->name('declineMeeting');
+    Route::get('/decline-meeting/{meeting_id}', [EmployeeController::class, 'declineMeeting'])->name('declineMeeting');
 
     // Meeting approve route
-    Route::post('/approve-meeting', [EmployeeController::class, 'approveMeeting'])->name('approveMeeting');
+    Route::get('/approve-meeting/{meeting_id}', [EmployeeController::class, 'approveMeeting'])->name('approveMeeting');
 
     // Meeting re-schedule route
     Route::post('/reschedule-meeting', [EmployeeController::class, 'rescheduleMeeting'])->name('rescheduleMeeting');

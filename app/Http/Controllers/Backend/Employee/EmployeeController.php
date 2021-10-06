@@ -20,9 +20,11 @@ use App\Models\User;
 use App\Models\Employee;
 use App\Models\Visitor;
 use App\Models\Meeting;
+use App\Models\MeetingLog;
 use App\Models\Department;
 use App\Models\Designation;
 use App\Models\MeetingPurpose;
+use App\Models\HostLog;
 
 class EmployeeController extends Controller
 {
@@ -83,6 +85,27 @@ class EmployeeController extends Controller
         $reject_appointment = $reject->count();
 
         return view('backend.pages.employee.index', compact('total_appointment', 'today_appointment', 'approved_appointment', 'pending_appointment', 'reject_appointment','employee'));
+    }
+
+    // Change availability status
+    public function availabilityStatus(Request $req)
+    {
+        $employee = Employee::where('employee_id', '=', $req->employee_id)
+                            ->first();
+        if ($employee->availability == 0)
+        {
+            $employee->availability = '1';
+            $employee->save();
+            return redirect()->route('employee.index')->with('success', 'Status changed to Available successfully');
+        } elseif ($employee->availability == 1)
+        {
+            $employee->availability = '0';
+            $employee->save();
+            return redirect()->route('employee.index')->with('success', 'Status changed to Unavailable successfully');
+        } else {
+            return redirect()->route('employee.index')->with('fail', 'Something went wrong, We are unable to change your availability status');
+        }
+
     }
 
     /**
@@ -266,12 +289,34 @@ class EmployeeController extends Controller
     /**
      * Meeting decline method.
      */
-    public function declineMeeting(Request $request)
+    public function declineMeeting($meeting_id)
     {
-        $meeting_id = $request->meeting_id;
+        
         $meeting = Meeting::find($meeting_id);
         $meeting->meeting_status = 2;
         $done = $meeting->save();
+
+        // insert data into meeting_logs table
+        $meetingLog = new MeetingLog;
+        $meetingLog->meeting_id = $meeting->meeting_id;
+        $meetingLog->user_id = session('loggedUser');
+        $meetingLog->visitor_id = $meeting->visitor_id;
+        $meetingLog->employee_id = $meeting->employee_id;
+        $meetingLog->meeting_purpose_id = $meeting->meeting_purpose_id;
+        $meetingLog->purpose_describe = $meeting->purpose_describe;
+        $meetingLog->meeting_datetime = $meeting->meeting_datetime;
+        $meetingLog->meeting_start_time = $meeting->meeting_start_time;
+        $meetingLog->meeting_end_time = $meeting->meeting_end_time;
+        $meetingLog->cancel_reason = $meeting->cancel_reason;
+        $meetingLog->meeting_status = '2';
+        $meetingLog->checkin_status = $meeting->checkin_status;
+        $meetingLog->has_vehicle = $meeting->has_vehicle;
+        $meetingLog->entry_user_id = session('loggedUser');
+        $meetingLog->entry_datetime = now();
+        $meetingLog->description = "Appointment declined by host";
+        $meetingLog->log_type = '2';
+        $meetingLog->status = '1';
+        $meetingLog->save();
 
         $mail_data = Meeting::join('visitors', 'visitors.visitor_id', '=', 'meetings.visitor_id')
                             ->join('employees', 'employees.employee_id', '=', 'meetings.employee_id')
@@ -294,12 +339,34 @@ class EmployeeController extends Controller
     /**
      * Meeting approval method.
      */
-    public function approveMeeting(Request $request)
+    public function approveMeeting($meeting_id)
     {
-        $meeting_id = $request->meeting_id;
+        
         $meeting = Meeting::find($meeting_id);
         $meeting->meeting_status = 1;
         $done = $meeting->save();
+
+        // insert data into meeting_logs table
+        $meetingLog = new MeetingLog;
+        $meetingLog->meeting_id = $meeting->meeting_id;
+        $meetingLog->user_id = session('loggedUser');
+        $meetingLog->visitor_id = $meeting->visitor_id;
+        $meetingLog->employee_id = $meeting->employee_id;
+        $meetingLog->meeting_purpose_id = $meeting->meeting_purpose_id;
+        $meetingLog->purpose_describe = $meeting->purpose_describe;
+        $meetingLog->meeting_datetime = $meeting->meeting_datetime;
+        $meetingLog->meeting_start_time = $meeting->meeting_start_time;
+        $meetingLog->meeting_end_time = $meeting->meeting_end_time;
+        $meetingLog->cancel_reason = $meeting->cancel_reason;
+        $meetingLog->meeting_status = '1';
+        $meetingLog->checkin_status = $meeting->checkin_status;
+        $meetingLog->has_vehicle = $meeting->has_vehicle;
+        $meetingLog->entry_user_id = session('loggedUser');
+        $meetingLog->entry_datetime = now();
+        $meetingLog->description = "Appointment approved by host";
+        $meetingLog->log_type = '1';
+        $meetingLog->status = '1';
+        $meetingLog->save();
 
         $mail_data = Meeting::join('visitors', 'visitors.visitor_id', '=', 'meetings.visitor_id')
                             ->join('employees', 'employees.employee_id', '=', 'meetings.employee_id')
@@ -328,6 +395,28 @@ class EmployeeController extends Controller
         $meeting->meeting_datetime = $request->meeting_datetime;
         $meeting->meeting_status = 3;
         $done = $meeting->save();
+
+        // insert data into meeting_logs table
+        $meetingLog = new MeetingLog;
+        $meetingLog->meeting_id = $meeting->meeting_id;
+        $meetingLog->user_id = session('loggedUser');
+        $meetingLog->visitor_id = $meeting->visitor_id;
+        $meetingLog->employee_id = $meeting->employee_id;
+        $meetingLog->meeting_purpose_id = $meeting->meeting_purpose_id;
+        $meetingLog->purpose_describe = $meeting->purpose_describe;
+        $meetingLog->meeting_datetime = $request->meeting_datetime;
+        $meetingLog->meeting_start_time = $meeting->meeting_start_time;
+        $meetingLog->meeting_end_time = $meeting->meeting_end_time;
+        $meetingLog->cancel_reason = $meeting->cancel_reason;
+        $meetingLog->meeting_status = '3';
+        $meetingLog->checkin_status = $meeting->checkin_status;
+        $meetingLog->has_vehicle = $meeting->has_vehicle;
+        $meetingLog->entry_user_id = session('loggedUser');
+        $meetingLog->entry_datetime = now();
+        $meetingLog->description = "Appointment Re-scheduled by host";
+        $meetingLog->log_type = '3';
+        $meetingLog->status = '1';
+        $meetingLog->save();
 
         $mail_data = Meeting::join('visitors', 'visitors.visitor_id', '=', 'meetings.visitor_id')
                             ->join('employees', 'employees.employee_id', '=', 'meetings.employee_id')
@@ -358,17 +447,8 @@ class EmployeeController extends Controller
                     ->where('user_id', $user_id)
                     ->where('employees.status', '=', '1')
                     ->first();
-        $gender = $employee->gender;
 
-        if ($gender == 1){
-            $gender = "Male";
-        } elseif ($gender == 2){
-            $gender = "Female";
-        } else {
-            $gender = "Not given";
-        }
-
-        return view('backend.pages.employee.profile', compact('employee', 'gender'));
+        return view('backend.pages.employee.profile', compact('employee'));
     }
 
     /**
@@ -382,19 +462,6 @@ class EmployeeController extends Controller
                             ->where('employees.status', '=', '1')
                             ->first();
 
-        $gender = $employee->gender;
-
-        if($gender == '1'){
-            $gender_id = '1';
-            $gender = "Male";
-        }elseif($gender == '2'){
-            $gender_id = '2';
-            $gender = "Female";
-        }else{
-            $gender_id = '3';
-            $gender = "Select";
-        }
-
         $departments = Department::where('status', '=', 1)
                                 ->orderBy('dept_id', 'asc')
                                 ->get();
@@ -402,7 +469,7 @@ class EmployeeController extends Controller
                                     ->orderBy('designation_id', 'asc')
                                     ->get();
 
-        return view('backend.pages.employee.edit_profile', compact('employee', 'departments', 'designations', 'gender', 'gender_id'));
+        return view('backend.pages.employee.edit_profile', compact('employee', 'departments', 'designations'));
     }
 
     /**
@@ -410,77 +477,63 @@ class EmployeeController extends Controller
      */
     public function updateProfile(Request $req)
     {   
-        // loged user_id
+        // get employee old data
         $user_id = session('loggedUser');
-
-        // Update employee's old data info status
-        $employee_old_data_query = Employee::where('user_id', '=', $user_id)->where('status', '=', '1')->first();
-        $employee_old_data_query->status = '3';
-        $employee_old_data_query->save();
-        // get required old data
-        $employee_type = $employee_old_data_query->user_type_id;
-        $employee_slug = $employee_old_data_query->slug;
-        $employee_gender = $employee_old_data_query->gender;
-        $employee_dob = $employee_old_data_query->dob;
-        $employee_dept_id = $employee_old_data_query->dept_id;
-        $employee_designation_id = $employee_old_data_query->designation_id;
+        $employee_old_data_query = Employee::where('user_id', '=', $user_id)->first();
+        $employee_id = $employee_old_data_query->employee_id;
+        $user_type_id = $employee_old_data_query->user_type_id;
         $employee_old_photo = $employee_old_data_query->photo;
 
-        $employee = new Employee;
-        $employee->user_id = $user_id;
-        $employee->user_type_id = $employee_type;
-        $employee->first_name = $req->fname;
-        $employee->last_name = $req->lname;
-        $employee->slug = $employee_slug;
-        $employee->gender = $employee_gender;
-        $employee->dob = $employee_dob;
-        $employee->eid_no = $req->eid;
-        $employee->dept_id = $employee_dept_id;
-        $employee->designation_id = $employee_designation_id;
-        $employee->mobile_no = $req->mobile_no;
-        $employee->email = $req->email;
-        $employee->address = $req->address;
-        $employee->nid_no = $req->nid_no;
-        $employee->passport_no = $req->passport_no;
-        $employee->driving_license_no = $req->driving_license_no;
-        $employee->start_hour = $req->start_hour;
-        $employee->end_hour = $req->end_hour;
-        $employee->building_no = $req->building_no;
-        $employee->gate_no = $req->gate_no;
-        $employee->floor_no = $req->floor_no;
-        $employee->elevator_no = $req->elevator_no;
-        $employee->room_no = $req->room_no;
-        $employee->entry_user_id = $user_id;
-        $employee->entry_datetime = date('Y-m-d H:i:s');
-        $employee->modified_user_id = $user_id;
-        $employee->modified_datetime = date('Y-m-d H:i:s');
-        $employee->availability = $req->availability;
-        $employee->status = '1';
+        // insert new/updated data into host_logs table
+        $hostLog = new HostLog;
+        $hostLog->employee_id = $employee_id;
+        $hostLog->user_id = $user_id;
+        $hostLog->user_type_id = $user_type_id;
+        $hostLog->first_name = $req->first_name;
+        $hostLog->last_name = $req->last_name;
+        $hostLog->gender = $req->gender;
+        $hostLog->dob = $req->dob;
+        $hostLog->eid_no = $req->eid_no;
+        $hostLog->dept_id = $req->dept_id;
+        $hostLog->designation_id = $req->designation_id;
+        $hostLog->mobile_no = $req->mobile_no;
+        $hostLog->email = $req->email;
+        $hostLog->address = $req->address;
+        $hostLog->nid_no = $req->nid_no;
+        $hostLog->passport_no = $req->passport_no;
+        $hostLog->driving_license_no = $req->driving_license_no;
+        $hostLog->start_hour = $req->start_hour;
+        $hostLog->end_hour = $req->end_hour;
+        $hostLog->building_no = $req->building_no;
+        $hostLog->gate_no = $req->gate_no;
+        $hostLog->floor_no = $req->floor_no;
+        $hostLog->elevator_no = $req->elevator_no;
+        $hostLog->room_no = $req->room_no;
+        $hostLog->entry_user_id = $user_id;
+        $hostLog->entry_datetime = now();
+        $hostLog->description = "Host profile update request";
+        $hostLog->log_type = 2;
+        $hostLog->status = 1;
 
         if ($req->hasFile('new_photo')) {
             $new_photo = $req->file('new_photo');
             $imgName = 'employee'.time().'.'.$new_photo->getClientOriginalExtension();
             $location = public_path('backend/img/employees/'.$imgName);
             Image::make($new_photo)->save($location);
-            $employee->photo = $imgName;
-            File::delete(public_path() . '/backend/img/employees/'. $employee_old_photo);
+            $hostLog->photo = $imgName;
         } else {
-            $employee->photo = $employee_old_photo;
+            $hostLog->photo = $employee_old_photo;
         }
 
-        $employee_table = $employee->save();
+        $done = $hostLog->save();
 
-        $user = User::find($user_id);
-        $user->mobile_no = $req->mobile_no;
-        $user->email = $req->email;
-        $user_table = $user->save();
-
-        if ($employee_table && $user_table)
+        if ($done) 
         {
-            return redirect(route('employee.index'))->with('success', 'Profile successfully updated.');
+            return redirect(route('employee.index'))->with('success', 'Profile update request send to admin...');
         } else {
             return redirect(route('employee.index'))->with('fail', 'Something went wrong, Please try agrain.');
         }
+
     }
 
     // Show employee password update form page

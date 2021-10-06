@@ -88,17 +88,7 @@ class ReceptionController extends Controller
                     ->where('employees.status', '=', '1')
                     ->first();
 
-        $gender = $employee->gender;
-
-        if ($gender == 1) {
-            $gender = "Male";
-        } elseif ($gender == 2) {
-            $gender = "Female";
-        } else {
-            $gender = "Not given";
-        }
-
-        return view('backend.pages.reception.profile', compact('employee', 'gender'));
+        return view('backend.pages.reception.profile', compact('employee'));
     }
 
     // Display reception edit profile form
@@ -110,19 +100,6 @@ class ReceptionController extends Controller
                             ->where('employees.status', '=', '1')
                             ->first();
 
-        $gender = $employee->gender;
-
-        if($gender == '1'){
-            $gender_id = '1';
-            $gender = "Male";
-        }elseif($gender == '2'){
-            $gender_id = '2';
-            $gender = "Female";
-        }else{
-            $gender_id = '3';
-            $gender = "Select";
-        }
-
         $departments = Department::where('status', '=', 1)
                                 ->orderBy('dept_id', 'asc')
                                 ->get();
@@ -130,7 +107,7 @@ class ReceptionController extends Controller
                                     ->orderBy('designation_id', 'asc')
                                     ->get();
 
-        return view('backend.pages.reception.editProfile', compact('employee', 'departments', 'designations', 'gender', 'gender_id'));
+        return view('backend.pages.reception.editProfile', compact('employee', 'departments', 'designations'));
     }
 
     // Update and store new profile information
@@ -141,8 +118,6 @@ class ReceptionController extends Controller
         $employee_old_data_query = Employee::where('user_id', '=', $user_id)->first();
         $employee_id = $employee_old_data_query->employee_id;
         $user_type_id = $employee_old_data_query->user_type_id;
-        $employee_dept_id = $employee_old_data_query->dept_id;
-        $employee_designation_id = $employee_old_data_query->designation_id;
         $employee_old_photo = $employee_old_data_query->photo;
 
         // insert new/updated data into reception_logs table
@@ -155,8 +130,8 @@ class ReceptionController extends Controller
         $receptionlog->gender = $req->gender;
         $receptionlog->dob = $req->dob;
         $receptionlog->eid_no = $req->eid_no;
-        $receptionlog->dept_id = $employee_dept_id;
-        $receptionlog->designation_id = $employee_designation_id;
+        $receptionlog->dept_id = $req->dept_id;
+        $receptionlog->designation_id = $req->designation_id;
         $receptionlog->mobile_no = $req->mobile_no;
         $receptionlog->email = $req->email;
         $receptionlog->address = $req->address;
@@ -460,7 +435,7 @@ class ReceptionController extends Controller
         $meetingLog->entry_user_id = $user_id;
         $meetingLog->entry_datetime = date('Y-m-d H:i:s');
         $meetingLog->description = "Appointment placed from reception panel";
-        $meetingLog->log_type = '1';
+        $meetingLog->log_type = '5';
         $meetingLog->status = '1';
         $meetingLog->save();
 
@@ -486,17 +461,8 @@ class ReceptionController extends Controller
         $visitor = Visitor::where('visitor_id', '=', $visitor_id)
                             ->join('visitor_types', 'visitors.visitor_type', '=', 'visitor_types.visitor_type_id')
                             ->first();
-        $gender = $visitor->gender;
-        if ($gender == '1')
-        {
-            $gender = "Male";
-        } elseif ($gender == '2')
-        {
-            $gender = "Female";
-        } else {
-            $gender = "Not Provided";
-        }
-        return view('backend.pages.reception.visitorProfile', compact('visitor', 'gender'));
+
+        return view('backend.pages.reception.visitorProfile', compact('visitor'));
     }
     
 

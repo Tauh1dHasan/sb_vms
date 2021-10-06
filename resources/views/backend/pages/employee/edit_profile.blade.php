@@ -2,7 +2,6 @@
 
     @section('content')
 
-
         <div class="admin-data-content layout-top-spacing">
             <div class="row">
                 
@@ -35,26 +34,13 @@
                                                     </div>
 
                                                     <div class="form-group mb-4">
-                                                        <label for="fname">First Name</label>
-                                                        <input name="fname" type="text" class="form-control" id="fname" value="{{ $employee->first_name }}" required>
+                                                        <label for="first_name">First Name</label>
+                                                        <input name="first_name" type="text" class="form-control" id="first_name" value="{{ $employee->first_name }}" required>
                                                     </div>
 
                                                     <div class="form-group mb-4">
-                                                        <label for="lname">Last Name</label>
-                                                        <input name="lname" type="text" class="form-control" id="lname" value="{{ $employee->last_name }}" required>
-                                                    </div>
-
-                                                    <div class="form-group mb-4">
-                                                        <label for="availability">Availability</label>
-                                                        <select name="availability" class="form-control" id="availability" required>
-                                                            @if ($employee->availability == 1)
-                                                                <option value="1">Available</option>
-                                                                <option value="0">Not Available</option> 
-                                                            @elseif ($employee->availability == 0)
-                                                                <option value="0">Not Available</option>
-                                                                <option value="1">Available</option>
-                                                            @endif
-                                                        </select>
+                                                        <label for="last_name">Last Name</label>
+                                                        <input name="last_name" type="text" class="form-control" id="last_name" value="{{ $employee->last_name }}" required>
                                                     </div>
 
                                                     <div class="form-group mb-4">
@@ -67,7 +53,7 @@
                                                     </div>
 
                                                     <div class="form-group mb-4">
-                                                        <label for="dept_id">Designation</label>
+                                                        <label for="designation_id">Designation</label>
                                                         <select class="form-control" name="designation_id" id="designation_id" required="">
                                                             <option value="{{ $employee->designation_id }}">{{ $employee->designation }}</option> 
                                                         </select>
@@ -81,15 +67,23 @@
                                                     <div class="form-group mb-4">
                                                         <label for="gender">Gender</label>
                                                         <select name="gender" class="form-control" id="gender">
-                                                            <option value="{{ $gender_id }}">{{ $gender }}</option>
-                                                            <option value="1">Male</option>
-                                                            <option value="2">Female</option>
+                                                            @if ($employee->gender == 1)
+                                                                <option value="1">Male</option>
+                                                                <option value="2">Female</option>
+                                                            @elseif ($employee->gender == 2)
+                                                                <option value="2">Female</option>
+                                                                <option value="1">Male</option>
+                                                            @else
+                                                                <option value="">Select</option>
+                                                                <option value="1">Male</option>
+                                                                <option value="2">Female</option>
+                                                            @endif
                                                         </select>
                                                     </div>
 
                                                     <div class="form-group mb-4">
-                                                        <label for="eid">EID Number</label>
-                                                        <input name="eid" type="number" class="form-control" id="eid" value="{{ $employee->eid_no }}">
+                                                        <label for="eid_no">EID Number</label>
+                                                        <input name="eid_no" type="number" class="form-control" id="eid_no" value="{{ $employee->eid_no }}">
                                                     </div>
 
                                                     <div class="form-group mb-4">
