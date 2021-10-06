@@ -216,7 +216,7 @@ class ReceptionController extends Controller
                             ->get();
         return view('backend.pages.reception.visitorList', compact('visitors'));
     }
-
+    
     // Search visitor method
     public function searchVisitor(Request $req)
     {

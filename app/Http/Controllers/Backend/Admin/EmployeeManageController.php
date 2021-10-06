@@ -101,34 +101,34 @@ class EmployeeManageController extends Controller
         }
 
         $employee = Employee::create([
-                                        'user_id'=>$user_id->user_id,
-                                        'user_type_id'=>$request->user_type_id,
-                                        'first_name'=>$request->first_name,
-                                        'last_name'=>$request->last_name,
-                                        'slug'=>Str::slug($request->first_name.' '.$request->last_name),
-                                        'eid_no'=>$request->eid_no,
-                                        'dept_id'=>$request->dept_id,
-                                        'designation_id'=>$request->designation_id,
-                                        'gender'=>$request->gender,
-                                        'dob'=>$request->dob,
-                                        'mobile_no'=>$request->mobile_no,
-                                        'email'=>$request->email,
-                                        'start_hour'=>$request->start_hour,
-                                        'end_hour'=>$request->end_hour,
-                                        'building_no'=>$request->building_no,
-                                        'gate_no'=>$request->gate_no,
-                                        'elevator_no'=>$request->elevator_no,
-                                        'floor_no'=>$request->floor_no,
-                                        'room_no'=>$request->room_no,
-                                        'address'=>$request->address,
-                                        'nid_no'=>$request->nid_no,
-                                        'passport_no'=>$request->passport_no,
-                                        'driving_license_no'=>$request->driving_license_no,
-                                        'photo'=>$imgName,
-                                        'entry_user_id'=>$session_user,
-                                        'entry_datetime'=>now(),
-                                        'status'=>1
-                                    ]);
+                                'user_id'=>$user_id->user_id,
+                                'user_type_id'=>$request->user_type_id,
+                                'first_name'=>$request->first_name,
+                                'last_name'=>$request->last_name,
+                                'slug'=>Str::slug($request->first_name.' '.$request->last_name),
+                                'eid_no'=>$request->eid_no,
+                                'dept_id'=>$request->dept_id,
+                                'designation_id'=>$request->designation_id,
+                                'gender'=>$request->gender,
+                                'dob'=>$request->dob,
+                                'mobile_no'=>$request->mobile_no,
+                                'email'=>$request->email,
+                                'start_hour'=>$request->start_hour,
+                                'end_hour'=>$request->end_hour,
+                                'building_no'=>$request->building_no,
+                                'gate_no'=>$request->gate_no,
+                                'elevator_no'=>$request->elevator_no,
+                                'floor_no'=>$request->floor_no,
+                                'room_no'=>$request->room_no,
+                                'address'=>$request->address,
+                                'nid_no'=>$request->nid_no,
+                                'passport_no'=>$request->passport_no,
+                                'driving_license_no'=>$request->driving_license_no,
+                                'photo'=>$imgName,
+                                'entry_user_id'=>$session_user,
+                                'entry_datetime'=>now(),
+                                'status'=>1
+                            ]);
 
         if($request->email != NULL){
             $data = [
@@ -201,13 +201,12 @@ class EmployeeManageController extends Controller
 
         $user_id = session('loggedUser');
 
-        $old_user_data = User::where('user_id', $user_id)->first();
-
         $user = User::where('user_id', $user_id)
                     ->update([
                         'mobile_no'=>$request->mobile_no,
                         'email'=>$request->email,
                         'password'=>bcrypt($request->password),
+                        'is_approved'=>$request->status,
                         'modified_datetime'=>now()
                     ]);
 
@@ -235,12 +234,12 @@ class EmployeeManageController extends Controller
                                         'passport_no'=>$request->passport_no,
                                         'driving_license_no'=>$request->driving_license_no,
                                         'photo'=>$imgName,
-                                        'entry_user_id'=>$session_user,
-                                        'entry_datetime'=>now(),
-                                        'status'=>1
+                                        'modifiied_user_id'=>$user_id,
+                                        'modified_datetime'=>now(),
+                                        'status'=>$request->status
                                     ]);
 
-        Session()->flash('success' , 'Visitor Type Updated Successfully !!!');
+        Session()->flash('success' , 'Host Info Updated Successfully !!!');
         return redirect()->route('admin.employee.index');
     }
 
@@ -253,15 +252,21 @@ class EmployeeManageController extends Controller
     public function destroy($id)
     {
         $user_id = session('loggedUser');
+
+        $user = User::where('user_id', $user_id)
+                                    ->update([
+                                        'is_approved'=>3,
+                                        'modified_datetime'=>now()
+                                    ]);
         
         $employee = Employee::where('employee_id', $id)
                                     ->update([
-                                        'status'=>2,
+                                        'status'=>3,
                                         'modified_user_id'=>$user_id,
                                         'modified_datetime'=>now()
                                     ]);
 
-        Session()->flash('success' , 'Visitor Type Deleted Successfully !!!');
+        Session()->flash('success' , 'Host Deleted Successfully !!!');
         return redirect()->route('admin.employee.index');
     }
 

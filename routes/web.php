@@ -241,10 +241,10 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
         Route::get('/host', [EmployeeManageController::class, 'index'])->name('employee.index');
         Route::get('/host/create', [EmployeeManageController::class, 'create'])->name('employee.create');
         Route::post('/host/store', [EmployeeManageController::class, 'store'])->name('employee.store');
-        Route::get('/host/show/{id}', [VisitorTypeController::class, 'show'])->name('employee.show');
-        Route::get('/host/edit/{id}', [VisitorTypeController::class, 'edit'])->name('employee.edit');
-        Route::patch('/host/update/{id}', [VisitorTypeController::class, 'update'])->name('employee.update');
-        Route::get('/host/destroy/{id}', [VisitorTypeController::class, 'destroy'])->name('employee.destroy');
+        Route::get('/host/show/{id}', [EmployeeManageController::class, 'show'])->name('employee.show');
+        Route::get('/host/edit/{id}', [EmployeeManageController::class, 'edit'])->name('employee.edit');
+        Route::patch('/host/update/{id}', [EmployeeManageController::class, 'update'])->name('employee.update');
+        Route::get('/host/destroy/{id}', [EmployeeManageController::class, 'destroy'])->name('employee.destroy');
 
         Route::get('/pending-host', [EmployeeManageController::class, 'pending'])->name('pending.employees');
         Route::get('/approved-host', [EmployeeManageController::class, 'approved'])->name('approved.employees');
