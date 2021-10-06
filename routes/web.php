@@ -20,6 +20,7 @@ use App\Http\Controllers\Backend\Reception\ReceptionController;
 /* Admin Controllers */
 use App\Http\Controllers\Backend\Admin\AdminIndexController;
 use App\Http\Controllers\Backend\Admin\EmployeeManageController;
+use App\Http\Controllers\Backend\Admin\ReceptionManageController;
 use App\Http\Controllers\Backend\Admin\VisitorTypeController;
 use App\Http\Controllers\Backend\Admin\DepartmentController;
 use App\Http\Controllers\Backend\Admin\DesignationController;
@@ -238,12 +239,33 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
         Route::get('/host', [EmployeeManageController::class, 'index'])->name('employee.index');
         Route::get('/host/create', [EmployeeManageController::class, 'create'])->name('employee.create');
         Route::post('/host/store', [EmployeeManageController::class, 'store'])->name('employee.store');
+        Route::get('/host/show/{id}', [VisitorTypeController::class, 'show'])->name('employee.show');
+        Route::get('/host/edit/{id}', [VisitorTypeController::class, 'edit'])->name('employee.edit');
+        Route::patch('/host/update/{id}', [VisitorTypeController::class, 'update'])->name('employee.update');
+        Route::get('/host/destroy/{id}', [VisitorTypeController::class, 'destroy'])->name('employee.destroy');
+
         Route::get('/pending-host', [EmployeeManageController::class, 'pending'])->name('pending.employees');
         Route::get('/approved-host', [EmployeeManageController::class, 'approved'])->name('approved.employees');
         Route::get('/declined-host', [EmployeeManageController::class, 'declined'])->name('declined.employees');
 
         Route::get('/approve-host/{user_id}', [EmployeeManageController::class, 'approve'])->name('approve.employee');
         Route::get('/decline-host/{user_id}', [EmployeeManageController::class, 'decline'])->name('decline.employee');
+
+        /* Admin Panel Receptionist Routes */
+        Route::get('/reception', [ReceptionManageController::class, 'index'])->name('receptionist.index');
+        Route::get('/reception/create', [ReceptionManageController::class, 'create'])->name('receptionist.create');
+        Route::post('/reception/store', [ReceptionManageController::class, 'store'])->name('receptionist.store');
+        Route::get('/reception/show/{id}', [VisitorTypeController::class, 'show'])->name('receptionist.show');
+        Route::get('/reception/edit/{id}', [VisitorTypeController::class, 'edit'])->name('receptionist.edit');
+        Route::patch('/reception/update/{id}', [VisitorTypeController::class, 'update'])->name('receptionist.update');
+        Route::get('/reception/destroy/{id}', [VisitorTypeController::class, 'destroy'])->name('receptionist.destroy');
+
+        Route::get('/pending-reception', [ReceptionManageController::class, 'pending'])->name('pending.receptionists');
+        Route::get('/approved-reception', [ReceptionManageController::class, 'approved'])->name('approved.receptionists');
+        Route::get('/declined-reception', [ReceptionManageController::class, 'declined'])->name('declined.receptionists');
+
+        Route::get('/approve-reception/{user_id}', [ReceptionManageController::class, 'approve'])->name('approve.receptionist');
+        Route::get('/decline-reception/{user_id}', [ReceptionManageController::class, 'decline'])->name('decline.receptionist');
 
         /* Admin Panel Visitor Type Routes */
         Route::get('/visitorType/index', [VisitorTypeController::class, 'index'])->name('visitorType.index');

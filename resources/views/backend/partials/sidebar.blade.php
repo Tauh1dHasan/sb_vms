@@ -416,6 +416,28 @@
         </div>
 <!-------------------------------------------  Admin Manage Host Submenu End  -------------------------------------------->
 
+<!-------------------------------------------  Admin Manage Receptionist Submenu Start  -------------------------------------------->
+<div class="submenu" id="receptionist">
+    <ul class="submenu-list menu-block-submenu" data-parent-element="#receptionist">
+        <li class="menu-block">
+            <a href="{{route('admin.receptionist.create')}}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg> Add Receptionist </a>
+        </li> 
+        <li class="menu-block">
+            <a href="{{route('admin.receptionist.index')}}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg> All Receptionists </a>
+        </li> 
+        <li class="menu-block">
+            <a href="{{route('admin.pending.receptionists')}}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg> Pending Receptionists </a>
+        </li>
+        <li class="menu-block">
+            <a href="{{route('admin.approved.receptionists')}}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg> Approved Receptionists </a>
+        </li>
+        <li class="menu-block">
+            <a href="{{route('admin.declined.receptionists')}}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg> Declined Receptionists </a>
+        </li>
+    </ul>
+</div>
+<!-------------------------------------------  Admin Manage Receptionist Submenu End  -------------------------------------------->
+
 <!-------------------------------------------  Admin Manage Visitor Submenu Start  -------------------------------------------->
         <div class="submenu" id="visitor">
             <ul class="submenu-list menu-block-submenu" data-parent-element="#employee">

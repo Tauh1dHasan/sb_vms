@@ -21,7 +21,7 @@ use App\Models\Employee;
 use App\Models\Department;
 use App\Models\Designation;
 
-class EmployeeManageController extends Controller
+class ReceptionManageController extends Controller
 {
     /**
      * Employee Create validation.
@@ -51,11 +51,11 @@ class EmployeeManageController extends Controller
     {
         $employees = Employee::join('departments', 'departments.dept_id', '=', 'employees.dept_id')
                             ->join('designations', 'designations.designation_id', '=', 'employees.designation_id')
-                            ->where('employees.user_type_id', 2)
+                            ->where('employees.user_type_id', 3)
                             ->orderBy('employees.employee_id', 'asc')
                             ->get(['employees.*', 'departments.department_name as department_name', 'designations.designation as designation']);
 
-        return view('backend.pages.admin.employee.index', compact('employees'));
+        return view('backend.pages.admin.reception.index', compact('employees'));
     }
 
     /**
@@ -66,7 +66,7 @@ class EmployeeManageController extends Controller
         $departments = Department::orderBy('dept_id' , 'asc')->get();
         $designations = Designation::orderBy('designation_id' , 'asc')->get();
 
-        return view('backend.pages.admin.employee.create', compact('departments', 'designations'));
+        return view('backend.pages.admin.reception.create', compact('departments', 'designations'));
     }
 
     /**
@@ -93,7 +93,7 @@ class EmployeeManageController extends Controller
         
         if ($request->hasFile('photo')) {
                 $image = $request->file('photo');
-                $imgName = 'employee'.time().'.'.$image->getClientOriginalExtension();
+                $imgName = 'reception'.time().'.'.$image->getClientOriginalExtension();
                 $location = public_path('backend/img/employees/'.$imgName);
                 Image::make($image)->save($location);
         } else {
@@ -140,129 +140,13 @@ class EmployeeManageController extends Controller
             ];
 
             Mail::send('backend.mails.employeeAccountCreate', ["data1"=>$data] , function($message) use($user){
-                $message->to($user->email, 'VMS Host Account')
+                $message->to($user->email, 'VMS Reception Account')
                         ->subject('Account Approval');
             });
         }
 
-        Session()->flash('success' , 'Host Created Successfully!!!');
-        return redirect()->route('admin.employee.index');
-    }
-
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $employee = Employee::with('department', 'designation')
-                            ->where('employee_id', $id)
-                            ->first();
-
-        return view('backend.pages.admin.employee.show', compact('employee'));
-    }
-
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $employee = Employee::where('employee_id', $id)->first();
-
-        $departments = Department::where('status', '=', 1)
-                                ->orderBy('dept_id', 'asc')
-                                ->get();
-
-        $designations = Designation::where('status', '=', 1)
-                                    ->orderBy('designation_id', 'asc')
-                                    ->get();
-
-        return view('backend.pages.admin.employee.edit', compact('employee', 'department', 'designation'));
-    }
-
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        $this->validation($request);
-
-        $user_id = session('loggedUser');
-
-        $old_user_data = User::where('user_id', $user_id)->first();
-
-        $user = User::where('user_id', $user_id)
-                    ->update([
-                        'mobile_no'=>$request->mobile_no,
-                        'email'=>$request->email,
-                        'password'=>bcrypt($request->password),
-                        'modified_datetime'=>now()
-                    ]);
-
-        $employee = Employee::where('employee_id', $id)
-                                    ->update([
-                                        'first_name'=>$request->first_name,
-                                        'last_name'=>$request->last_name,
-                                        'slug'=>Str::slug($request->first_name.' '.$request->last_name),
-                                        'eid_no'=>$request->eid_no,
-                                        'dept_id'=>$request->dept_id,
-                                        'designation_id'=>$request->designation_id,
-                                        'gender'=>$request->gender,
-                                        'dob'=>$request->dob,
-                                        'mobile_no'=>$request->mobile_no,
-                                        'email'=>$request->email,
-                                        'start_hour'=>$request->start_hour,
-                                        'end_hour'=>$request->end_hour,
-                                        'building_no'=>$request->building_no,
-                                        'gate_no'=>$request->gate_no,
-                                        'elevator_no'=>$request->elevator_no,
-                                        'floor_no'=>$request->floor_no,
-                                        'room_no'=>$request->room_no,
-                                        'address'=>$request->address,
-                                        'nid_no'=>$request->nid_no,
-                                        'passport_no'=>$request->passport_no,
-                                        'driving_license_no'=>$request->driving_license_no,
-                                        'photo'=>$imgName,
-                                        'entry_user_id'=>$session_user,
-                                        'entry_datetime'=>now(),
-                                        'status'=>1
-                                    ]);
-
-        Session()->flash('success' , 'Visitor Type Updated Successfully !!!');
-        return redirect()->route('admin.employee.index');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $user_id = session('loggedUser');
-        
-        $employee = Employee::where('employee_id', $id)
-                                    ->update([
-                                        'status'=>2,
-                                        'modified_user_id'=>$user_id,
-                                        'modified_datetime'=>now()
-                                    ]);
-
-        Session()->flash('success' , 'Visitor Type Deleted Successfully !!!');
-        return redirect()->route('admin.employee.index');
+        Session()->flash('success' , 'Receptionist Created Successfully!!!');
+        return redirect()->route('admin.receptionist.index');
     }
 
 
@@ -274,12 +158,12 @@ class EmployeeManageController extends Controller
         $employees = Employee::join('departments', 'employees.dept_id', '=', 'departments.dept_id')
                     ->join('designations', 'employees.designation_id', '=', 'designations.designation_id')
                     ->select('employees.*', 'departments.department_name as department_name', 'designations.designation as designation')
-                    ->where('employees.user_type_id', 2)
+                    ->where('employees.user_type_id', 3)
                     ->where('employees.status', '=', 0)
                     ->orderBy('employee_id' , 'asc')
                     ->get();
 
-        return view('backend.pages.admin.employee.pendingEmployee', compact('employees'));
+        return view('backend.pages.admin.reception.pendingEmployee', compact('employees'));
     }
 
     /**
@@ -290,12 +174,12 @@ class EmployeeManageController extends Controller
         $employees = Employee::join('departments', 'employees.dept_id', '=', 'departments.dept_id')
                     ->join('designations', 'employees.designation_id', '=', 'designations.designation_id')
                     ->select('employees.*', 'departments.department_name as department_name', 'designations.designation as designation')
-                    ->where('employees.user_type_id', 2)
+                    ->where('employees.user_type_id', 3)
                     ->where('employees.status', '=', 1)
                     ->orderBy('employee_id' , 'asc')
                     ->get();
 
-        return view('backend.pages.admin.employee.approvedEmployee', compact('employees'));
+        return view('backend.pages.admin.reception.approvedEmployee', compact('employees'));
     }
 
     /**
@@ -306,12 +190,12 @@ class EmployeeManageController extends Controller
         $employees = Employee::join('departments', 'employees.dept_id', '=', 'departments.dept_id')
                     ->join('designations', 'employees.designation_id', '=', 'designations.designation_id')
                     ->select('employees.*', 'departments.department_name as department_name', 'designations.designation as designation')
-                    ->where('employees.user_type_id', 2)
+                    ->where('employees.user_type_id', 3)
                     ->where('employees.status', '=', 2)
                     ->orderBy('employee_id' , 'asc')
                     ->get();
 
-        return view('backend.pages.admin.employee.declinedEmployee', compact('employees'));
+        return view('backend.pages.admin.reception.declinedEmployee', compact('employees'));
     }
 
     /**
@@ -332,7 +216,7 @@ class EmployeeManageController extends Controller
             mail::to($employees->email)->send(new EmployeeApprovedMail($employees));
         }
 
-        Session()->flash('success', 'Host Account Approved Succesfully.');
+        Session()->flash('success', 'Receptionist Account Approved Succesfully.');
         return redirect()->back();
     }
 
@@ -342,19 +226,19 @@ class EmployeeManageController extends Controller
     public function decline(User $user_id)
     {
         $user = User::where('user_id', $user_id->user_id)
-                ->update(['is_approved' => 0]);
+                    ->update(['is_approved' => 0]);
 
         $employee = Employee::where('user_id', $user_id->user_id)
-                    ->update(['status' => 2]);
+                            ->update(['status' => 2]);
 
         $employees = Employee::where('user_id', $user_id->user_id)
-                    ->first();
+                            ->first();
 
         if($employees->email != NULL){
             mail::to($employees->email)->send(new EmployeeDeclinedMail($employees));
         }
 
-        Session()->flash('success', 'Host Account Declined Succesfully.');
+        Session()->flash('success', 'Receptionist Account Declined Succesfully.');
         return redirect()->back();
     }
 }

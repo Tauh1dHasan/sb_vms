@@ -30,6 +30,6 @@ class EmployeeDeclinedMail extends Mailable
      */
     public function build()
     {
-        return $this->view('backend.mails.employee-declined');
+        return $this->view('backend.mails.employeeDeclined');
     }
 }
