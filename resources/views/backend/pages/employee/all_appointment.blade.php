@@ -2,6 +2,13 @@
 
     @section('content')
 
+        <nav class="breadcrumb-one" aria-label="breadcrumb">
+            <ol class="breadcrumb" style="background: none; padding: 0;">
+                <li class="breadcrumb-item"><a href="{{ route('employee.index') }}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></a></li>
+                <li class="breadcrumb-item"><a href="{{ route('employee.allMeetings') }}">All Appointments</a></li>
+            </ol>
+        </nav>
+
         <form action="{{ route('employee.customMeetingSearch') }}" method="POST">
             @csrf
             <div class="row">
@@ -26,7 +33,6 @@
                     <div class="statbox widget box box-shadow">
                         <div class="widget-content widget-content-area">
                             <div class="table-responsive mb-4">
-                                <h4>All Appointments</h4>
                                 @if (session('success'))
                                     <div class="alert alert-light-success border-0 mb-4" role="alert"> 
                                         <p class="text-success">{{ session('success') }}</p> 

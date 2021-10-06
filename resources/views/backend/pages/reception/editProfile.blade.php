@@ -82,9 +82,17 @@
                                                     <div class="form-group mb-4">
                                                         <label for="gender">Gender</label>
                                                         <select name="gender" class="form-control" id="gender">
-                                                            <option value="{{ $gender_id }}">{{ $gender }}</option>
-                                                            <option value="1">Male</option>
-                                                            <option value="2">Female</option>
+                                                            @if ($employee->gender == 1)
+                                                                <option value="1">Male</option>    
+                                                                <option value="2">Female</option>    
+                                                            @elseif ($employee->gender == 2)
+                                                                <option value="2">Female</option>
+                                                                <option value="1">Male</option>
+                                                            @else
+                                                                <option value="">Select</option>
+                                                                <option value="1">Male</option>
+                                                                <option value="2">Female</option>
+                                                            @endif
                                                         </select>
                                                     </div>
 

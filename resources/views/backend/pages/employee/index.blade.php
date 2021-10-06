@@ -18,15 +18,30 @@
                         </div>
                     @endif
                     
+
+
+
+
+
+
                     <div class="widget-heading">
                         <h2 class="text-center pb-4">Welcome to VMS Employee Panel</h2>
-                        <h3 class="text-center">{{ $employee->first_name }} {{ $employee->last_name }}</h3>
                         @if ($employee->availability == 1)
-                            <p class="text-center">Availability Status: <button class="btn btn-success btn-sm">Available</button></p>
+                            <p class="text-center">Availability Status: 
+                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#availabilityModal" data-id="{{$employee->employee_id}}" onclick="availabilityFunc(this)">Available</button>
+                            </p>
                         @else
-                            <p class="text-center">Availability Status: <button class="btn btn-danger btn-sm">Not Available</button></p>
+                            <p class="text-center">Availability Status: 
+                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#availabilityModal" data-id="{{$employee->employee_id}}" onclick="availabilityFunc(this)">Unavailable</button>
+                            </p>
                         @endif
                     </div>
+
+
+
+
+
+
                     <div class="w-chart">
 
                         <div class="w-chart-section total-visits-content">
@@ -85,7 +100,42 @@
                 </div>
             </div>
 
+
+            {{-- Modal --}}
+            <div class="modal fade" id="availabilityModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p style="font-size: 1.5em; font-weight: bold" class="modal-heading mb-4 mt-2">Are you sure, you want to change your availability status ?</p>
+                            
+                            <form action="{{route('employee.availabilityStatus')}}" method="POST">
+                                @csrf
+                                <input type="hidden" name="employee_id" id="this_employee_id" value="">
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i>Cancel</button>
+                            <button type="submit" class="btn btn-primary">Yes</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             
         </div>
     </div>
     @endsection
+
+    <script>
+        function availabilityFunc(id){
+            var employee_id = id.getAttribute("data-id");
+            document.getElementById("this_employee_id").value = employee_id;
+        }
+    </script>

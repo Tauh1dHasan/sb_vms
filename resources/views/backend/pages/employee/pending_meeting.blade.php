@@ -69,19 +69,11 @@
                                                 </td>
                                                 <td>
                                                     <div class="text-center">
-                                                        <form action="{{ route('employee.declineMeeting') }}" method="POST">
-                                                            @csrf
-                                                            <input type="hidden" name="meeting_id" value="{{ $meeting->meeting_id }}">
-                                                            <input type="submit" value="Decline" class="btn btn-danger btn-sm">
-                                                        </form>
+                                                        <a href="{{ route('employee.declineMeeting', $meeting->meeting_id) }}" class="btn btn-danger btn-sm mb-1">Decline</a>
                                                     </div>
-                                                    
+
                                                     <div class="text-center">
-                                                        <form action="{{ route('employee.approveMeeting') }}" method="POST">
-                                                            @csrf
-                                                            <input type="hidden" name="meeting_id" value="{{ $meeting->meeting_id }}">
-                                                            <input type="submit" value="Approve" class="btn btn-success btn-sm">
-                                                        </form>
+                                                        <a href="{{ route('employee.approveMeeting', $meeting->meeting_id) }}" class="btn btn-success btn-sm mb-1">Approve</a>
                                                     </div>
 
                                                     <div class="text-center">
