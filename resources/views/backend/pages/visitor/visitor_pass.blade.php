@@ -2,6 +2,12 @@
 
     @section('content')
 
+    <nav class="breadcrumb-one" aria-label="breadcrumb">
+        <ol class="breadcrumb" style="background: none; padding: 0;">
+            <li class="breadcrumb-item"><a href="{{ route('visitor.index') }}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></a></li>
+            <li class="breadcrumb-item"><a href="{{ route('visitor.visitorPass', $meeting->meeting_id) }}">Visitor Pass</a></li>
+        </ol>
+    </nav>
 
         <div class="admin-data-content layout-top-spacing">
             <div class="row">
@@ -15,9 +21,11 @@
                     
                             <div class="user-profile layout-spacing">
                                 <div class="widget-content widget-content-area" style="padding: 40px">
-                                    <p> 
+                                    <p>
                                         @php
-                                            $visitor_pass = "http://localhost:8000/visitor/gate-pass/{$meeting_id}";
+                                            $meetingInfo = "Appointment ID: {{$meeting->meeting_id}} <br> Visitor ID: {{$meeting->visitor_id}} <br> Employee ID: {{$meeting->employee_id}} <br> Appointment Status: {{$meeting->meeting_status}}";
+
+                                            $visitor_pass = route('visitor.gatePass', $meeting->meeting_id);
                                         @endphp
                                     </p>
                                     <div class="text-center user-info">

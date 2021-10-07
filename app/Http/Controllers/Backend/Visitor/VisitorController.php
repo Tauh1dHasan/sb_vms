@@ -14,6 +14,7 @@ use Auth;
 use App\Models\MeetingPurpose;
 use App\Models\Meeting;
 use App\Models\Visitor;
+use App\Models\VisitorLog;
 use App\Models\User;
 
 class VisitorController extends Controller
@@ -104,62 +105,68 @@ class VisitorController extends Controller
      */
     public function update(Request $req)
     {
-        // current loged in user ID
-        $user_id = $req->user_id;
-        // Update visitor table old row status
-        $visitor_old_data_query = Visitor::where('user_id', '=', $user_id)->where('visitor_status', '=', '1')->first();
-        $visitor_old_data_query->visitor_status = '3';
-        $visitor_old_data_query->save();
-        // get required old data
-        $slug = $visitor_old_data_query->slug;
-        $gender = $visitor_old_data_query->gender;
-        $dob = $visitor_old_data_query->dob;
-        $old_profile_photo = $visitor_old_data_query->profile_photo;
+        // send old data into visitor_logs table
+        $visitor_old_data = Visitor::where('visitor_id', $req->visitor_id)->first();
+        $visitorLog = new VisitorLog;
+        $visitorLog->visitor_id = $visitor_old_data->visitor_id;
+        $visitorLog->user_id = $visitor_old_data->user_id;
+        $visitorLog->visitor_type = $visitor_old_data->visitor_type;
+        $visitorLog->first_name = $visitor_old_data->first_name;
+        $visitorLog->last_name = $visitor_old_data->last_name;
+        $visitorLog->organization = $visitor_old_data->organization;
+        $visitorLog->designation = $visitor_old_data->designation;
+        $visitorLog->gender = $visitor_old_data->gender;
+        $visitorLog->dob = $visitor_old_data->dob;
+        $visitorLog->mobile_no = $visitor_old_data->mobile_no;
+        $visitorLog->email = $visitor_old_data->email;
+        $visitorLog->address = $visitor_old_data->address;
+        $visitorLog->profile_photo = $visitor_old_data->profile_photo;
+        $visitorLog->nid_no = $visitor_old_data->nid_no;
+        $visitorLog->passport_no = $visitor_old_data->passport_no;
+        $visitorLog->driving_license_no = $visitor_old_data->driving_license_no;
+        $visitorLog->entry_user_id = session('loggedUser');
+        $visitorLog->entry_datetime = now();
+        $visitorLog->description = "Visitor previous profile data";
+        $visitorLog->log_type = 2;
+        $visitorLog->status = 1;
+        $visitorLogDone = $visitorLog->save();
 
-        // Insert new row with updated data
-        $visitor = new Visitor;
-        $visitor->user_id = $user_id;
+        // update visitors table with new data
+        $visitor = Visitor::where('visitor_id', $req->visitor_id)->first();
         $visitor->visitor_type = $req->visitor_type;
-        $visitor->first_name = $req->fname;
-        $visitor->last_name = $req->lname;
-        $visitor->slug = $slug;
+        $visitor->first_name = $req->first_name;
+        $visitor->last_name = $req->last_name;
         $visitor->organization = $req->organization;
         $visitor->designation = $req->designation;
-        $visitor->gender = $gender;
-        $visitor->dob = $dob;
+        $visitor->gender = $req->gender;
+        $visitor->dob = $req->dob;
         $visitor->mobile_no = $req->mobile_no;
         $visitor->email = $req->email;
         $visitor->address = $req->address;
         $visitor->nid_no = $req->nid_no;
         $visitor->passport_no = $req->passport_no;
         $visitor->driving_license_no = $req->driving_license_no;
-        $visitor->modified_user_id = $user_id;
-        $visitor->modified_datetime = date('Y-m-d H:i:s');
-        $visitor->visitor_status = '1';
-        
-
-
+        $visitor->modified_user_id = session('loggedUser');
+        $visitor->modified_datetime = now();
         if ($req->hasFile('new_photo')) {
             $new_photo = $req->file('new_photo');
             $imgName = 'employee'.time().'.'.$new_photo->getClientOriginalExtension();
             $location = public_path('backend/img/visitors/'.$imgName);
             Image::make($new_photo)->save($location);
             $visitor->profile_photo = $imgName;
-            File::delete(public_path() . '/backend/img/visitors/'. $old_profile_photo);
         } else {
-            $visitor->profile_photo = $old_profile_photo;
+            $visitor->profile_photo = $visitor_old_data->profile_photo;
         }
+        $visitorDone = $visitor->save();
 
-        $visitor_table = $visitor->save();
-
-        // User table data update
-        $user = User::find($user_id);
+        // Update users table mobile_no and email
+        $user = User::where('user_id', session('loggedUser'))->first();
         $user->mobile_no = $req->mobile_no;
         $user->email = $req->email;
-        $user_table = $user->save();
-         
-        
-        if ($visitor_table && $user_table) {
+        $userDone = $user->save();
+
+
+        if ($visitorLogDone && $visitorDone && $userDone) {
             return redirect(route('visitor.index'))->with('success', 'Profile successfully updated.');
         } else {
             return redirect(route('visitor.index'))->with('fail', 'Something went wrong, Please try agrain.');

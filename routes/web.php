@@ -71,7 +71,7 @@ Route::group(['middleware' => ['UserMiddleware'], 'prefix' => '/visitor', 'as' =
     Route::get('/profile', [VisitorController::class, 'profile'])->name('profile');
 
     // Visitor profile update
-    Route::get('/edit-profile/{user_id}', [VisitorController::class, 'edit']);
+    Route::get('/edit-profile/{user_id}', [VisitorController::class, 'edit'])->name('editProfile');
     Route::post('/update-profile', [VisitorController::class, 'update'])->name('update-profile');
     
     // Show form to create a meeting
@@ -102,10 +102,10 @@ Route::group(['middleware' => ['UserMiddleware'], 'prefix' => '/visitor', 'as' =
     Route::post('/cancel-meeting', [MeetingController::class, 'cancelMeeting'])->name('cancel-meeting');
 
     // Show meeting visitor-pass QR code to visitor
-    Route::post('/visitor-pass', [MeetingController::class, 'visitorPass'])->name('visitorPass');
+    Route::get('/visitor-pass/{meeting_id}', [MeetingController::class, 'visitorPass'])->name('visitorPass');
 
     // Gate Pass -- This route will be moved to receptionist module -- only receptionist will see this info and provide a gate pass
-    Route::get('/gate-pass/{$meeting_id}', [MeetingController::class, 'gate_pass'])->name('gatePass');
+    Route::get('/gate-pass/{meeting_id}', [MeetingController::class, 'gate_pass'])->name('gatePass');
 
     // getting host name with auto suggest
     Route::get('/get-host', [MeetingController::class, 'getHost'])->name('getHost');

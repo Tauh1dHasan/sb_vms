@@ -33,7 +33,7 @@
 </script>
 <script type="text/javascript">
 
-    $('#employee_id').select2({
+    $('#employee_id_from_visitor').select2({
         placeholder: "Write Host Name",
         allowClear: false,
         ajax: {

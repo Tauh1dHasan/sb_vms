@@ -2,6 +2,13 @@
 
     @section('content')
 
+        <nav class="breadcrumb-one" aria-label="breadcrumb">
+            <ol class="breadcrumb" style="background: none; padding: 0;">
+                <li class="breadcrumb-item"><a href="{{ route('visitor.index') }}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></a></li>
+                <li class="breadcrumb-item"><a href="{{ route('visitor.create') }}">Make an appointment</a></li>
+            </ol>
+        </nav>
+
         <div class="admin-data-content layout-top-spacing">
             <div class="row">
                 
@@ -20,7 +27,7 @@
                                         <input type="hidden" name="visitor_id" value="{{ $visitor->visitor_id }}">
 
                                         <div class="form-group mb-4">
-                                            <select name="employee_id" id="employee_id" class="form-control"></select>
+                                            <select name="employee_id" id="employee_id_from_visitor" class="form-control"></select>
                                         </div>
 
                                         <div class="form-group mb-4">

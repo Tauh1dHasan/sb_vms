@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 
 /* included models */
 use App\Models\Meeting;
+use App\Models\MeetingLog;
 use App\Models\Visitor;
 use App\Models\Employee;
 use App\Models\MeetingPurpose;
@@ -25,19 +26,42 @@ class MeetingController extends Controller
      */
     public function store(Request $req)
     {
+        // insert appointment data into meetings table
         $meeting = new Meeting;
-
         $user_id = session('loggedUser');
-
         $meeting->visitor_id = $req->visitor_id;
         $meeting->user_id = $user_id;
         $meeting->employee_id = $req->employee_id;
         $meeting->meeting_purpose_id = $req->meeting_purpose_id;
         $meeting->purpose_describe = $req->meeting_purpose_describe;
         $meeting->meeting_datetime = $req->meeting_datetime;
+        $meeting->entry_user_id = session('loggedUser');
+        $meeting->entry_datetime = now();
+        $meeting->meeting_status = 0;
         $meeting->has_vehicle = $req->has_vehicle;
-        $done = $meeting->save();
+        $meetingDone = $meeting->save();
 
+        // Store appointment data into meeting_logs table
+        $meeting_id = Meeting::where('user_id', session('loggedUser'))->orderBy('meeting_id', 'desc')->first();
+        $meeting_id = $meeting_id->meeting_id;
+        $meetingLog = new MeetingLog;
+        $meetingLog->meeting_id = $meeting_id;
+        $meetingLog->user_id = $user_id;
+        $meetingLog->visitor_id = $req->visitor_id;
+        $meetingLog->employee_id = $req->employee_id;
+        $meetingLog->meeting_purpose_id = $req->meeting_purpose_id;
+        $meetingLog->purpose_describe = $req->meeting_purpose_describe;
+        $meetingLog->meeting_datetime = $req->meeting_datetime;
+        $meetingLog->meeting_status = 0;
+        $meetingLog->entry_user_id = session('loggedUser');
+        $meetingLog->entry_datetime = now();
+        $meetingLog->has_vehicle = $req->has_vehicle;
+        $meetingLog->description = "Appointment placed from visitor panel";
+        $meetingLog->log_type = 6;
+        $meetingLog->status = 1;
+        $meetingLogDone = $meetingLog->save();
+
+        // Email notification to host
         $employee_mail = Meeting::join('visitors', 'visitors.visitor_id', '=', 'meetings.visitor_id')
                                 ->join('employees', 'employees.employee_id', '=', 'meetings.employee_id')
                                 ->select('meetings.*', 'visitors.first_name as vfname', 'visitors.last_name as vlname','employees.first_name as efname', 'employees.last_name as elname',  'employees.email')
@@ -45,7 +69,7 @@ class MeetingController extends Controller
                                 ->where('employees.employee_id', '=', $req->employee_id)
                                 ->first();
 
-        if ($done) {
+        if ($meetingDone && $meetingLogDone) {
             mail::to($employee_mail->email)->send(new AppointmentRequest($employee_mail));
             return redirect()->route('visitor.pendingaMeetings')->with('success', 'Your meeting placed successfully');
         } else {
@@ -187,14 +211,36 @@ class MeetingController extends Controller
      */
     public function cancelMeeting(Request $request)
     {
+        // Update meeting status into meetings table
         $meeting_id = $request->meeting_id;
         $meeting = Meeting::find($meeting_id);
+        $meeting->modified_user_id = session('loggedUser');
+        $meeting->modified_datetime = now();
         $meeting->cancel_reason = $request->cancel_reason;
         $meeting->meeting_status = 4;
+        $done = $meeting->save();
+        
+        // keep cancelation log into meeting_logs table
+        $meetingLog = new MeetingLog;
+        $meetingLog->meeting_id = $meeting_id;
+        $meetingLog->user_id = $meeting->user_id;
+        $meetingLog->visitor_id = $meeting->visitor_id;
+        $meetingLog->employee_id = $meeting->employee_id;
+        $meetingLog->meeting_purpose_id = $meeting->meeting_purpose_id;
+        $meetingLog->purpose_describe = $meeting->purpose_describe;
+        $meetingLog->meeting_datetime = $meeting->meeting_datetime;
+        $meetingLog->cancel_reason = $request->cancel_reason;
+        $meetingLog->meeting_status = 4;
+        $meetingLog->has_vehicle = $meeting->has_vehicle;
+        $meetingLog->entry_user_id = session('loggedUser');
+        $meetingLog->entry_datetime = now();
+        $meetingLog->description = "Appointment canceled by visitor";
+        $meetingLog->log_type = 4;
+        $meetingLog->status = 1;
+        $meetingLog->save();
+
         $visitor_id = $meeting->visitor_id;
         $employee_id = $meeting->employee_id;
-        $done = $meeting->save();
-
         $visitor_meeting_cancel_email = Meeting::join('visitors', 'visitors.visitor_id', '=', 'meetings.visitor_id')
                                         ->join('employees', 'employees.employee_id', '=', 'meetings.employee_id')
                                         ->select('meetings.meeting_datetime', 'meetings.cancel_reason', 'visitors.first_name as vfname', 'visitors.last_name as vlname', 'visitors.mobile_no', 'employees.first_name as efname', 'employees.last_name as elname',  'employees.email')
@@ -214,20 +260,22 @@ class MeetingController extends Controller
     /**
      * Visitor pass.
      */
-    public function visitorPass(Request $req)
+    public function visitorPass($meeting_id)
     {
-        $meeting_id = $req->meeting_id;
-        $user_id = $req->user_id;
-
-        return view('backend.pages.visitor.visitor_pass')->with('meeting_id', $meeting_id);
+        $meeting = Meeting::where('meeting_id', $meeting_id)->first();
+        return view('backend.pages.visitor.visitor_pass', compact('meeting'));
     }
 
     /**
      * Meeting gate pass.
      */
-    public function gate_pass()
+    public function gate_pass($meeting_id)
     {
-        return "working";
+        $meeting = Meeting::where('meeting_id', $meeting_id)->first();
+
+        $meetingInfo = "Appointment ID: {{$meeting->meeting_id}} <br> Visitor ID: {{$meeting->visitor_id}} <br> Employee ID: {{$meeting->employee_id}} <br> Appointment Status: {{$meeting->meeting_status}}";
+        
+        return $meetingInfo;
     }
 
     /**

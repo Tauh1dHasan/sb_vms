@@ -2,12 +2,17 @@
 
     @section('content')
 
+    <nav class="breadcrumb-one" aria-label="breadcrumb">
+        <ol class="breadcrumb" style="background: none; padding: 0;">
+            <li class="breadcrumb-item"><a href="{{ route('visitor.index') }}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></a></li>
+            <li class="breadcrumb-item"><a href="{{ route('visitor.rescheduledMeetings') }}">Re-scheduled List</a></li>
+        </ol>
+    </nav>
 
     <div class="admin-data-content layout-top-spacing">
         <div class="row layout-spacing">
             <div class="col-lg-12">
                 <div class="statbox widget box box-shadow">
-                    <h3>All Re-scheduled Appointments</h3>
                     <div class="widget-content widget-content-area">
                         <div class="table-responsive mb-4">
                             <table id="style-3" class="table style-3  table-hover">
@@ -59,12 +64,7 @@
                                             <td class="text-center">
                                                 <ul class="table-controls">
                                                     <li>
-                                                        <form action="{{ route('visitor.visitorPass') }}" method="POST">
-                                                            @csrf
-                                                            <input type="hidden" name="meeting_id" value="{{$meeting->meeting_id}}">
-                                                            <input type="hidden" name="user_id" value="{{$meeting->user_id}}">
-                                                            <input type="submit" value="Generate Visitor Pass" class="btn btn-success btn-sm">
-                                                        </form>
+                                                        <a href="{{route('visitor.visitorPass', $meeting->meeting_id)}}" class="btn btn-success btn-sm mb-1">Generate Visitor Pass</a>
                                                     </li>
                                                 </ul>
                                                 <ul class="table-controls">
