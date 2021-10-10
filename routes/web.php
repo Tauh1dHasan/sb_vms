@@ -24,6 +24,7 @@ use App\Http\Controllers\Backend\Admin\ReceptionManageController;
 use App\Http\Controllers\Backend\Admin\VisitorTypeController;
 use App\Http\Controllers\Backend\Admin\DepartmentController;
 use App\Http\Controllers\Backend\Admin\DesignationController;
+use App\Http\Controllers\Backend\Admin\VisitorManageController;
 
 /* Backend Ajax Controller */
 use App\Http\Controllers\Backend\AjaxController;
@@ -48,13 +49,14 @@ Route::group(['prefix' => '/', 'as' => 'frontend.'], function() {
     Route::get('about', [IndexController::class, 'about'])->name('about');
     Route::get('contact', [IndexController::class, 'contact'])->name('contact');
 
+    // Visitor routes
     Route::get('register', [IndexController::class, 'register'])->name('register');
     Route::post('user-register', [UserAuthController::class, 'userRegistration'])->name('user_registration');
     Route::get('user-verify/{user_id}', [UserAuthController::class, 'userVerify'])->name('user_verify');
     Route::post('/visitor', [UserAuthController::class, 'userLogin'])->name('user_login');
     Route::get('user-logout', [UserAuthController::class, 'userLogout'])->name('user_logout');
 
-    /* Employee Register Routes */
+    /* Employee Routes */
     Route::get('employee/register', [IndexController::class, 'employeeCreate'])->name('employee.create');
     Route::post('employee/store', [EmployeeAuthController::class, 'store'])->name('employee.store');
     Route::post('employee/designations/{id}', [EmployeeAuthController::class, 'deptWiseDesignation'])->name('employee.designation');
@@ -64,56 +66,23 @@ Route::group(['prefix' => '/', 'as' => 'frontend.'], function() {
 
 /* Backend Visitor Routes */
 Route::group(['middleware' => ['UserMiddleware'], 'prefix' => '/visitor', 'as' => 'visitor.'], function() {
-    // Dashboard page for visitor
     Route::get('/', [VisitorController::class, 'dashboard'])->name('index');
-
-    // Show visitor's profile page
     Route::get('/profile', [VisitorController::class, 'profile'])->name('profile');
-
-    // Visitor profile update
     Route::get('/edit-profile/{user_id}', [VisitorController::class, 'edit'])->name('editProfile');
     Route::post('/update-profile', [VisitorController::class, 'update'])->name('update-profile');
-    
-    // Show form to create a meeting
     Route::get('/make-an-appointment', [MeetingController::class, 'create'])->name('create');
-
-    // Store a meeting routes for visitor
     Route::post('/create-meeting', [MeetingController::class, 'store'])->name('store');
-    
-    // search employees
     Route::get('/search-employees', [MeetingController::class, 'searchEmployees'])->name('search-employees');
-
-    // Show all meeting status
     Route::get('/all-appointments', [MeetingController::class, 'index'])->name('all_meetings');
-
-    // Show all approved meetings
     Route::get('/approved-meetings', [MeetingController::class, 'approved'])->name('approvedMeetings');
-
-    // Show all pending meetings
     Route::get('/pending-meetings', [MeetingController::class, 'pending'])->name('pendingaMeetings');
-
-    // Show all re-scheduled meetings
     Route::get('/reschedule-meeting', [MeetingController::class, 'reschedule'])->name('rescheduledMeetings');
-
-    // Show all rejected meetings
     Route::get('/rejected-meetings', [MeetingController::class, 'rejected'])->name('rejectedMeetings');
-
-    // Cancel meeting from visitor panel
     Route::post('/cancel-meeting', [MeetingController::class, 'cancelMeeting'])->name('cancel-meeting');
-
-    // Show meeting visitor-pass QR code to visitor
     Route::get('/visitor-pass/{meeting_id}', [MeetingController::class, 'visitorPass'])->name('visitorPass');
-
-    // Gate Pass -- This route will be moved to receptionist module -- only receptionist will see this info and provide a gate pass
     Route::get('/gate-pass/{meeting_id}', [MeetingController::class, 'gate_pass'])->name('gatePass');
-
-    // getting host name with auto suggest
     Route::get('/get-host', [MeetingController::class, 'getHost'])->name('getHost');
-
-    // All appointments custom filtering
     Route::post('/custom-report', [MeetingController::class, 'customReport'])->name('custom-report');
-
-    // Visitor change password
     Route::get('/edit-password', [VisitorController::class, 'editPassword'])->name('editPassword');
     Route::post('/update-password', [VisitorController::class, 'updatePassword'])->name('updatePassword');
 }); 
@@ -121,51 +90,21 @@ Route::group(['middleware' => ['UserMiddleware'], 'prefix' => '/visitor', 'as' =
 
 /* Backend Employee Routes */
 Route::group(['middleware' => ['EmployeeMiddleware'], 'prefix' => '/employee', 'as' => 'employee.'], function() {
-    // Dashboard page for visitor
     Route::get('/', [EmployeeController::class, 'dashboard'])->name('index');
-    // Change availability status
     Route::post('/availability-status', [EmployeeController::class, 'availabilityStatus'])->name('availabilityStatus');
-
-    // Show all meeting of this host
     Route::get('/all-meetings', [EmployeeController::class, 'allMeetings'])->name('allMeetings');
-
-    // Custom search for all appointments
     Route::post('/custom-meeting-search', [EmployeeController::class, 'customMeetingSearch'])->name('customMeetingSearch');
-
-    // Show all today's meeting of this host
     Route::get('/today-meetings', [EmployeeController::class, 'todayMeetings'])->name('todayMeetings');
-
-    // Show all pending meetings
     Route::get('/pending-meetings', [EmployeeController::class, 'pendingMeetings'])->name('pendingMeetings');
-
-    // Show all approved meetings
     Route::get('/approved-meetings', [EmployeeController::class, 'approvedMeetings'])->name('approvedMeetings');
-
-    // Show all re-scheduled meetings
     Route::get('/rescheduled-meetings', [EmployeeController::class, 'rescheduledMeetings'])->name('rescheduledMeetings');
-
-    // Show all declined meetings
     Route::get('/rejected-meetings', [EmployeeController::class, 'rejectedMeetings'])->name('rejectedMeetings');
-
-    // Employee profile route
     Route::get('/profile', [EmployeeController::class, 'profile'])->name('profile');
-
-    // Employee edit profile route
     Route::get('/edit-profile/{user_id}', [EmployeeController::class, 'edit'])->name('editProfile');
-
-    // Updade host profile
     Route::post('/update-profile', [EmployeeController::class, 'updateProfile'])->name('updateProfile');
-
-    // Meeting decline route
     Route::get('/decline-meeting/{meeting_id}', [EmployeeController::class, 'declineMeeting'])->name('declineMeeting');
-
-    // Meeting approve route
     Route::get('/approve-meeting/{meeting_id}', [EmployeeController::class, 'approveMeeting'])->name('approveMeeting');
-
-    // Meeting re-schedule route
     Route::post('/reschedule-meeting', [EmployeeController::class, 'rescheduleMeeting'])->name('rescheduleMeeting');
-
-    // Employee change password
     Route::get('/edit-password', [EmployeeController::class, 'editPassword'])->name('editPassword');
     Route::post('/update-password', [EmployeeController::class, 'updatePassword'])->name('updatePassword');
 }); 
@@ -173,55 +112,22 @@ Route::group(['middleware' => ['EmployeeMiddleware'], 'prefix' => '/employee', '
 
 /* Backend Reception Routes */
 Route::group(['middleware' => ['ReceptionMiddleware'], 'prefix' => '/reception', 'as' => 'reception.'], function() {
-    // Dashboard page for visitor
     Route::get('/', [ReceptionController::class, 'dashboard'])->name('index');
-
-    // Display reception Profile route
     Route::get('/profile', [ReceptionController::class, 'profile'])->name('profile');
-
-    // Display edit profile form
     Route::get('/edit-profile/{user_id}', [ReceptionController::class, 'edit'])->name('editProfile');
-
-    // Update reception profile
     Route::post('update-profile', [ReceptionController::class, 'updateProfile'])->name('updateProfile');
-
-    // Display visitor list
     Route::get('/visitor-list', [ReceptionController::class, 'visitorList'])->name('visitorList');
-
-    // Search Visitor
     Route::post('/search-visitor', [ReceptionController::class, 'searchVisitor'])->name('searchVisitor');
-
-    // Display meeting list
     Route::get('/meeting-list', [ReceptionController::class, 'meetingList'])->name('meetingList');
-
-    // Search Meeting
     Route::post('/search-meeting', [ReceptionController::class, 'searchMeeting'])->name('searchMeeting');
-
-    // Reception change password
     Route::get('/edit-password', [ReceptionController::class, 'editPassword'])->name('editPassword');
-
-    // Reception update password
     Route::post('/update-password', [ReceptionController::class, 'updatePassword'])->name('updatePassword');
-
-    // Display Create visitor account form
     Route::get('/create-visitor-account', [ReceptionController::class, 'createVisitorAccount'])->name('createVisitorAccount');
-
-    // Create new visitor account from reception panel
     Route::post('/create-visitor-account', [ReceptionController::class, 'visitorRegister'])->name('visitorRegister');
-
-    // Display make an appointment visitor list
     Route::get('/appoint-visitor', [ReceptionController::class, 'appointVisitor'])->name('appointVisitor');
-
-    // Display make an appointment form
     Route::get('/make-an-appointment/{visitor_id}', [ReceptionController::class, 'makeAnAppointment'])->name('makeAnAppointment');
-
-    // search employees
     Route::get('/search-employees', [ReceptionController::class, 'searchEmployees'])->name('search-employees');
-
-    // Place new appointment from reception
     Route::post('/place-an-appointment', [ReceptionController::class, 'placeAnAppointment'])->name('placeAnAppointment');
-
-    // Display visitor profile
     Route::get('/visitor-profile/{visitor_id}', [ReceptionController::class, 'visitorProfile'])->name('visitorProfile');
     
 });
@@ -237,7 +143,7 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
         /* Admin Panel Dashboard Route */
         Route::get('/dashboard', [AdminIndexController::class, 'index'])->name('index');
 
-        /* Admin Panel Host Routes */
+        /* Admin Panel Host/Employee Routes */
         Route::get('/host', [EmployeeManageController::class, 'index'])->name('employee.index');
         Route::get('/host/create', [EmployeeManageController::class, 'create'])->name('employee.create');
         Route::post('/host/store', [EmployeeManageController::class, 'store'])->name('employee.store');
@@ -270,6 +176,10 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
 
         Route::get('/approve-reception/{user_id}', [ReceptionManageController::class, 'approve'])->name('approve.receptionist');
         Route::get('/decline-reception/{user_id}', [ReceptionManageController::class, 'decline'])->name('decline.receptionist');
+
+        /* Admin Panel Visitor Routes */
+        Route::get('/visitor', [VisitorManageController::class, 'index'])->name('visitor.index');
+        Route::get('/visitor/show/{visitor_id}', [VisitorManageController::class, 'show'])->name('visitor.show');
 
         /* Admin Panel Visitor Type Routes */
         Route::get('/visitorType/index', [VisitorTypeController::class, 'index'])->name('visitorType.index');
