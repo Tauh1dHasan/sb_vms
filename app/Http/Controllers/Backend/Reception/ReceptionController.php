@@ -115,16 +115,14 @@ class ReceptionController extends Controller
     {
         // get employee old data
         $user_id = session('loggedUser');
-        $employee_old_data_query = Employee::where('user_id', '=', $user_id)->first();
-        $employee_id = $employee_old_data_query->employee_id;
-        $user_type_id = $employee_old_data_query->user_type_id;
+        $employee_old_data_query = Employee::where('user_id', $user_id)->first();
         $employee_old_photo = $employee_old_data_query->photo;
 
         // insert new/updated data into reception_logs table
         $receptionlog = new ReceptionLog;
-        $receptionlog->employee_id = $employee_id;
+        $receptionlog->employee_id = $employee_old_data_query->employee_id;
         $receptionlog->user_id = $user_id;
-        $receptionlog->user_type_id = $user_type_id;
+        $receptionlog->user_type_id = $employee_old_data_query->user_type_id;
         $receptionlog->first_name = $req->first_name;
         $receptionlog->last_name = $req->last_name;
         $receptionlog->gender = $req->gender;
@@ -254,7 +252,8 @@ class ReceptionController extends Controller
                             ->join('employees', 'meetings.employee_id', '=', 'employees.employee_id')
                             ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
                             ->where(function($item)use($data){
-                                $item->where('visitors.first_name', 'LIKE', "%{$data}%")
+                                $item->where('meetings.meeting_id', 'LIKE', "%{$data}%")
+                                     ->orWhere('visitors.first_name', 'LIKE', "%{$data}%")
                                      ->orWhere('visitors.last_name', 'LIKE', "%{$data}%")
                                      ->orWhere('visitors.mobile_no', 'LIKE', "%{$data}%");
                             })

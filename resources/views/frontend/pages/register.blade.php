@@ -54,8 +54,8 @@
 											<input type="text" value="{{old('organization')}}" name="organization" class="form-control form-control-lg text-4" required>
 										</div>
 										<div class="form-group col-6">
-											<label class="form-label text-color-dark text-3">Designation</label>
-											<input type="text" value="{{old('designation')}}" name="designation" class="form-control form-control-lg text-4">
+											<label class="form-label text-color-dark text-3">Designation <span class="text-color-danger">*</label>
+											<input type="text" value="{{old('designation')}}" name="designation" class="form-control form-control-lg text-4" required>
 										</div>
 									</div>
 
