@@ -66,15 +66,7 @@ class VisitorController extends Controller
                             ->where('visitors.visitor_status', '=', '1')
                             ->first();
 
-        if ($visitor->gender == '1') {
-            $gender = 'Male';
-        } elseif ($visitor->gender == '2') {
-            $gender = 'Female';
-        } else {
-            $gender = 'Not given';
-        }
-
-        return view('backend.pages.visitor.profile', compact('visitor', 'gender'));
+        return view('backend.pages.visitor.profile', compact('visitor'));
     }
 
     /**
