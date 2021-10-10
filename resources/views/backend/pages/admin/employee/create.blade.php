@@ -4,15 +4,15 @@
         
     <div class="admin-data-content layout-top-spacing">
             <div class="row layout-spacing">
-                <nav class="breadcrumb-one" aria-label="breadcrumb">
-                    <ol class="breadcrumb" style="background: none; padding: 0;">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.index') }}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('admin.employee.index') }}">Manage Host</a></li>
-                        <li class="breadcrumb-item active" aria-current="page"><span>Add Host</span></li>
-                    </ol>
-                </nav>
-
-                <div class="col-lg-12">
+                <div class="col-md-12"> 
+                    <nav class="breadcrumb-one" aria-label="breadcrumb">
+                        <ol class="breadcrumb" style="background: none; padding: 0;">
+                            <li class="breadcrumb-item"><a href="{{ route('admin.index') }}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.employee.index') }}">Manage Host</a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><span>Add Host</span></li>
+                        </ol>
+                    </nav>
+                    
                     <div class="statbox widget box box-shadow">
                         <div class="widget-content widget-content-area">
                             <div class="widget widget-card-four" style="padding-left: 0"> 
@@ -128,7 +128,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon5">Work End Hour</span>
                                         </div>
-                                        <input type="time" value="{{ old('end_hour') }}" name="end_hour" class="form-control" placeholder="Enter Work End Hour" aria-label="Work Start Hour" required>
+                                        <input type="time" value="{{ old('end_hour') }}" name="end_hour" class="form-control" placeholder="Enter Work End Hour" aria-label="Work End Hour" required>
                                     </div>
                                 </div>
 
@@ -152,7 +152,7 @@
                                             <span class="input-group-text" id="basic-addon5">Gate No.</span>
                                         </div>
 
-                                        <select class="form-control" name="building_no" id="building_no">
+                                        <select class="form-control" name="gate_no" id="gate_no">
                                             <option value="">--Select Gate No--</option> 
                                             <option value="Gate 1">Gate 1</option>
                                             <option value="Gate 2">Gate 2</option>

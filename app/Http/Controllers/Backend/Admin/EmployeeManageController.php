@@ -43,7 +43,6 @@ class EmployeeManageController extends Controller
         ]);
     }
 
-
     /**
      * Display list of all employees.
      */
@@ -127,6 +126,7 @@ class EmployeeManageController extends Controller
                                 'photo'=>$imgName,
                                 'entry_user_id'=>$session_user,
                                 'entry_datetime'=>now(),
+                                'availability'=>1,
                                 'status'=>1
                             ]);
 
@@ -174,7 +174,9 @@ class EmployeeManageController extends Controller
      */
     public function edit($id)
     {
-        $employee = Employee::where('employee_id', $id)->first();
+        $employee = Employee::with('department', 'designation')
+                            ->where('employee_id', $id)
+                            ->first();
 
         $departments = Department::where('status', '=', 1)
                                 ->orderBy('dept_id', 'asc')
@@ -184,7 +186,7 @@ class EmployeeManageController extends Controller
                                     ->orderBy('designation_id', 'asc')
                                     ->get();
 
-        return view('backend.pages.admin.employee.edit', compact('employee', 'department', 'designation'));
+        return view('backend.pages.admin.employee.edit', compact('employee', 'departments', 'designations'));
     }
 
 
@@ -195,7 +197,116 @@ class EmployeeManageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Employee $employee)
+    {
+        $user =  $employee->user;
+
+        if(($request->email == $user->email) and ($request->mobile_no == $employee->mobile_no)) {
+            $request->validate([
+                'first_name' => 'required|max:255',
+                'last_name' => 'required|max:255',
+                'dept_id' => 'required',
+                'designation_id' => 'required',
+                'eid_no' => 'required',
+                'start_hour' => 'required',
+                'end_hour' => 'required',
+                'mobile_no' => 'required|min:11',
+                'email' => 'required',
+                'photo' => 'mimes:jpeg,png,jpg|max:2048'
+            ]);
+        } else {
+            $request->validate([
+                'first_name' => 'required|max:255',
+                'last_name' => 'required|max:255',
+                'dept_id' => 'required',
+                'designation_id' => 'required',
+                'eid_no' => 'required',
+                'start_hour' => 'required',
+                'end_hour' => 'required',
+                'mobile_no' => 'required|unique:users|min:11',
+                'email' => 'required|unique:users',
+                'photo' => 'mimes:jpeg,png,jpg|max:2048'
+            ]);
+        }
+
+        $user_id = session('loggedUser');
+
+        $old_photo = $request->old_photo;
+
+        if ($request->hasFile('photo')) {
+            $image = $request->file('photo');
+            $imgName = 'employee'.time().'.'.$image->getClientOriginalExtension();
+            $location = public_path('backend/img/employees/'.$imgName);
+            Image::make($image)->save($location);
+            File::delete(public_path() . '/backend/img/employees/'. $old_photo);
+        } else {
+            $imgName = $old_photo;
+        }
+
+        $user = User::where('user_id', $user_id)
+                    ->update([
+                        'mobile_no'=>$request->mobile_no,
+                        'email'=>$request->email,
+                        'is_approved'=>$request->status,
+                        'modified_datetime'=>now()
+                    ]);
+
+        $employee = Employee::where('employee_id', $employee->employee_id)
+                            ->update([
+                                'first_name'=>$request->first_name,
+                                'last_name'=>$request->last_name,
+                                'slug'=>Str::slug($request->first_name.' '.$request->last_name),
+                                'eid_no'=>$request->eid_no,
+                                'dept_id'=>$request->dept_id,
+                                'designation_id'=>$request->designation_id,
+                                'gender'=>$request->gender,
+                                'dob'=>$request->dob,
+                                'mobile_no'=>$request->mobile_no,
+                                'email'=>$request->email,
+                                'start_hour'=>$request->start_hour,
+                                'end_hour'=>$request->end_hour,
+                                'building_no'=>$request->building_no,
+                                'gate_no'=>$request->gate_no,
+                                'elevator_no'=>$request->elevator_no,
+                                'floor_no'=>$request->floor_no,
+                                'room_no'=>$request->room_no,
+                                'address'=>$request->address,
+                                'nid_no'=>$request->nid_no,
+                                'passport_no'=>$request->passport_no,
+                                'driving_license_no'=>$request->driving_license_no,
+                                'photo'=>$imgName,
+                                'modified_user_id'=>$user_id,
+                                'modified_datetime'=>now(),
+                                'availability'=>$request->availability,
+                                'status'=>$request->status
+                            ]);
+
+        Session()->flash('success' , 'Host Info Updated Successfully !!!');
+        return redirect()->route('admin.employee.index');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function editPassword($id)
+    {
+        $employee = Employee::where('employee_id', $id)
+                            ->first();
+
+        return view('backend.pages.admin.employee.editPassword', compact('employee'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updatePassword(Request $request, $id)
     {
         $this->validation($request);
 
@@ -203,43 +314,11 @@ class EmployeeManageController extends Controller
 
         $user = User::where('user_id', $user_id)
                     ->update([
-                        'mobile_no'=>$request->mobile_no,
-                        'email'=>$request->email,
-                        'password'=>bcrypt($request->password),
-                        'is_approved'=>$request->status,
+                        'password'=>$request->password,
                         'modified_datetime'=>now()
                     ]);
 
-        $employee = Employee::where('employee_id', $id)
-                                    ->update([
-                                        'first_name'=>$request->first_name,
-                                        'last_name'=>$request->last_name,
-                                        'slug'=>Str::slug($request->first_name.' '.$request->last_name),
-                                        'eid_no'=>$request->eid_no,
-                                        'dept_id'=>$request->dept_id,
-                                        'designation_id'=>$request->designation_id,
-                                        'gender'=>$request->gender,
-                                        'dob'=>$request->dob,
-                                        'mobile_no'=>$request->mobile_no,
-                                        'email'=>$request->email,
-                                        'start_hour'=>$request->start_hour,
-                                        'end_hour'=>$request->end_hour,
-                                        'building_no'=>$request->building_no,
-                                        'gate_no'=>$request->gate_no,
-                                        'elevator_no'=>$request->elevator_no,
-                                        'floor_no'=>$request->floor_no,
-                                        'room_no'=>$request->room_no,
-                                        'address'=>$request->address,
-                                        'nid_no'=>$request->nid_no,
-                                        'passport_no'=>$request->passport_no,
-                                        'driving_license_no'=>$request->driving_license_no,
-                                        'photo'=>$imgName,
-                                        'modifiied_user_id'=>$user_id,
-                                        'modified_datetime'=>now(),
-                                        'status'=>$request->status
-                                    ]);
-
-        Session()->flash('success' , 'Host Info Updated Successfully !!!');
+        Session()->flash('success' , 'Host Password Updated Successfully !!!');
         return redirect()->route('admin.employee.index');
     }
 

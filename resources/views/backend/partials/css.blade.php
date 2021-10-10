@@ -46,7 +46,10 @@
             margin-bottom: 7px;
         }
         .input-group .input-group-prepend .input-group-text {
-            width: 170px;
+            width: 208px;
         }
-    
+        .widget-content.widget-content-area form {
+            padding-left: 15px;
+        }
+        
     </style>

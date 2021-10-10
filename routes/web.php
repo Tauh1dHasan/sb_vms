@@ -243,7 +243,9 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
         Route::post('/host/store', [EmployeeManageController::class, 'store'])->name('employee.store');
         Route::get('/host/show/{id}', [EmployeeManageController::class, 'show'])->name('employee.show');
         Route::get('/host/edit/{id}', [EmployeeManageController::class, 'edit'])->name('employee.edit');
-        Route::patch('/host/update/{id}', [EmployeeManageController::class, 'update'])->name('employee.update');
+        Route::get('/host/editPassword/{id}', [EmployeeManageController::class, 'editPassword'])->name('employee.editPassword');
+        Route::patch('/host/update/{employee}', [EmployeeManageController::class, 'update'])->name('employee.update');
+        Route::patch('/host/updatePassword/{id}', [EmployeeManageController::class, 'updatePassword'])->name('employee.updatePassword');
         Route::get('/host/destroy/{id}', [EmployeeManageController::class, 'destroy'])->name('employee.destroy');
 
         Route::get('/pending-host', [EmployeeManageController::class, 'pending'])->name('pending.employees');

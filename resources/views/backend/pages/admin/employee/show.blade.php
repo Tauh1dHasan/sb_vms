@@ -12,6 +12,7 @@
                             <li class="breadcrumb-item active" aria-current="page"><span>{{ $employee->first_name }} {{ $employee->last_name }}</span></li>
                         </ol>
                     </nav>
+                    
                     <div class="offset-lg-3 col-lg-6">
                         <div class="user-profile layout-spacing">
                             <div class="widget-content widget-content-area">
@@ -24,6 +25,7 @@
                 
                                     <div class="">
                                         <ul class="contacts-block list-unstyled card-header" style="max-width: 100%; margin: 35px auto;">
+                                            
                                             @if($employee->photo)
                                             <li class="contacts-block__item" style="margin: 5px 0;">
                                                 <div class="form-group row mb-4">
