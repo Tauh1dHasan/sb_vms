@@ -23,6 +23,7 @@ use App\Models\VisitorType;
 use App\Models\ReceptionLog;
 use App\Models\VisitorLog;
 use App\Models\MeetingLog;
+use App\Models\VisitorPass;
 
 /* included mails */
 use App\Mail\AppointmentRequest;
@@ -237,7 +238,7 @@ class ReceptionController extends Controller
         $meetings = Meeting::join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
                            ->join('employees', 'meetings.employee_id', '=', 'employees.employee_id')
                            ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
-                           ->select('meeting_id', 'visitors.first_name as vfname', 'visitors.last_name as vlname', 'visitors.mobile_no as vmobile', 'organization', 'designation', 'employees.first_name as efname', 'employees.last_name as elname', 'employees.mobile_no as emobile', 'purpose_name', 'purpose_describe', 'meeting_datetime', 'meeting_status')
+                           ->select('meeting_id', 'visitors.first_name as vfname', 'visitors.last_name as vlname', 'visitors.mobile_no as vmobile', 'organization', 'designation', 'employees.first_name as efname', 'employees.last_name as elname', 'employees.mobile_no as emobile', 'purpose_name', 'purpose_describe', 'meeting_datetime', 'meeting_status', 'checkin_status')
                            ->get();
 
         return view('backend.pages.reception.meetingList', compact('meetings'));
@@ -257,7 +258,7 @@ class ReceptionController extends Controller
                                      ->orWhere('visitors.last_name', 'LIKE', "%{$data}%")
                                      ->orWhere('visitors.mobile_no', 'LIKE', "%{$data}%");
                             })
-                            ->select('meeting_id', 'visitors.first_name as vfname', 'visitors.last_name as vlname', 'visitors.mobile_no as vmobile', 'organization', 'designation', 'employees.first_name as efname', 'employees.last_name as elname', 'employees.mobile_no as emobile', 'purpose_name', 'purpose_describe', 'meeting_datetime', 'meeting_status')
+                            ->select('meeting_id', 'visitors.first_name as vfname', 'visitors.last_name as vlname', 'visitors.mobile_no as vmobile', 'organization', 'designation', 'employees.first_name as efname', 'employees.last_name as elname', 'employees.mobile_no as emobile', 'purpose_name', 'purpose_describe', 'meeting_datetime', 'meeting_status', 'checkin_status')
                             ->get();
         
         return view('backend.pages.reception.searchMeeting', compact('meetings'));
@@ -462,6 +463,75 @@ class ReceptionController extends Controller
                             ->first();
 
         return view('backend.pages.reception.visitorProfile', compact('visitor'));
+    }
+
+    // Visitor check-in method
+    public function checkIn(Request $req)
+    {
+        // logged user ID
+        $user_id = session('loggedUser');
+
+        // update meetings table
+        $meeting = Meeting::where('meeting_id', $req->meeting_id)->first();
+        $meeting->meeting_start_time = now();
+        $meeting->checkin_status = 1;
+        $meetingUpdated = $meeting->save();
+
+        // insert new visitor_pass data
+        $visitorPass = new VisitorPass;
+        $visitorPass->visitor_id = $meeting->visitor_id;
+        $visitorPass->meeting_id = $meeting->meeting_id;
+        $visitorPass->checkin_time = now();
+        $visitorPass->card_no = $req->card_no;
+        $visitorPass->entry_user_id = $user_id;
+        $visitorPass->visitor_pass_status = 1;
+        
+        // Webcam image processing
+        $img = $req->visitor_photo;
+        $folderPath = public_path('backend/img/meeting_attendees/');
+        $image_parts = explode(";base64,", $img);
+        $image_type_aux = explode("image/", $image_parts[0]);
+        $image_type = $image_type_aux[1];
+        $image_base64 = base64_decode($image_parts[1]);
+        $fileName = time() . '.png';
+        $file = $folderPath . $fileName;
+        file_put_contents($file, $image_base64);
+        $visitorPass->visitor_photo = $fileName;
+        $visitorPassSaved = $visitorPass->save();
+
+        if($meetingUpdated && $visitorPassSaved)
+        {
+            return redirect()->route('reception.meetingList')->with('success', 'Check-in Approved');
+        }else{
+            return redirect()->route('reception.meetingList')->with('sticky_error', 'Please try agrain...!');
+        }
+
+    }
+
+    // Visitor check-out method
+    public function checkOut($meeting_id)
+    {
+        $user_id = session('loggedUser');
+        // Update meetings table data
+        $meeting = Meeting::where('meeting_id', $meeting_id)->first();
+        $meeting->meeting_end_time = now();
+        $meeting->meeting_status = 12;
+        $meeting->checkin_status = 2;
+        $meetingDone = $meeting->save();
+
+        // Update visitor_pass table data
+        $visitorPass = VisitorPass::where('meeting_id', $meeting_id)->first();
+        $visitorPass->checkout_time = now();
+        $visitorPass->modified_user_id = $user_id;
+        $visitorPass->visitor_pass_status = 0;
+        $visitorPassDone = $visitorPass->save();
+
+        if($meetingDone && $visitorPassDone)
+        {
+            return redirect()->route('reception.meetingList')->with('success', 'Check-out Done...');
+        }else{
+            return redirect()->route('reception.meetingList')->with('sticky_error', 'Please try agrain...!');
+        }
     }
     
 

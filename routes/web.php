@@ -130,6 +130,10 @@ Route::group(['middleware' => ['ReceptionMiddleware'], 'prefix' => '/reception',
     Route::get('/search-employees', [ReceptionController::class, 'searchEmployees'])->name('search-employees');
     Route::post('/place-an-appointment', [ReceptionController::class, 'placeAnAppointment'])->name('placeAnAppointment');
     Route::get('/visitor-profile/{visitor_id}', [ReceptionController::class, 'visitorProfile'])->name('visitorProfile');
+
+    // Gate pass
+    Route::post('/check-in', [ReceptionController::class, 'checkIn'])->name('checkIn');
+    Route::get('/check-out/{meeting_id}', [ReceptionController::class, 'checkOut'])->name('checkOut');
     
 });
 

@@ -79,5 +79,31 @@
         ;
     </script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.min.js"></script>
+    <script>
+        // passing meeting_id function
+        function meeting_func(id){
+            var meeting_id = id.getAttribute("data-id");
+            document.getElementById("gatePassMeetingID").value = meeting_id;
+
+            // Load webcam
+            Webcam.set({
+                width:200,
+                height:150,
+                image_format:'jpeg',
+                jpeg_quality:90
+            });
+            Webcam.attach("#camera")
+            
+        }
+        // Taking picture function
+        function take_snapshot(){
+            Webcam.snap(function(data_uri){
+                document.getElementById('camera').innerHTML = '<img src="'+data_uri+'"/>';
+                document.getElementById('visitor_photo').value = data_uri;
+            });
+        }
+    </script>
+
     @include('backend.ajax.ajax')
 

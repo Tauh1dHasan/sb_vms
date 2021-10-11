@@ -49,6 +49,7 @@
                                         <tr>
                                             <th class="text-center">Meeting ID </th>
                                             <th class="text-center">Visitor Name</th>
+                                            <th class="text-center">Organization</th>
                                             <th class="text-center">Meeting Purpose</th>
                                             <th class="text-center">Purpose Description</th>
                                             <th class="text-center">Meeting Date</th>
@@ -62,6 +63,7 @@
                                             <tr>
                                                 <td class="text-center"> {{$meeting->meeting_id}} </td>
                                                 <td class="text-center"> {{$meeting->first_name}} {{$meeting->last_name}} </td>
+                                                <td class="text-center"> {{$meeting->organization}} </td>
                                                 <td class="text-center"> {{$meeting->purpose_name}} </td>
                                                 <td class="text-center"> {{$meeting->purpose_describe}} </td>
                                                 <td class="text-center"> <?php echo date("d M, Y", strtotime($meeting->meeting_datetime)); ?> </td>
