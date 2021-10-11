@@ -51,5 +51,13 @@
         .widget-content.widget-content-area form {
             padding-left: 15px;
         }
-        
+
+        /* style for webcam */
+        #camera {
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+            margin-left: 25%;
+            margin-bottom: 10px;
+        }
     </style>
