@@ -82,12 +82,12 @@
         </li>
 
         <li class="menu">
-            <a href="#meeting" data-active="false" class="menu-toggle">
+            <a href="#appointment" data-active="false" class="menu-toggle">
                 <div class="base-menu">
                     <div class="base-icons">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
                     </div>
-                    <span>Manage Meetings</span>
+                    <span>Manage Appointments</span>
                 </div>
             </a>
         </li>
@@ -451,7 +451,7 @@
 
 <!-------------------------------------------  Admin Manage Visitor Submenu Start  -------------------------------------------->
         <div class="submenu" id="visitor">
-            <ul class="submenu-list menu-block-submenu" data-parent-element="#employee">
+            <ul class="submenu-list menu-block-submenu" data-parent-element="#visitor">
                 <li class="menu-block">
                     <a href="{{route('admin.visitorType.create')}}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg> Add Visitor Type </a>
                 </li> 
@@ -463,6 +463,16 @@
                 </li>
             </ul>
         </div>
+<!-------------------------------------------  Admin Manage Visitor Submenu End  -------------------------------------------->
+
+<!-------------------------------------------  Admin Manage Appointment Submenu Start  -------------------------------------------->
+<div class="submenu" id="appointment">
+    <ul class="submenu-list menu-block-submenu" data-parent-element="#appointment">
+        <li class="menu-block">
+            <a href="{{route('admin.appointment.index')}}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg> All Appointments </a>
+        </li> 
+    </ul>
+</div>
 <!-------------------------------------------  Admin Manage Visitor Submenu End  -------------------------------------------->
 
 <!-------------------------------------------  Admin Manage Dept & Designation Submenu Start  -------------------------------------------->

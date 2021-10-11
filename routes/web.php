@@ -25,6 +25,7 @@ use App\Http\Controllers\Backend\Admin\VisitorTypeController;
 use App\Http\Controllers\Backend\Admin\DepartmentController;
 use App\Http\Controllers\Backend\Admin\DesignationController;
 use App\Http\Controllers\Backend\Admin\VisitorManageController;
+use App\Http\Controllers\Backend\Admin\AppointmentController;
 
 /* Backend Ajax Controller */
 use App\Http\Controllers\Backend\AjaxController;
@@ -143,7 +144,7 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
         /* Admin Panel Dashboard Route */
         Route::get('/dashboard', [AdminIndexController::class, 'index'])->name('index');
 
-        /* Admin Panel Host/Employee Routes */
+        /* Admin Panel Host Routes */
         Route::get('/host', [EmployeeManageController::class, 'index'])->name('employee.index');
         Route::get('/host/create', [EmployeeManageController::class, 'create'])->name('employee.create');
         Route::post('/host/store', [EmployeeManageController::class, 'store'])->name('employee.store');
@@ -165,10 +166,12 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
         Route::get('/reception', [ReceptionManageController::class, 'index'])->name('receptionist.index');
         Route::get('/reception/create', [ReceptionManageController::class, 'create'])->name('receptionist.create');
         Route::post('/reception/store', [ReceptionManageController::class, 'store'])->name('receptionist.store');
-        Route::get('/reception/show/{id}', [VisitorTypeController::class, 'show'])->name('receptionist.show');
-        Route::get('/reception/edit/{id}', [VisitorTypeController::class, 'edit'])->name('receptionist.edit');
-        Route::patch('/reception/update/{id}', [VisitorTypeController::class, 'update'])->name('receptionist.update');
-        Route::get('/reception/destroy/{id}', [VisitorTypeController::class, 'destroy'])->name('receptionist.destroy');
+        Route::get('/reception/show/{id}', [ReceptionManageController::class, 'show'])->name('receptionist.show');
+        Route::get('/reception/edit/{id}', [ReceptionManageController::class, 'edit'])->name('receptionist.edit');
+        Route::get('/reception/editPassword/{id}', [ReceptionManageController::class, 'editPassword'])->name('receptionist.editPassword');
+        Route::patch('/reception/update/{id}', [ReceptionManageController::class, 'update'])->name('receptionist.update');
+        Route::patch('/reception/updatePassword/{id}', [ReceptionManageController::class, 'updatePassword'])->name('receptionist.updatePassword');
+        Route::get('/reception/destroy/{id}', [ReceptionManageController::class, 'destroy'])->name('receptionist.destroy');
 
         Route::get('/pending-reception', [ReceptionManageController::class, 'pending'])->name('pending.receptionists');
         Route::get('/approved-reception', [ReceptionManageController::class, 'approved'])->name('approved.receptionists');
@@ -180,6 +183,16 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
         /* Admin Panel Visitor Routes */
         Route::get('/visitor', [VisitorManageController::class, 'index'])->name('visitor.index');
         Route::get('/visitor/show/{visitor_id}', [VisitorManageController::class, 'show'])->name('visitor.show');
+
+        /* Admin Panel Appointment Routes */
+        Route::get('/appointment', [AppointmentController::class, 'index'])->name('appointment.index');
+
+        Route::get('/appointment/approve/{meeting_id}', [AppointmentController::class, 'approve'])->name('approve.appointment');
+        Route::get('/appointment/decline/{meeting_id}', [AppointmentController::class, 'decline'])->name('decline.appointment');
+        Route::patch('/appointment/reschedule/{meeting_id}', [AppointmentController::class, 'reschedule'])->name('reschedule.appointment');
+        Route::get('/appointment/cancel/{meeting_id}', [AppointmentController::class, 'cancel'])->name('cancel.appointment');
+
+        Route::get('/appointment/search/{meeting_id}', [AppointmentController::class, 'search'])->name('search.appointment');
 
         /* Admin Panel Visitor Type Routes */
         Route::get('/visitorType/index', [VisitorTypeController::class, 'index'])->name('visitorType.index');

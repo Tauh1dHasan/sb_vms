@@ -39,6 +39,9 @@ class Employee extends Model
         return $this->hasOne(Designation::class, 'designation_id', 'designation_id');
     }
 
+    /**
+     * a single employee has one user account
+     */
     public function user()
     {
         return $this->belongsTo(User::class,'user_id', 'user_id');

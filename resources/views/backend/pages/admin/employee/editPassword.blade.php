@@ -25,6 +25,7 @@
                             @include('backend.partials.message')
                             <form class="" action="{{ route('admin.employee.updatePassword', $employee->employee_id) }}" method="post" enctype="multipart/form-data">
                                 @csrf
+                                @method('patch')
                                 
                                 <div class="row"> 
                                     <div class="input-group mb-4 col-md-10" style="padding-left: 0;">

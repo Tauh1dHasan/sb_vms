@@ -11,18 +11,19 @@
 
         <form action="{{ route('visitor.custom-report') }}" method="POST">
             @csrf
+            
             <div class="row">
-            <div class="col-md-5 col-xl-5">
-                <label for="from_date">From Date</label>
-                <input type="date" class="form-control" name="from_date" id="from_date" required>
-            </div>
-            <div class="col-md-5 col-xl-5">
-                <label for="to_date">To Date</label>
-                <input type="date" class="form-control" name="to_date" id="to_date" required>
-            </div>
-            <div class="col-md-2 col-xl-2">
-                <button type="submit" class="form-control" class="btn btn-primary" style="margin-top: 30px">Submit</button>
-            </div>
+                <div class="col-md-5 col-xl-5">
+                    <label for="from_date">From Date</label>
+                    <input type="date" class="form-control" name="from_date" id="from_date" required>
+                </div>
+                <div class="col-md-5 col-xl-5">
+                    <label for="to_date">To Date</label>
+                    <input type="date" class="form-control" name="to_date" id="to_date" required>
+                </div>
+                <div class="col-md-2 col-xl-2">
+                    <button type="submit" class="form-control" class="btn btn-primary" style="margin-top: 30px">Submit</button>
+                </div>
             </div>
         </form>
 

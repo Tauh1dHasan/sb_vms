@@ -51,6 +51,7 @@ class EmployeeManageController extends Controller
         $employees = Employee::join('departments', 'departments.dept_id', '=', 'employees.dept_id')
                             ->join('designations', 'designations.designation_id', '=', 'employees.designation_id')
                             ->where('employees.user_type_id', 2)
+                            ->where('employees.status', '!=', 3)
                             ->orderBy('employees.employee_id', 'asc')
                             ->get(['employees.*', 'departments.department_name as department_name', 'designations.designation as designation']);
 
@@ -308,7 +309,9 @@ class EmployeeManageController extends Controller
      */
     public function updatePassword(Request $request, $id)
     {
-        $this->validation($request);
+        $request->validate([
+            'password' => 'required|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/'
+        ]);
 
         $user_id = session('loggedUser');
 
@@ -331,14 +334,14 @@ class EmployeeManageController extends Controller
     public function destroy($id)
     {
         $user_id = session('loggedUser');
-
-        $user = User::where('user_id', $user_id)
+        
+        $user = User::where('user_id', $id)
                                     ->update([
                                         'is_approved'=>3,
                                         'modified_datetime'=>now()
                                     ]);
         
-        $employee = Employee::where('employee_id', $id)
+        $employee = Employee::where('user_id', $id)
                                     ->update([
                                         'status'=>3,
                                         'modified_user_id'=>$user_id,
@@ -416,7 +419,7 @@ class EmployeeManageController extends Controller
             mail::to($employees->email)->send(new EmployeeApprovedMail($employees));
         }
 
-        Session()->flash('success', 'Host Account Approved Succesfully.');
+        Session()->flash('success', 'Host Account Approved Successfully.');
         return redirect()->back();
     }
 
@@ -438,7 +441,7 @@ class EmployeeManageController extends Controller
             mail::to($employees->email)->send(new EmployeeDeclinedMail($employees));
         }
 
-        Session()->flash('success', 'Host Account Declined Succesfully.');
+        Session()->flash('success', 'Host Account Declined Successfully.');
         return redirect()->back();
     }
 }
