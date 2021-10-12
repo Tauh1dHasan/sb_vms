@@ -141,16 +141,31 @@ class AppointmentController extends Controller
      */
     public function search(Request $request)
     {
+        $visitor = $request->visitor_id;
+        $employee = $request->employee_id;
+        $from_date = $request->from_date  ? $request->from_date: date('Y-m-d');
+        $to_date = $request->to_date ? $request->to_date: date('Y-m-d');
+
         $visitors = Visitor::where('visitor_status', 1)->get();
 
         $employees = Employee::where('status', 1)->get();
 
-        $appointments = Meeting::latest()
-                                ->join('visitors', 'visitors.visitor_id', '=', 'meetings.visitor_id')
-                                ->join('employees', 'employees.employee_id', '=', 'meetings.employee_id')
-                                ->where('')
-                                ->get();
-
-        return view('backend.pages.admin.appointment.search', compact('visitors', 'employees', 'appointments'));
+        $departments = Department::where('status', 1)->get();
+        
+        $appointments =  Meeting::with('visitor', 'employee')
+                                ->whereBetween('meeting_datetime', [$from_date. " 00:00:00", $to_date." 23:59:59"])
+                                ->where(function($q) use ($employee, $visitor){
+                                    if($employee)
+                                    {
+                                        $q->where('employee_id', $employee);
+                                    }
+                                    if($visitor)
+                                    {
+                                        $q->where('visitor_id', $visitor);
+                                    }
+                                })->get();
+        // dd($employee);
+        
+        return view('backend.pages.admin.appointment.search', compact('visitors', 'employees', 'departments', 'appointments', 'visitor', 'employee', 'from_date', 'to_date'));
     }
 }

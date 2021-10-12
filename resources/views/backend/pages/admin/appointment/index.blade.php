@@ -17,29 +17,29 @@
                         <div class="widget-content widget-content-area">
                             <div class="widget widget-card-four" style="padding-left: 0"> 
                                 <div class="w-info">
-                                    <form action="" method="post"> 
+                                    <form action="{{ route('admin.search.appointment')}}" method="get"> 
                                         @csrf
 
                                         <div class="row">
-                                            <div class="col-md-4 col-xl-4">
-                                                <label for="from_date">Visitor Name</label>
-                                                <select name="visitor_id" id="" class="form-control">
+                                            <div class="col-md-6 col-xl-6">
+                                                <label for="visitor_id">Visitor Name</label>
+                                                <select name="visitor_id" id="" class="form-control select2">
                                                     <option value="">--Select Visitor--</option> 
                                                     @foreach ($visitors as $visitor)
                                                         <option value="{{ $visitor->visitor_id }}">{{ $visitor->first_name }} {{ $visitor->last_name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="col-md-4 col-xl-4">
-                                                <label for="to_date">Employee Name</label>
-                                                <select name="employee_id" id="" class="form-control">
+                                            <div class="col-md-6 col-xl-6">
+                                                <label for="employee_id">Employee Name</label>
+                                                <select name="employee_id" id="" class="form-control select2">
                                                     <option value="">--Select Employee--</option> 
                                                     @foreach ($employees as $employee)
-                                                        <option value="{{ $employee->visitor_id }}">{{ $employee->first_name }} {{ $employee->last_name }}</option>
+                                                        <option value="{{ $employee->employee_id }}">{{ $employee->first_name }} {{ $employee->last_name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="col-md-4 col-xl-4">
+                                            {{-- <div class="col-md-4 col-xl-4">
                                                 <label for="to_date">Department</label>
                                                 <select name="dept_id" id="" class="form-control">
                                                     <option value="">--Select Department--</option> 
@@ -47,17 +47,17 @@
                                                         <option value="{{ $department->visitor_id }}">{{ $department->department_name }}</option>
                                                     @endforeach
                                                 </select>
-                                            </div>
+                                            </div> --}}
                                         </div>
 
                                         <div class="row mt-4">
                                             <div class="col-md-5 col-xl-5">
                                                 <label for="from_date">From Date</label>
-                                                <input type="date" class="form-control" name="from_date" id="from_date" required>
+                                                <input type="date" class="form-control" name="from_date" id="from_date">
                                             </div>
                                             <div class="col-md-5 col-xl-5">
                                                 <label for="to_date">To Date</label>
-                                                <input type="date" class="form-control" name="to_date" id="to_date" required>
+                                                <input type="date" class="form-control" name="to_date" id="to_date">
                                             </div>
                                             <div class="col-md-2 col-xl-2">
                                                 <button type="submit" class="form-control btn btn-primary" style="margin-top: 30px">Submit</button>
