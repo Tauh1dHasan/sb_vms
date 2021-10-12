@@ -193,7 +193,8 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
         Route::get('/appointment/decline/{meeting_id}', [AppointmentController::class, 'decline'])->name('decline.appointment');
         Route::patch('/appointment/reschedule/{meeting_id}', [AppointmentController::class, 'reschedule'])->name('reschedule.appointment');
         Route::get('/appointment/cancel/{meeting_id}', [AppointmentController::class, 'cancel'])->name('cancel.appointment');
-        Route::get('/appointment/search/{meeting_id}', [AppointmentController::class, 'search'])->name('search.appointment');
+
+        Route::get('/appointment/search', [AppointmentController::class, 'search'])->name('search.appointment');
 
         /* Admin Panel Visitor Type Routes */
         Route::get('/visitorType/index', [VisitorTypeController::class, 'index'])->name('visitorType.index');
