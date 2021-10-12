@@ -22,7 +22,9 @@ class AppointmentController extends Controller
     {
         $visitors = Visitor::where('visitor_status', 1)->get();
 
-        $employees = Employee::where('status', 1)->get();
+        $employees = Employee::where('status', 1)
+                            ->where('user_type_id', 2)
+                            ->get();
 
         $departments = Department::where('status', 1)->get();
 
@@ -148,7 +150,9 @@ class AppointmentController extends Controller
 
         $visitors = Visitor::where('visitor_status', 1)->get();
 
-        $employees = Employee::where('status', 1)->get();
+        $employees = Employee::where('status', 1)
+                            ->where('user_type_id', 2)
+                            ->get();
 
         $departments = Department::where('status', 1)->get();
         

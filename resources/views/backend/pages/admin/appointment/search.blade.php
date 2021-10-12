@@ -56,7 +56,7 @@
                                             </div> --}}
                                         </div>
 
-                                        <div class="row mt-4">
+                                        <div class="row">
                                             <div class="col-md-5 col-xl-5">
                                                 <label for="from_date">From Date</label>
                                                 <input type="date" class="form-control" name="from_date" id="from_date" value="{{ $from_date }}">

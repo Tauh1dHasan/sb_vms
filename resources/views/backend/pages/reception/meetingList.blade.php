@@ -40,11 +40,11 @@
                                             <th class="text-center">Visitor Name</th>
                                             <th class="text-center">Visitor Mobile</th>
                                             <th class="text-center">Visitor Organization</th>
-                                            <th class="text-center">Visitor Designation</th>
+                                            {{-- <th class="text-center">Visitor Designation</th> --}}
                                             <th class="text-center">Host Name</th>
-                                            <th class="text-center">Host mobile</th>
+                                            {{-- <th class="text-center">Host mobile</th> --}}
                                             <th class="text-center">Meeting Purpose</th>
-                                            <th class="text-center">Description</th>
+                                            {{-- <th class="text-center">Description</th> --}}
                                             <th class="text-center">Meeting Datetime</th>
                                             <th class="text-center">Status</th>
                                             <th class="text-center">Action</th>
@@ -57,11 +57,11 @@
                                                 <td class="text-center"> {{ $meeting->vfname }} {{ $meeting->vlname }} </td>
                                                 <td class="text-center"> {{ $meeting->vmobile }} </td>
                                                 <td class="text-center"> {{ $meeting->organization }} </td>
-                                                <td class="text-center"> {{ $meeting->designation }} </td>
+                                                {{-- <td class="text-center"> {{ $meeting->designation }} </td> --}}
                                                 <td class="text-center"> {{ $meeting->efname }} {{ $meeting->elname }}</td>
-                                                <td class="text-center"> {{ $meeting->emobile }}</td>
+                                                {{-- <td class="text-center"> {{ $meeting->emobile }}</td> --}}
                                                 <td class="text-center"> {{ $meeting->purpose_name }}</td>
-                                                <td class="text-center"> {{ $meeting->purpose_describe }}</td>
+                                                {{-- <td class="text-center"> {{ $meeting->purpose_describe }}</td> --}}
                                                 <td class="text-center"> {{ $meeting->meeting_datetime }}</td>
                                                 <td class="text-center">
                                                     @if($meeting->meeting_status == 0)

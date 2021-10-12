@@ -50,7 +50,7 @@
                                             </div> --}}
                                         </div>
 
-                                        <div class="row mt-4">
+                                        <div class="row">
                                             <div class="col-md-5 col-xl-5">
                                                 <label for="from_date">From Date</label>
                                                 <input type="date" class="form-control" name="from_date" id="from_date">
@@ -79,7 +79,7 @@
 
                             <div class="table-responsive mb-4">
                                 @include('backend.partials.message')
-                                <table id="style-3" class="table style-3 table-hover">
+                                <table id="html5-extension" class="table table-hover non-hover" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th class="text-center">Serial No.</th>

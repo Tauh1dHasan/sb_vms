@@ -15,6 +15,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('backend/assets/css/forms/theme-checkbox-radio.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('backend/plugins/table/datatable/dt-global_style.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('backend/plugins/table/datatable/custom_dt_custom.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('backend/plugins/table/datatable/custom_dt_html5.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('backend/plugins/select2/select2.min.css')}}">
     <link href="{{asset('backend/assets/css/users/user-profile.css')}}" rel="stylesheet" type="text/css" />
 
