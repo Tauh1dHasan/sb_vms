@@ -120,6 +120,7 @@ Route::group(['middleware' => ['ReceptionMiddleware'], 'prefix' => '/reception',
     Route::get('/visitor-list', [ReceptionController::class, 'visitorList'])->name('visitorList');
     Route::post('/search-visitor', [ReceptionController::class, 'searchVisitor'])->name('searchVisitor');
     Route::get('/meeting-list', [ReceptionController::class, 'meetingList'])->name('meetingList');
+    Route::get('/checkedIn-list', [ReceptionController::class, 'checkedInList'])->name('checkedInList');
     Route::post('/search-meeting', [ReceptionController::class, 'searchMeeting'])->name('searchMeeting');
     Route::get('/edit-password', [ReceptionController::class, 'editPassword'])->name('editPassword');
     Route::post('/update-password', [ReceptionController::class, 'updatePassword'])->name('updatePassword');
@@ -158,11 +159,9 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
         Route::patch('/host/update/{employee}', [EmployeeManageController::class, 'update'])->name('employee.update');
         Route::patch('/host/updatePassword/{id}', [EmployeeManageController::class, 'updatePassword'])->name('employee.updatePassword');
         Route::get('/host/destroy/{id}', [EmployeeManageController::class, 'destroy'])->name('employee.destroy');
-
         Route::get('/pending-host', [EmployeeManageController::class, 'pending'])->name('pending.employees');
         Route::get('/approved-host', [EmployeeManageController::class, 'approved'])->name('approved.employees');
         Route::get('/declined-host', [EmployeeManageController::class, 'declined'])->name('declined.employees');
-
         Route::get('/approve-host/{user_id}', [EmployeeManageController::class, 'approve'])->name('approve.employee');
         Route::get('/decline-host/{user_id}', [EmployeeManageController::class, 'decline'])->name('decline.employee');
 
@@ -176,26 +175,24 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
         Route::patch('/reception/update/{id}', [ReceptionManageController::class, 'update'])->name('receptionist.update');
         Route::patch('/reception/updatePassword/{id}', [ReceptionManageController::class, 'updatePassword'])->name('receptionist.updatePassword');
         Route::get('/reception/destroy/{id}', [ReceptionManageController::class, 'destroy'])->name('receptionist.destroy');
-
         Route::get('/pending-reception', [ReceptionManageController::class, 'pending'])->name('pending.receptionists');
         Route::get('/approved-reception', [ReceptionManageController::class, 'approved'])->name('approved.receptionists');
         Route::get('/declined-reception', [ReceptionManageController::class, 'declined'])->name('declined.receptionists');
-
         Route::get('/approve-reception/{user_id}', [ReceptionManageController::class, 'approve'])->name('approve.receptionist');
         Route::get('/decline-reception/{user_id}', [ReceptionManageController::class, 'decline'])->name('decline.receptionist');
 
         /* Admin Panel Visitor Routes */
         Route::get('/visitor', [VisitorManageController::class, 'index'])->name('visitor.index');
         Route::get('/visitor/show/{visitor_id}', [VisitorManageController::class, 'show'])->name('visitor.show');
-
-        /* Admin Panel Appointment Routes */
+        Route::get('/visitor/edit/{visitor_id}', [VisitorManageController::class, 'edit'])->name('visitor.edit');
+        Route::post('/visitor/updateProfile', [VisitorManageController::class, 'updateProfile'])->name('visitor.updateProfile');
+        
+        // Admin panel Appointment Management routes
         Route::get('/appointment', [AppointmentController::class, 'index'])->name('appointment.index');
-
         Route::get('/appointment/approve/{meeting_id}', [AppointmentController::class, 'approve'])->name('approve.appointment');
         Route::get('/appointment/decline/{meeting_id}', [AppointmentController::class, 'decline'])->name('decline.appointment');
         Route::patch('/appointment/reschedule/{meeting_id}', [AppointmentController::class, 'reschedule'])->name('reschedule.appointment');
         Route::get('/appointment/cancel/{meeting_id}', [AppointmentController::class, 'cancel'])->name('cancel.appointment');
-
         Route::get('/appointment/search/{meeting_id}', [AppointmentController::class, 'search'])->name('search.appointment');
 
         /* Admin Panel Visitor Type Routes */

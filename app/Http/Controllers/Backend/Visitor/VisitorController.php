@@ -142,7 +142,7 @@ class VisitorController extends Controller
         $visitor->modified_datetime = now();
         if ($req->hasFile('new_photo')) {
             $new_photo = $req->file('new_photo');
-            $imgName = 'employee'.time().'.'.$new_photo->getClientOriginalExtension();
+            $imgName = 'visitor'.time().'.'.$new_photo->getClientOriginalExtension();
             $location = public_path('backend/img/visitors/'.$imgName);
             Image::make($new_photo)->save($location);
             $visitor->profile_photo = $imgName;
