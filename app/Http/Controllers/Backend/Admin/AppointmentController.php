@@ -10,6 +10,7 @@ use App\Models\Visitor;
 use App\Models\Employee;
 use App\Models\Department;
 use App\Models\Meeting;
+use App\Models\MeetingPurpose;
 
 class AppointmentController extends Controller
 {
@@ -168,8 +169,93 @@ class AppointmentController extends Controller
                                         $q->where('visitor_id', $visitor);
                                     }
                                 })->get();
-        // dd($employee);
         
         return view('backend.pages.admin.appointment.search', compact('visitors', 'employees', 'departments', 'appointments', 'visitor', 'employee', 'from_date', 'to_date'));
+    }
+
+    // Display all pending appointments
+    public function showPending()
+    {
+        $meetings = Meeting::where('meeting_status', 0)
+                            ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
+                            ->join('employees', 'meetings.employee_id', '=', 'employees.employee_id')
+                            ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+                            ->select('meeting_id', 'meeting_datetime', 'meeting_status', 'purpose_name', 'visitors.first_name as vfname', 'visitors.last_name as vlname', 'employees.first_name as efname', 'employees.last_name as elname')
+                            ->get();
+        return view('backend.pages.admin.appointment.pending', compact('meetings'));
+    }
+
+    // Display all approved appointments
+    public function showApproved()
+    {
+        $meetings = Meeting::where('meeting_status', 1)
+                            ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
+                            ->join('employees', 'meetings.employee_id', '=', 'employees.employee_id')
+                            ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+                            ->select('meeting_id', 'meeting_datetime', 'meeting_status', 'purpose_name', 'visitors.first_name as vfname', 'visitors.last_name as vlname', 'employees.first_name as efname', 'employees.last_name as elname')
+                            ->get();
+        return view('backend.pages.admin.appointment.approved', compact('meetings'));
+    }
+
+    // Display all declined appointments
+    public function showDeclined()
+    {
+        $meetings = Meeting::where('meeting_status', 2)
+                            ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
+                            ->join('employees', 'meetings.employee_id', '=', 'employees.employee_id')
+                            ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+                            ->select('meeting_id', 'meeting_datetime', 'meeting_status', 'purpose_name', 'visitors.first_name as vfname', 'visitors.last_name as vlname', 'employees.first_name as efname', 'employees.last_name as elname')
+                            ->get();
+        return view('backend.pages.admin.appointment.declined', compact('meetings'));
+    }
+
+    // Show all re-scheduled appointments
+    public function showRescheduled()
+    {
+        $meetings = Meeting::where('meeting_status', 3)
+                            ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
+                            ->join('employees', 'meetings.employee_id', '=', 'employees.employee_id')
+                            ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+                            ->select('meeting_id', 'meeting_datetime', 'meeting_status', 'purpose_name', 'visitors.first_name as vfname', 'visitors.last_name as vlname', 'employees.first_name as efname', 'employees.last_name as elname')
+                            ->get();
+        return view('backend.pages.admin.appointment.rescheduled', compact('meetings'));
+    }
+
+    // Show all canceled appointments
+    public function showCanceled()
+    {
+        $meetings = Meeting::where('meeting_status', 4)
+                            ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
+                            ->join('employees', 'meetings.employee_id', '=', 'employees.employee_id')
+                            ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+                            ->select('meeting_id', 'meeting_datetime', 'meeting_status', 'purpose_name', 'visitors.first_name as vfname', 'visitors.last_name as vlname', 'employees.first_name as efname', 'employees.last_name as elname')
+                            ->get();
+        return view('backend.pages.admin.appointment.canceled', compact('meetings'));
+    }
+
+    // Show all ongoing appointments
+    public function showOngoing()
+    {
+        $meetings = Meeting::where('meeting_status', 11)
+                            ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
+                            ->join('employees', 'meetings.employee_id', '=', 'employees.employee_id')
+                            ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+                            ->select('meeting_id', 'meeting_datetime', 'meeting_status', 'purpose_name', 'visitors.first_name as vfname', 'visitors.last_name as vlname', 'employees.first_name as efname', 'employees.last_name as elname')
+                            ->get();
+        return view('backend.pages.admin.appointment.ongoing', compact('meetings'));
+    }
+
+    // Show today's appointments
+    public function showTodays()
+    {
+        // current date
+        $currentDate = date('Y-m-d');
+        $meetings = Meeting::whereBetween('meeting_datetime', [$currentDate . " 00:00:00", $currentDate . " 23:59:59"])
+                            ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
+                            ->join('employees', 'meetings.employee_id', '=', 'employees.employee_id')
+                            ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+                            ->select('meeting_id', 'meeting_datetime', 'meeting_status', 'purpose_name', 'visitors.first_name as vfname', 'visitors.last_name as vlname', 'employees.first_name as efname', 'employees.last_name as elname')
+                            ->get();
+        return view('backend.pages.admin.appointment.todays', compact('meetings'));
     }
 }

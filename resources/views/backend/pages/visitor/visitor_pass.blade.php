@@ -23,15 +23,15 @@
                                 <div class="widget-content widget-content-area" style="padding: 40px">
                                     <p>
                                         @php
-                                            $meetingInfo = "Appointment ID: {{$meeting->meeting_id}} <br> Visitor ID: {{$meeting->visitor_id}} <br> Employee ID: {{$meeting->employee_id}} <br> Appointment Status: {{$meeting->meeting_status}}";
+                                            $meetingInfo = "Appointment ID: $meeting->meeting_id Meeting Datetime: $meeting->meeting_datetime Visitor Name: $meeting->vfname $meeting->lfname Host Name: $meeting->efname $meeting->elname";
 
-                                            $visitor_pass = route('visitor.gatePass', $meeting->meeting_id);
+                                            // $visitor_pass = route('visitor.gatePass', $meeting->meeting_id);
                                         @endphp
                                     </p>
                                     <div class="text-center user-info">
                                         <h2 class="text-center" style="margin-bottom: 7%">Visitor Pass</h2>
                                         <div class="visible-print text-center" style="margin-bottom: 7%">
-                                            {!! QrCode::size(200)->generate($visitor_pass); !!}
+                                            {!! QrCode::size(200)->generate($meetingInfo); !!}
                                         </div>
                                         <p>Please show this QR code at reception to get a Gate Pass</p>
                                     </div>

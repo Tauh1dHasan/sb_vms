@@ -244,6 +244,19 @@ class ReceptionController extends Controller
         return view('backend.pages.reception.meetingList', compact('meetings'));
     }
 
+    // Display CheckedIn meeting list
+    public function checkedInList()
+    {
+        $meetings = Meeting::where('checkin_status', 1)
+                           ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
+                           ->join('employees', 'meetings.employee_id', '=', 'employees.employee_id')
+                           ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
+                           ->select('meeting_id', 'visitors.first_name as vfname', 'visitors.last_name as vlname', 'visitors.mobile_no as vmobile', 'organization', 'designation', 'employees.first_name as efname', 'employees.last_name as elname', 'employees.mobile_no as emobile', 'purpose_name', 'purpose_describe', 'meeting_datetime', 'meeting_status', 'checkin_status')
+                           ->get();
+
+        return view('backend.pages.reception.checkedInList', compact('meetings'));
+    }
+
     // Search Meeting
     public function searchMeeting(Request $req)
     {
@@ -474,6 +487,7 @@ class ReceptionController extends Controller
         // update meetings table
         $meeting = Meeting::where('meeting_id', $req->meeting_id)->first();
         $meeting->meeting_start_time = now();
+        $meeting->meeting_status = 11;
         $meeting->checkin_status = 1;
         $meetingUpdated = $meeting->save();
 
@@ -493,7 +507,7 @@ class ReceptionController extends Controller
         $image_type_aux = explode("image/", $image_parts[0]);
         $image_type = $image_type_aux[1];
         $image_base64 = base64_decode($image_parts[1]);
-        $fileName = time() . '.png';
+        $fileName = 'visitor'.time() . '.png';
         $file = $folderPath . $fileName;
         file_put_contents($file, $image_base64);
         $visitorPass->visitor_photo = $fileName;

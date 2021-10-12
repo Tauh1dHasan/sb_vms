@@ -126,41 +126,41 @@
                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink2" style="will-change: transform;">
 
                                                             @if ($appointment->meeting_status == 0)
-                                                            <a class="dropdown-item action-view text-center" href="{{ route('admin.approve.appointment', $appointment->meeting_id) }}">
-                                                                <span class="inv-status text-success">Approve</span>
-                                                            </a>
-                                                            <a class="dropdown-item action-view text-center" href="{{ route('admin.decline.appointment', $appointment->meeting_id) }}">
-                                                                <span class="inv-status text-danger">Decline</span>
-                                                            </a>
-                                                            <a class="dropdown-item action-view text-center">
-                                                                <button type="button" class="inv-status text-info" style="background: none;  border: none;" data-toggle="modal" data-target="#modalReschedule{{ $appointment->meeting_id }}">Reschedule</button>
-                                                            </a>
+                                                                <a class="dropdown-item action-view text-center" href="{{ route('admin.approve.appointment', $appointment->meeting_id) }}">
+                                                                    <span class="inv-status text-success">Approve</span>
+                                                                </a>
+                                                                <a class="dropdown-item action-view text-center" href="{{ route('admin.decline.appointment', $appointment->meeting_id) }}">
+                                                                    <span class="inv-status text-danger">Decline</span>
+                                                                </a>
+                                                                <a class="dropdown-item action-view text-center">
+                                                                    <button type="button" class="inv-status text-info" style="background: none;  border: none;" data-toggle="modal" data-target="#modalReschedule{{ $appointment->meeting_id }}">Reschedule</button>
+                                                                </a>
 
                                                             @elseif ($appointment->meeting_status == 1)
-                                                            <a class="dropdown-item action-view text-center" href="{{ route('admin.decline.appointment', $appointment->meeting_id) }}">
-                                                                <span class="inv-status text-danger">Decline</span>
-                                                            </a>
-                                                            <a class="dropdown-item action-view text-center">
-                                                                <button type="button" class="inv-status text-info" style="background: none;  border: none;" data-toggle="modal" data-target="#modalReschedule{{ $appointment->meeting_id }}">Reschedule</button>
-                                                            </a>
+                                                                <a class="dropdown-item action-view text-center" href="{{ route('admin.decline.appointment', $appointment->meeting_id) }}">
+                                                                    <span class="inv-status text-danger">Decline</span>
+                                                                </a>
+                                                                <a class="dropdown-item action-view text-center">
+                                                                    <button type="button" class="inv-status text-info" style="background: none;  border: none;" data-toggle="modal" data-target="#modalReschedule{{ $appointment->meeting_id }}">Reschedule</button>
+                                                                </a>
 
                                                             @elseif ($appointment->meeting_status == 2)
-                                                            <a class="dropdown-item action-view text-center" href="{{ route('admin.approve.appointment', $appointment->meeting_id) }}">
-                                                                <span class="inv-status text-success">Approve</span>
-                                                            </a>
-                                                            <a class="dropdown-item action-view text-center">
-                                                                <button type="button" class="inv-status text-info" style="background: none;  border: none;" data-toggle="modal" data-target="#modalReschedule{{ $appointment->meeting_id }}">Reschedule</button>
-                                                            </a>
+                                                                <a class="dropdown-item action-view text-center" href="{{ route('admin.approve.appointment', $appointment->meeting_id) }}">
+                                                                    <span class="inv-status text-success">Approve</span>
+                                                                </a>
+                                                                <a class="dropdown-item action-view text-center">
+                                                                    <button type="button" class="inv-status text-info" style="background: none;  border: none;" data-toggle="modal" data-target="#modalReschedule{{ $appointment->meeting_id }}">Reschedule</button>
+                                                                </a>
 
                                                             @elseif ($appointment->meeting_status == 3)
-                                                            <a class="dropdown-item action-view text-center" href="{{ route('admin.decline.appointment', $appointment->meeting_id) }}">
-                                                                <span class="inv-status text-danger">Decline</span>
-                                                            </a>
+                                                                <a class="dropdown-item action-view text-center" href="{{ route('admin.decline.appointment', $appointment->meeting_id) }}">
+                                                                    <span class="inv-status text-danger">Decline</span>
+                                                                </a>
 
                                                             @elseif ($appointment->meeting_status == 4)
-                                                            <a class="dropdown-item action-view text-center">
-                                                                <button type="button" class="inv-status text-info" style="background: none;  border: none;" data-toggle="modal" data-target="#modalReschedule{{ $appointment->meeting_id }}">Reschedule</button>
-                                                            </a>
+                                                                <a class="dropdown-item action-view text-center">
+                                                                    <button type="button" class="inv-status text-info" style="background: none;  border: none;" data-toggle="modal" data-target="#modalReschedule{{ $appointment->meeting_id }}">Reschedule</button>
+                                                                </a>
 
                                                             @endif
 
@@ -199,6 +199,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                         @endforeach
                                     </tbody>
                                 </table>

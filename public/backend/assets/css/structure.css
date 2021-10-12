@@ -1160,7 +1160,7 @@ header.navbar {
     list-style: none;
     width: 50%;
     flex: 0 0 50%;
-    padding: 12px;
+    padding: 5px;
     float: left;
 }
 .sidebar-wrapper #compact_submenuSidebar .submenu ul.submenu-list li.menu-block a:hover {

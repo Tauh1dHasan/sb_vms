@@ -262,7 +262,11 @@ class MeetingController extends Controller
      */
     public function visitorPass($meeting_id)
     {
-        $meeting = Meeting::where('meeting_id', $meeting_id)->first();
+        $meeting = Meeting::where('meeting_id', $meeting_id)
+                            ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
+                            ->join('employees', 'meetings.employee_id', '=', 'employees.employee_id')
+                            ->select('meeting_id', 'meeting_datetime', 'employees.first_name as efname', 'employees.last_name as elname', 'visitors.first_name as vfname', 'visitors.last_name as vlname',)
+                            ->first();
         return view('backend.pages.visitor.visitor_pass', compact('meeting'));
     }
 
