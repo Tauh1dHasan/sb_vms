@@ -45,14 +45,11 @@ class EmployeeController extends Controller
         $meeting = Meeting::where('employee_id', '=', $employee_id)->get();
         $total_appointment = $meeting->count();
 
-        $y_date = date('Y-m-d 00:00:00',strtotime("-1 days"));
-        $t_date = date('Y-m-d 00:00:00',strtotime("+1 days"));
-
+        $currentDate = date('Y-m-d');
         // Today's appointment count
         $meetings = Meeting::join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
                             ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
-                            ->where('meetings.meeting_datetime', '>', $y_date)
-                            ->where('meetings.meeting_datetime', '<', $t_date)
+                            ->whereBetween('meeting_datetime', [$currentDate . " 00:00:00", $currentDate . " 23:59:59"])
                             ->where('meetings.employee_id', '=', $employee_id)
                             ->get();
         $today_appointment = $meetings->count(); 
@@ -60,7 +57,7 @@ class EmployeeController extends Controller
         // Total approved appointment count
         $pending = Meeting::join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
                         ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
-                        ->where('meetings.meeting_datetime', '>', $y_date)
+                        ->where('meetings.meeting_datetime', '>', $currentDate)
                         ->where('meetings.meeting_status', '=', 1)
                         ->where('meetings.employee_id', '=', $employee_id)
                         ->get();
@@ -69,7 +66,7 @@ class EmployeeController extends Controller
         // Total pending appointment count
         $pending = Meeting::join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
                         ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
-                        ->where('meetings.meeting_datetime', '>', $y_date)
+                        ->where('meetings.meeting_datetime', '>', $currentDate)
                         ->where('meetings.meeting_status', '=', 0)
                         ->where('meetings.employee_id', '=', $employee_id)
                         ->get();
@@ -171,15 +168,11 @@ class EmployeeController extends Controller
                             ->first();
         $employee_id = $employee->employee_id;
 
-        // Get dates
-        $y_date = date('Y-m-d',strtotime("-1 days"));
-        $t_date = date('Y-m-d',strtotime("+1 days"));
-
+        $currentDate = date('Y-m-d');
         // Select all meeting for this employee
         $meetings = Meeting::join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
                             ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
-                            ->where('meetings.meeting_datetime', '>', $y_date)
-                            ->where('meetings.meeting_datetime', '<', $t_date)
+                            ->whereBetween('meeting_datetime', [$currentDate . " 00:00:00", $currentDate . " 23:59:59"])
                             ->where('meetings.employee_id', '=', $employee_id)
                             ->get();
 

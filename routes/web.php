@@ -193,8 +193,14 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
         Route::get('/appointment/decline/{meeting_id}', [AppointmentController::class, 'decline'])->name('decline.appointment');
         Route::patch('/appointment/reschedule/{meeting_id}', [AppointmentController::class, 'reschedule'])->name('reschedule.appointment');
         Route::get('/appointment/cancel/{meeting_id}', [AppointmentController::class, 'cancel'])->name('cancel.appointment');
-
         Route::get('/appointment/search', [AppointmentController::class, 'search'])->name('search.appointment');
+        Route::get('/appointment/pending', [AppointmentController::class, 'showPending'])->name('appointment.showPending');
+        Route::get('/appointment/approved', [AppointmentController::class, 'showApproved'])->name('appointment.showApproved');
+        Route::get('/appointment/declined', [AppointmentController::class, 'showDeclined'])->name('appointment.showDeclined');
+        Route::get('/appointment/rescheduled', [AppointmentController::class, 'showRescheduled'])->name('appointment.showRescheduled');
+        Route::get('/appointment/canceled', [AppointmentController::class, 'showCanceled'])->name('appointment.showCanceled');
+        Route::get('/appointment/ongoing', [AppointmentController::class, 'showOngoing'])->name('appointment.showOngoing');
+        Route::get('/appointment/todays', [AppointmentController::class, 'showTodays'])->name('appointment.showTodays');
 
         /* Admin Panel Visitor Type Routes */
         Route::get('/visitorType/index', [VisitorTypeController::class, 'index'])->name('visitorType.index');
