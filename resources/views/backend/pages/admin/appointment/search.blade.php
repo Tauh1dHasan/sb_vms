@@ -85,7 +85,7 @@
 
                             <div class="table-responsive mb-4">
                                 @include('backend.partials.message')
-                                <table id="style-3" class="table style-3 table-hover">
+                                <table id="html5-extension" class="table table-hover non-hover" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th class="text-center">Serial No.</th>
