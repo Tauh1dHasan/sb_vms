@@ -56,11 +56,10 @@ class ReceptionController extends Controller
         // Total Appointment count
         $total_appopintment = Meeting::all()->count();
 
-        $y_date = date('Y-m-d 00:00:00',strtotime("-1 days"));
-        $t_date = date('Y-m-d 00:00:00',strtotime("+1 days"));
+        $currentDate = date('Y-m-d');
+
         // Total number of today's appointments
-        $today_meeting = Meeting::where('meeting_datetime', '>', $y_date)
-                                ->where('meeting_datetime', '<', $t_date)
+        $today_meeting = Meeting::whereBetween('meeting_datetime', [$currentDate . " 00:00:00", $currentDate . " 23:59:59"])
                                 ->get()
                                 ->count();
 

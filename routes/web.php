@@ -205,6 +205,11 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
         Route::get('/appointment/canceled', [AppointmentController::class, 'showCanceled'])->name('appointment.showCanceled');
         Route::get('/appointment/ongoing', [AppointmentController::class, 'showOngoing'])->name('appointment.showOngoing');
         Route::get('/appointment/todays', [AppointmentController::class, 'showTodays'])->name('appointment.showTodays');
+        Route::get('/appointment/appoint-visitor', [AppointmentController::class, 'appointVisitor'])->name('appointment.appointVisitor');
+        Route::post('/appointment/search-visitor', [AppointmentController::class, 'searchVisitor'])->name('appointment.searchVisitor');
+        Route::get('/appointment/make-an-appointment/{visitor_id}', [AppointmentController::class, 'makeAppointment'])->name('appointment.makeAppointment');
+        Route::get('/search-employees', [AppointmentController::class, 'searchEmployees'])->name('search-employees');
+        Route::post('/appointment/place-an-appointment', [AppointmentController::class, 'placeAnAppointment'])->name('appointment.placeAnAppointment');
 
         /* Admin Panel Visitor Type Routes */
         Route::get('/visitorType/index', [VisitorTypeController::class, 'index'])->name('visitorType.index');

@@ -4,12 +4,13 @@
 
         <nav class="breadcrumb-one" aria-label="breadcrumb">
             <ol class="breadcrumb" style="background: none; padding: 0;">
-                <li class="breadcrumb-item"><a href="{{ route('reception.index') }}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></a></li>
-                <li class="breadcrumb-item"><a href="{{ route('reception.appointVisitor') }}">Appoint Visitor</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('admin.index') }}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></a></li>
+                <li class="breadcrumb-item"><a href="{{ route('admin.appointment.index') }}">Manage Appointments</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><span>Appoint Visitor</span></li>
             </ol>
         </nav>
         
-        <form action="{{route('reception.searchVisitor')}}" method="POST">
+        <form action="{{route('admin.appointment.searchVisitor')}}" method="POST">
             @csrf
             <div class="row">
                 <div class="col-md-5 col-xl-5">
@@ -57,8 +58,8 @@
                                                 <td class="text-center"> {{ $visitor->mobile_no }} </td>
                                                 <td class="text-center"> {{ $visitor->email }} </td>
                                                 <td class="text-center mt-4">
-                                                    <a href="{{route('reception.makeAnAppointment', $visitor->visitor_id)}}" class="btn btn-success btn-sm">Make Appointment</a>
-                                                    <a href="{{route('reception.visitorProfile', $visitor->visitor_id)}}" class="btn btn-danger btn-sm">View Profile</a>
+                                                    <a href="{{route('admin.appointment.makeAppointment', $visitor->visitor_id)}}" class="btn btn-success btn-sm">Make Appointment</a>
+                                                    <a href="{{route('admin.visitor.show', $visitor->visitor_id)}}" class="btn btn-danger btn-sm">View Profile</a>
                                                 </td>
                                             </tr>
                                         @endforeach
