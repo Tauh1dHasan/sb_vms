@@ -30,11 +30,8 @@ class AdminIndexController extends Controller
         $meetings_count = $meetings->count();
 
         /* all today's meetings count */
-        $y_date = date('Y-m-d',strtotime("-1 days"));
-        $t_date = date('Y-m-d',strtotime("+1 days"));
-
-        $today_meetings = Meeting::where('meetings.meeting_datetime', '>', $y_date)
-                                    ->where('meetings.meeting_datetime', '<', $t_date)
+        $currentDate = date('Y-m-d');
+        $today_meetings = Meeting::whereBetween('meeting_datetime', [$currentDate . " 00:00:00", $currentDate . " 23:59:59"])
                                     ->get();
         $today_meetings_count = $today_meetings->count();
 

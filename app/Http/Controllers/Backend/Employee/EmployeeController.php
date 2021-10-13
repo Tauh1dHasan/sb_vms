@@ -194,12 +194,12 @@ class EmployeeController extends Controller
         $employee_id = $employee->employee_id;
 
         // Current date
-        $y_date = date('Y-m-d',strtotime("-1 days"));
+        $currentDate = date('Y-m-d');
         
         // Select all meeting for this employee
         $meetings = Meeting::join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
                             ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
-                            ->where('meetings.meeting_datetime', '>', $y_date)
+                            ->where('meetings.meeting_datetime', '>', $currentDate)
                             ->where('meetings.meeting_status', '=', 0)
                             ->where('meetings.employee_id', '=', $employee_id)
                             ->get();
