@@ -159,9 +159,11 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
         Route::patch('/host/update/{employee}', [EmployeeManageController::class, 'update'])->name('employee.update');
         Route::patch('/host/updatePassword/{id}', [EmployeeManageController::class, 'updatePassword'])->name('employee.updatePassword');
         Route::get('/host/destroy/{id}', [EmployeeManageController::class, 'destroy'])->name('employee.destroy');
+
         Route::get('/pending-host', [EmployeeManageController::class, 'pending'])->name('pending.employees');
         Route::get('/approved-host', [EmployeeManageController::class, 'approved'])->name('approved.employees');
         Route::get('/declined-host', [EmployeeManageController::class, 'declined'])->name('declined.employees');
+
         Route::get('/approve-host/{user_id}', [EmployeeManageController::class, 'approve'])->name('approve.employee');
         Route::get('/decline-host/{user_id}', [EmployeeManageController::class, 'decline'])->name('decline.employee');
 
@@ -172,12 +174,14 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
         Route::get('/reception/show/{id}', [ReceptionManageController::class, 'show'])->name('receptionist.show');
         Route::get('/reception/edit/{id}', [ReceptionManageController::class, 'edit'])->name('receptionist.edit');
         Route::get('/reception/editPassword/{id}', [ReceptionManageController::class, 'editPassword'])->name('receptionist.editPassword');
-        Route::patch('/reception/update/{id}', [ReceptionManageController::class, 'update'])->name('receptionist.update');
+        Route::patch('/reception/update/{employee}', [ReceptionManageController::class, 'update'])->name('receptionist.update');
         Route::patch('/reception/updatePassword/{id}', [ReceptionManageController::class, 'updatePassword'])->name('receptionist.updatePassword');
         Route::get('/reception/destroy/{id}', [ReceptionManageController::class, 'destroy'])->name('receptionist.destroy');
+
         Route::get('/pending-reception', [ReceptionManageController::class, 'pending'])->name('pending.receptionists');
         Route::get('/approved-reception', [ReceptionManageController::class, 'approved'])->name('approved.receptionists');
         Route::get('/declined-reception', [ReceptionManageController::class, 'declined'])->name('declined.receptionists');
+
         Route::get('/approve-reception/{user_id}', [ReceptionManageController::class, 'approve'])->name('approve.receptionist');
         Route::get('/decline-reception/{user_id}', [ReceptionManageController::class, 'decline'])->name('decline.receptionist');
 

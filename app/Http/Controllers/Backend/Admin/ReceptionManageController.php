@@ -45,13 +45,14 @@ class ReceptionManageController extends Controller
 
 
     /**
-     * Display list of all employees.
+     * Display list of all receptionists.
      */
     public function index()
     {
-        $employees = Employee::join('departments', 'departments.dept_id', '=', 'employees.dept_id')
-                            ->join('designations', 'designations.designation_id', '=', 'employees.designation_id')
+        $employees = Employee::join('departments', 'departments.dept_id', 'employees.dept_id')
+                            ->join('designations', 'designations.designation_id', 'employees.designation_id')
                             ->where('employees.user_type_id', 3)
+                            ->where('employees.status', '!=', 3)
                             ->orderBy('employees.employee_id', 'asc')
                             ->get(['employees.*', 'departments.department_name as department_name', 'designations.designation as designation']);
 
@@ -151,6 +152,211 @@ class ReceptionManageController extends Controller
 
 
     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $employee = Employee::with('department', 'designation')
+                            ->where('employee_id', $id)
+                            ->first();
+
+        return view('backend.pages.admin.reception.show', compact('employee'));
+    }
+
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $employee = Employee::with('department', 'designation')
+                            ->where('employee_id', $id)
+                            ->first();
+
+        $departments = Department::where('status', '=', 1)
+                                ->orderBy('dept_id', 'asc')
+                                ->get();
+
+        $designations = Designation::where('status', '=', 1)
+                                    ->orderBy('designation_id', 'asc')
+                                    ->get();
+
+        return view('backend.pages.admin.reception.edit', compact('employee', 'departments', 'designations'));
+    }
+    
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Employee $employee)
+    {
+        $user =  $employee->user;
+
+        if(($request->email == $user->email) and ($request->mobile_no == $employee->mobile_no)) {
+            $request->validate([
+                'first_name' => 'required|max:255',
+                'last_name' => 'required|max:255',
+                'dept_id' => 'required',
+                'designation_id' => 'required',
+                'eid_no' => 'required',
+                'start_hour' => 'required',
+                'end_hour' => 'required',
+                'mobile_no' => 'required|min:11',
+                'email' => 'required',
+                'photo' => 'mimes:jpeg,png,jpg|max:2048'
+            ]);
+        } else {
+            $request->validate([
+                'first_name' => 'required|max:255',
+                'last_name' => 'required|max:255',
+                'dept_id' => 'required',
+                'designation_id' => 'required',
+                'eid_no' => 'required',
+                'start_hour' => 'required',
+                'end_hour' => 'required',
+                'mobile_no' => 'required|unique:users|min:11',
+                'email' => 'required|unique:users',
+                'photo' => 'mimes:jpeg,png,jpg|max:2048'
+            ]);
+        }
+
+        $user_id = session('loggedUser');
+
+        $old_photo = $request->old_photo;
+
+        if ($request->hasFile('photo')) {
+            $image = $request->file('photo');
+            $imgName = 'employee'.time().'.'.$image->getClientOriginalExtension();
+            $location = public_path('backend/img/employees/'.$imgName);
+            Image::make($image)->save($location);
+            File::delete(public_path() . '/backend/img/employees/'. $old_photo);
+        } else {
+            $imgName = $old_photo;
+        }
+
+        $user = User::where('user_id', $user_id)
+                    ->update([
+                        'mobile_no'=>$request->mobile_no,
+                        'email'=>$request->email,
+                        'is_approved'=>$request->status,
+                        'modified_datetime'=>now()
+                    ]);
+
+        $employee = Employee::where('employee_id', $employee->employee_id)
+                            ->update([
+                                'first_name'=>$request->first_name,
+                                'last_name'=>$request->last_name,
+                                'slug'=>Str::slug($request->first_name.' '.$request->last_name),
+                                'eid_no'=>$request->eid_no,
+                                'dept_id'=>$request->dept_id,
+                                'designation_id'=>$request->designation_id,
+                                'gender'=>$request->gender,
+                                'dob'=>$request->dob,
+                                'mobile_no'=>$request->mobile_no,
+                                'email'=>$request->email,
+                                'start_hour'=>$request->start_hour,
+                                'end_hour'=>$request->end_hour,
+                                'building_no'=>$request->building_no,
+                                'gate_no'=>$request->gate_no,
+                                'elevator_no'=>$request->elevator_no,
+                                'floor_no'=>$request->floor_no,
+                                'room_no'=>$request->room_no,
+                                'address'=>$request->address,
+                                'nid_no'=>$request->nid_no,
+                                'passport_no'=>$request->passport_no,
+                                'driving_license_no'=>$request->driving_license_no,
+                                'photo'=>$imgName,
+                                'modified_user_id'=>$user_id,
+                                'modified_datetime'=>now(),
+                                'availability'=>$request->availability,
+                                'status'=>$request->status
+                            ]);
+
+        Session()->flash('success' , 'Receptionist Info Updated Successfully !!!');
+        return redirect()->route('admin.reception.index');
+    }
+    
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function editPassword($id)
+    {
+        $employee = Employee::where('employee_id', $id)
+                            ->first();
+
+        return view('backend.pages.admin.reception.editPassword', compact('employee'));
+    }
+
+    
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updatePassword(Request $request, $id)
+    {
+        $request->validate([
+            'password' => 'required|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/'
+        ]);
+
+        $user_id = session('loggedUser');
+
+        $user = User::where('user_id', $user_id)
+                    ->update([
+                        'password'=>$request->password,
+                        'modified_datetime'=>now()
+                    ]);
+
+        Session()->flash('success' , 'Receptionist Password Updated Successfully !!!');
+        return redirect()->route('admin.reception.index');
+    }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $user_id = session('loggedUser');
+        
+        $user = User::where('user_id', $id)
+                                    ->update([
+                                        'is_approved'=>3,
+                                        'modified_datetime'=>now()
+                                    ]);
+        
+        $employee = Employee::where('user_id', $id)
+                                    ->update([
+                                        'status'=>3,
+                                        'modified_user_id'=>$user_id,
+                                        'modified_datetime'=>now()
+                                    ]);
+
+        Session()->flash('success' , 'Host Deleted Successfully !!!');
+        return redirect()->route('admin.reception.index');
+    }
+
+
+    /**
      * Display list of all pending employees.
      */
     public function pending()
@@ -165,6 +371,7 @@ class ReceptionManageController extends Controller
 
         return view('backend.pages.admin.reception.pendingEmployee', compact('employees'));
     }
+
 
     /**
      * Display list of all approved employees.
@@ -182,6 +389,7 @@ class ReceptionManageController extends Controller
         return view('backend.pages.admin.reception.approvedEmployee', compact('employees'));
     }
 
+
     /**
      * Display list of declined employees.
      */
@@ -197,6 +405,7 @@ class ReceptionManageController extends Controller
 
         return view('backend.pages.admin.reception.declinedEmployee', compact('employees'));
     }
+
 
     /**
      * approve a pending or declined employee.
@@ -219,6 +428,7 @@ class ReceptionManageController extends Controller
         Session()->flash('success', 'Receptionist Account Approved Succesfully.');
         return redirect()->back();
     }
+    
 
     /**
      * decline a pending employee.

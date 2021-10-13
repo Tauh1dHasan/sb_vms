@@ -48,8 +48,8 @@ class EmployeeManageController extends Controller
      */
     public function index()
     {
-        $employees = Employee::join('departments', 'departments.dept_id', '=', 'employees.dept_id')
-                            ->join('designations', 'designations.designation_id', '=', 'employees.designation_id')
+        $employees = Employee::join('departments', 'departments.dept_id', 'employees.dept_id')
+                            ->join('designations', 'designations.designation_id', 'employees.designation_id')
                             ->where('employees.user_type_id', 2)
                             ->where('employees.status', '!=', 3)
                             ->orderBy('employees.employee_id', 'asc')
@@ -286,6 +286,7 @@ class EmployeeManageController extends Controller
         return redirect()->route('admin.employee.index');
     }
 
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -300,6 +301,7 @@ class EmployeeManageController extends Controller
         return view('backend.pages.admin.employee.editPassword', compact('employee'));
     }
 
+    
     /**
      * Update the specified resource in storage.
      *
@@ -325,6 +327,7 @@ class EmployeeManageController extends Controller
         return redirect()->route('admin.employee.index');
     }
 
+    
     /**
      * Remove the specified resource from storage.
      *

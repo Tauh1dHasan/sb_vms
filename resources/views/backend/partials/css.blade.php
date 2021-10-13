@@ -53,6 +53,10 @@
             padding-left: 15px;
         }
 
+        div.dataTables_wrapper .table-responsive {
+            overflow: visible;
+        }
+
         /* style for webcam */
         #camera {
             width: 200px;
