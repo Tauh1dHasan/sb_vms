@@ -15,8 +15,28 @@ use App\Models\Visitor;
 use App\Models\VisitorLog;
 use App\Models\VisitorType;
 
+/* included mails */
+use App\Mail\RegisterMail;
+
 class VisitorManageController extends Controller
 {
+    /**
+     * Visitor information validation
+     */
+    public function validation($request)
+    {
+        return $this->validate($request, [
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'organization' => 'required|max:255',
+            'mobile_no' => 'required|unique:users',
+            'email' => 'required|unique:users',
+            'password' => 'required|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
+            'profile_photo' => 'mimes:jpeg,png,jpg|max:2048',
+            '_answer'=>'required|simple_captcha',
+        ]);
+    }
+
     //Display all visitor list in admin panel
     public function index()
     {
@@ -116,7 +136,7 @@ class VisitorManageController extends Controller
         }
     }
 
-    // Approve visitor ID
+    // Approve visitor method
     public function approve($visitor_id)
     {
         $visitor = Visitor::where('visitor_id', $visitor_id)->first();
@@ -134,4 +154,151 @@ class VisitorManageController extends Controller
             return redirect()->route('admin.visitor.index')->with('sticky-fail', 'Something went wrong, Please try again...!!');
         }
     }
+
+    // Block visitor method
+    public function block($visitor_id)
+    {
+        $visitor = Visitor::where('visitor_id', $visitor_id)->first();
+        $visitor->visitor_status = 2;
+        $visitorDone = $visitor->save();
+
+        $user = User::where('user_id', $visitor->user_id)->first();
+        $user->is_approved = 2;
+        $userDone = $user->save();
+
+        if ($visitorDone && $userDone)
+        {
+            return redirect()->route('admin.visitor.index')->with('success', 'Account Blocked successfully');
+        } else {
+            return redirect()->route('admin.visitor.index')->with('sticky-fail', 'Something went wrong, Please try again...!!');
+        }
+    }
+
+    // Display all pending visitor
+    public function pending()
+    {
+        $visitors = Visitor::where('visitor_status', 0)
+                            ->join('visitor_types', 'visitors.visitor_type', '=', 'visitor_types.visitor_type_id')
+                            ->get();
+        return view('backend.pages.admin.visitor.pending', compact('visitors'));
+    }
+
+    // Display all approved visitor
+    public function approved()
+    {
+        $visitors = Visitor::where('visitor_status', 1)
+                            ->join('visitor_types', 'visitors.visitor_type', '=', 'visitor_types.visitor_type_id')
+                            ->get();
+        return view('backend.pages.admin.visitor.approved', compact('visitors'));
+    }
+
+    // Display all blocked visitor
+    public function blocked()
+    {
+        $visitors = Visitor::where('visitor_status', 2)
+                            ->join('visitor_types', 'visitors.visitor_type', '=', 'visitor_types.visitor_type_id')
+                            ->get();
+        return view('backend.pages.admin.visitor.blocked', compact('visitors'));
+    }
+
+    // Create visitor account
+    public function create()
+    {
+        $visitor_types = VisitorType::orderBy('visitor_type_id' , 'asc')->get();
+        return view('backend.pages.admin.visitor.createVisitorAccount', compact('visitor_types'));
+    }
+
+    // Register a visitor into database
+    public function visitorRegister(Request $request)
+    {
+        // check if mobile number or email exist in users table
+        $mobileCheck = User::where('mobile_no', '=', $request->mobile_no)->first();
+        $emailCheck = User::where('email', '=', $request->email)->first();
+
+        if ($mobileCheck || $emailCheck)
+        {
+            // return redirect()->route('admin.visitor.create')->with('fail', 'Email address or Mobile number already exist');
+            dd($request);
+        }
+        $this->validation($request);
+
+        
+        // Login credentials into users table 
+        $user = new User;
+        $user->mobile_no = $request->mobile_no;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->user_type_id = '4';
+        $user->is_approved = 1;
+        $user->entry_datetime = now();
+        $user->save();
+
+        // Visitor information into visitors table
+        $user_id = User::orderBy('user_id', 'desc')->first();
+        $visitor = new Visitor;
+        $visitor->user_id = $user_id->user_id;
+        $visitor->visitor_type = $request->visitor_type;
+        $visitor->first_name = $request->first_name;
+        $visitor->last_name = $request->last_name;
+        $visitor->organization = $request->organization;
+        $visitor->designation = $request->designation;
+        $visitor->gender = $request->gender;
+        $visitor->dob = $request->dob;
+        $visitor->mobile_no = $request->mobile_no;
+        $visitor->email = $request->email;
+        $visitor->address = $request->address;
+        $visitor->nid_no = $request->nid_no;
+        $visitor->passport_no = $request->passport_no;
+        $visitor->driving_license_no = $request->driving_license_no;
+        $visitor->entry_user_id = session('loggedUser');
+        $visitor->entry_datetime = now();
+        $visitor->visitor_status = 1;
+        $visitor->slug = strtolower($request->first_name.'-'.$request->last_name);
+        if ($request->hasFile('profile_photo')) {
+            $image = $request->file('profile_photo');
+            $imgName = 'visitor'.time().'.'.$image->getClientOriginalExtension();
+            $location = public_path('backend/img/visitors/'.$imgName);
+            Image::make($image)->save($location);
+            $visitor->profile_photo = $imgName;
+        }
+        $visitor->save();
+
+        // Activation mail to visitor email
+        if ($visitor->email != NULL) 
+        {
+            mail::to($visitor->email)->send(new RegisterMail($visitor));
+        }
+
+        // Visitor data into visitor_logs table
+        $visitor_id = Visitor::orderBy('visitor_id', 'desc')->first();
+        $visitorLog = new VisitorLog;
+        $visitorLog->visitor_id = $visitor_id->visitor_id;
+        $visitorLog->user_id = $user_id->user_id;
+        $visitorLog->visitor_type = $request->visitor_type;
+        $visitorLog->first_name = $request->first_name;
+        $visitorLog->last_name = $request->last_name;
+        $visitorLog->organization = $request->organization;
+        $visitorLog->designation = $request->designation;
+        $visitorLog->gender = $request->gender;
+        $visitorLog->dob = $request->dob;
+        $visitorLog->mobile_no = $request->mobile_no;
+        $visitorLog->email = $request->email;
+        $visitorLog->address = $request->address;
+        $visitorLog->profile_photo = $imgName;
+        $visitorLog->nid_no = $request->nid_no;
+        $visitorLog->passport_no = $request->passport_no;
+        $visitorLog->driving_license_no = $request->driving_license_no;
+        $visitorLog->entry_user_id = session('loggedUser');
+        $visitorLog->entry_datetime = now();
+        $visitorLog->description = "Visitor account created form admin panel";
+        $visitorLog->log_type = 1;
+        $visitorLog->status = 1;
+        $visitorLog->save();
+
+
+        Session()->flash('success' , 'Registration Successfull with auto validation!');
+        return redirect()->route('admin.visitor.index');
+    }
+
+
 }

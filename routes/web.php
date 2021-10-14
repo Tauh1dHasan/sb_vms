@@ -191,6 +191,12 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
         Route::get('/visitor/edit/{visitor_id}', [VisitorManageController::class, 'edit'])->name('visitor.edit');
         Route::post('/visitor/updateProfile', [VisitorManageController::class, 'updateProfile'])->name('visitor.updateProfile');
         Route::get('/visitor/approve/{visitor_id}', [VisitorManageController::class, 'approve'])->name('visitor.approve');
+        Route::get('/visitor/block/{visitor_id}', [VisitorManageController::class, 'block'])->name('visitor.block');
+        Route::get('/visitor/pending', [VisitorManageController::class, 'pending'])->name('visitor.pending');
+        Route::get('/visitor/approved', [VisitorManageController::class, 'approved'])->name('visitor.approved');
+        Route::get('/visitor/blocked', [VisitorManageController::class, 'blocked'])->name('visitor.blocked');
+        Route::get('/visitor/create', [VisitorManageController::class, 'create'])->name('visitor.create');
+        Route::post('/visitor/visitorRegister', [VisitorManageController::class, 'visitorRegister'])->name('visitor.visitorRegister');
         
         // Admin panel Appointment Management routes
         Route::get('/appointment', [AppointmentController::class, 'index'])->name('appointment.index');

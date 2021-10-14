@@ -2,22 +2,19 @@
 
     @section('content')
 
-        <nav class="breadcrumb-one" aria-label="breadcrumb">
-            <ol class="breadcrumb" style="background: none; padding: 0;">
-                <li class="breadcrumb-item"><a href="{{ route('reception.index') }}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></a></li>
-                <li class="breadcrumb-item"><a href="{{ route('reception.createVisitorAccount') }}">Create Visitor Account</a></li>
-            </ol>
-        </nav>
-
         <div class="admin-data-content layout-top-spacing">
             <div class="row">
-                
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
-                    
                     <div class="row layout-spacing">
-
                         <!-- Content -->
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 layout-top-spacing">
+
+                            <nav class="breadcrumb-one" aria-label="breadcrumb">
+                                <ol class="breadcrumb" style="background: none; padding: 0;">
+                                    <li class="breadcrumb-item"><a href="{{ route('admin.index') }}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></a></li>
+                                    <li class="breadcrumb-item"><a href="{{ route('admin.visitor.index') }}">Manage Visitor</a></li>
+                                </ol>
+                            </nav>
 
                             @include('backend.partials.message')
 
@@ -32,10 +29,8 @@
                                                 </div>
                                             </div>
                                             <div class="widget-content widget-content-area">
-                                                <form action="{{route('reception.visitorRegister')}}" id="frmSignIn" method="post" class="needs-validation" style="margin-top: 10px;" enctype="multipart/form-data" name="frmSignIn">
+                                                <form action="{{route('admin.visitor.visitorRegister')}}" id="frmSignIn" method="post" class="needs-validation" style="margin-top: 10px;" enctype="multipart/form-data" name="frmSignIn">
                                                     @csrf
-                
-                                                    <input type="hidden" value="4" name="user_type_id" class="form-control form-control-lg text-4">
                 
                                                     <div class="row">
                                                         <div class="form-group col-6">
@@ -51,7 +46,7 @@
                                                     <div class="row">
                                                         <div class="form-group col-md-6">
                                                             <label class="form-label mb-1 text-2">Visitor Type <span class="text-color-danger">*</span></label>
-                                                            <select data-msg-required="Please enter the visitor_type." class="form-control text-3 h-auto py-2" name="visitor_type" id="visitor_type" required="">
+                                                            <select data-msg-required="Please enter the visitor_type." class="form-control text-3 h-auto py-2" name="visitor_type" id="visitor_type" required>
                                                                 <option value="">--Select Visitor Type--</option> 
                                                                 @foreach($visitor_types as $visitor_type)
                                                                     <option value="{{ $visitor_type->visitor_type_id }}">{{ $visitor_type->visitor_type }}</option>
@@ -150,7 +145,6 @@
                                                     <div class="row">
                                                         <div class="form-group col-12">
                                                             <p class="text-3 mt-3" style="margin-bottom: 0;"><input type="checkbox" class="form-check-input" id="checkbox" style="margin-right: 8px" data-msg-required="Please accept terms and conditions." required name="agree"> Creating an account means you are accepting our <a href="#">Terms and Services</a> and <a href="#">Privacy Policy</a>.</p>
-                                                            {{-- <span id="errorContent" class="text-2 text-danger hidden">Please accept our terms and conditions !!!</span> --}}
                                                         </div>
                                                     </div>
                 
