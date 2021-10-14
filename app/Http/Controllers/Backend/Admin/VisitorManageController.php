@@ -115,4 +115,23 @@ class VisitorManageController extends Controller
             return redirect(route('admin.visitor.show', $req->visitor_id))->with('sticky_error', 'Something went wrong, Please try agrain.');
         }
     }
+
+    // Approve visitor ID
+    public function approve($visitor_id)
+    {
+        $visitor = Visitor::where('visitor_id', $visitor_id)->first();
+        $visitor->visitor_status = 1;
+        $visitorDone = $visitor->save();
+
+        $user = User::where('user_id', $visitor->user_id)->first();
+        $user->is_approved = 1;
+        $userDone = $user->save();
+
+        if ($visitorDone && $userDone)
+        {
+            return redirect()->route('admin.visitor.index')->with('success', 'Account approved successfully');
+        } else {
+            return redirect()->route('admin.visitor.index')->with('sticky-fail', 'Something went wrong, Please try again...!!');
+        }
+    }
 }

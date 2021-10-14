@@ -190,6 +190,7 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
         Route::get('/visitor/show/{visitor_id}', [VisitorManageController::class, 'show'])->name('visitor.show');
         Route::get('/visitor/edit/{visitor_id}', [VisitorManageController::class, 'edit'])->name('visitor.edit');
         Route::post('/visitor/updateProfile', [VisitorManageController::class, 'updateProfile'])->name('visitor.updateProfile');
+        Route::get('/visitor/approve/{visitor_id}', [VisitorManageController::class, 'approve'])->name('visitor.approve');
         
         // Admin panel Appointment Management routes
         Route::get('/appointment', [AppointmentController::class, 'index'])->name('appointment.index');

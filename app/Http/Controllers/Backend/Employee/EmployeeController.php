@@ -502,6 +502,7 @@ class EmployeeController extends Controller
         $hostLog->floor_no = $req->floor_no;
         $hostLog->elevator_no = $req->elevator_no;
         $hostLog->room_no = $req->room_no;
+        $hostLog->availability = $req->availability;
         $hostLog->entry_user_id = $user_id;
         $hostLog->entry_datetime = now();
         $hostLog->description = "Host profile update request";

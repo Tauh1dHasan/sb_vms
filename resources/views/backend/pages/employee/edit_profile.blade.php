@@ -52,6 +52,19 @@
                                                     </div>
 
                                                     <div class="form-group mb-4">
+                                                        <label for="availability">Availability</label>
+                                                        <select name="availability" class="form-control" id="availability">
+                                                            @if ($employee->availability == 1)
+                                                                <option value="1">Available</option>
+                                                                <option value="2">Unavailable</option>
+                                                            @elseif ($employee->availability == 2)
+                                                                <option value="2">Unavailable</option>
+                                                                <option value="1">Available</option>
+                                                            @endif
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-group mb-4">
                                                         <label for="dept_id">Department</label>
                                                         <select name="dept_id" class="form-control" id="dept_id" required>
                                                             @foreach ($departments as $department)
