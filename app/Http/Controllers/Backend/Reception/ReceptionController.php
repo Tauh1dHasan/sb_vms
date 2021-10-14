@@ -292,7 +292,7 @@ class ReceptionController extends Controller
 
         if ($mobileCheck || $emailCheck)
         {
-            return redirect()->back()->with('fail', 'Email address or Mobile number already exist');
+            return redirect()->back()->with('sticky_error', 'Email address or Mobile number already exist');
         }
         $this->validation($request);
 
