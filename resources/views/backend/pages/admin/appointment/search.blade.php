@@ -25,9 +25,16 @@
                                             <div class="col-md-6 col-xl-6">
                                                 <label for="visitor_id">Visitor Name</label>
                                                 <select name="visitor_id" id="" class="form-control select2">
-                                                    @foreach ($visitors as $visit)
-                                                        <option value="{{ $visit->visitor_id }}" @if ($visit->visitor_id == $visitor ? 'selected':'') @endif>{{ $visit->first_name }} {{ $visit->last_name }}</option>
-                                                    @endforeach
+                                                    @if ($visitor == '')
+                                                        <option value="">--Select Visitor--</option>
+                                                        @foreach ($visitors as $visit)
+                                                            <option value="{{ $visit->visitor_id }}" @if ($visit->visitor_id == $visitor ? 'selected':'') @endif>{{ $visit->first_name }} {{ $visit->last_name }}</option>
+                                                        @endforeach
+                                                    @else
+                                                        @foreach ($visitors as $visit)
+                                                            <option value="{{ $visit->visitor_id }}" @if ($visit->visitor_id == $visitor ? 'selected':'') @endif>{{ $visit->first_name }} {{ $visit->last_name }}</option>
+                                                        @endforeach
+                                                    @endif
                                                 </select>
                                             </div>
                                             <div class="col-md-6 col-xl-6">
@@ -63,7 +70,7 @@
                                             </div>
                                             <div class="col-md-5 col-xl-5">
                                                 <label for="to_date">To Date</label>
-                                                <input type="date" class="form-control" name="to_date" id="to_date" value="{{ $from_date }}">
+                                                <input type="date" class="form-control" name="to_date" id="to_date" value="{{ $to_date }}">
                                             </div>
                                             <div class="col-md-2 col-xl-2">
                                                 <button type="submit" class="form-control btn btn-primary" style="margin-top: 30px">Submit</button>
