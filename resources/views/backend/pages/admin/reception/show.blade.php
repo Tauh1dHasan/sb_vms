@@ -182,6 +182,72 @@
                                             </li>
                                             @endif
 
+                                            @if($employee->building_no)
+                                            <li class="contacts-block__item" style="margin: 5px 0;">
+                                                <div class="form-group row mb-4">
+                                                    <label for="employee" class="col-lg-4 col-form-label text-right"><span style="font-weight: 800; font-size: 1.25rem; color: #3b3f5c;">Building: </span></label>
+                                                    <div class="col-lg-8" style="padding-left: 0">
+                                                        <label for="employee" class="col-form-label" style="font-size: 1.25rem; font-weight: 400">{{ $employee->building_no }} </label>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            @endif
+
+                                            @if($employee->gate_no)
+                                            <li class="contacts-block__item" style="margin: 5px 0;">
+                                                <div class="form-group row mb-4">
+                                                    <label for="employee" class="col-lg-4 col-form-label text-right"><span style="font-weight: 800; font-size: 1.25rem; color: #3b3f5c;">Gate No: </span></label>
+                                                    <div class="col-lg-8" style="padding-left: 0">
+                                                        <label for="employee" class="col-form-label" style="font-size: 1.25rem; font-weight: 400">{{ $employee->gate_no }} </label>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            @endif
+
+                                            @if($employee->floor_no)
+                                            <li class="contacts-block__item" style="margin: 5px 0;">
+                                                <div class="form-group row mb-4">
+                                                    <label for="employee" class="col-lg-4 col-form-label text-right"><span style="font-weight: 800; font-size: 1.25rem; color: #3b3f5c;">Floor No: </span></label>
+                                                    <div class="col-lg-8" style="padding-left: 0">
+                                                        <label for="employee" class="col-form-label" style="font-size: 1.25rem; font-weight: 400">{{ $employee->floor_no }} </label>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            @endif
+
+                                            @if($employee->elevator_no)
+                                            <li class="contacts-block__item" style="margin: 5px 0;">
+                                                <div class="form-group row mb-4">
+                                                    <label for="employee" class="col-lg-4 col-form-label text-right"><span style="font-weight: 800; font-size: 1.25rem; color: #3b3f5c;">Elevator No: </span></label>
+                                                    <div class="col-lg-8" style="padding-left: 0">
+                                                        <label for="employee" class="col-form-label" style="font-size: 1.25rem; font-weight: 400">{{ $employee->elevator_no }} </label>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            @endif
+
+                                            @if($employee->room_no)
+                                            <li class="contacts-block__item" style="margin: 5px 0;">
+                                                <div class="form-group row mb-4">
+                                                    <label for="employee" class="col-lg-4 col-form-label text-right"><span style="font-weight: 800; font-size: 1.25rem; color: #3b3f5c;">Room No: </span></label>
+                                                    <div class="col-lg-8" style="padding-left: 0">
+                                                        <label for="employee" class="col-form-label" style="font-size: 1.25rem; font-weight: 400">{{ $employee->room_no }} </label>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            @endif
+
+                                            @if($employee->availability)
+                                            <li class="contacts-block__item" style="margin: 5px 0;">
+                                                <div class="form-group row mb-4">
+                                                    <label for="employee" class="col-lg-4 col-form-label text-right"><span style="font-weight: 800; font-size: 1.25rem; color: #3b3f5c;">Availability: </span></label>
+                                                    <div class="col-lg-8" style="padding-left: 0">
+                                                        <label for="employee" class="col-form-label" style="font-size: 1.25rem; font-weight: 400">{{ $employee->availability }} </label>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            @endif
+
                                             <li class="contacts-block__item" style="margin: 5px 0;">
                                                 <div class="form-group row mb-4">
                                                     <label for="employee_status" class="col-lg-4 col-form-label text-right"><span style="font-weight: 800; font-size: 1.25rem; color: #3b3f5c;">Employee Status: </span></label>

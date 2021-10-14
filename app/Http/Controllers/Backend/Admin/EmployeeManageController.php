@@ -20,6 +20,7 @@ use App\Models\UserType;
 use App\Models\Employee;
 use App\Models\Department;
 use App\Models\Designation;
+use App\Models\HostLog;
 
 class EmployeeManageController extends Controller
 {
@@ -295,8 +296,7 @@ class EmployeeManageController extends Controller
      */
     public function editPassword($id)
     {
-        $employee = Employee::where('employee_id', $id)
-                            ->first();
+        $employee = Employee::where('employee_id', $id)->first();
 
         return view('backend.pages.admin.employee.editPassword', compact('employee'));
     }
@@ -325,6 +325,39 @@ class EmployeeManageController extends Controller
 
         Session()->flash('success' , 'Host Password Updated Successfully !!!');
         return redirect()->route('admin.employee.index');
+    }
+
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function pendingUpdate()
+    {
+        $employees = HostLog::with('department', 'designation')
+                            ->where('log_type', 2)
+                            ->where('status', 1)
+                            ->get();
+
+        return view('backend.pages.admin.employee.pendingUpdate', compact('employees'));
+    }
+
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function pendingUpdateShow($id)
+    {
+        $employee = HostLog::with('department', 'designation')
+                            ->where('employee_id', $id)
+                            ->first();
+
+        return view('backend.pages.admin.employee.show', compact('employee'));
     }
 
     
@@ -446,5 +479,49 @@ class EmployeeManageController extends Controller
 
         Session()->flash('success', 'Host Account Declined Successfully.');
         return redirect()->back();
+    }
+
+    /**
+     * approve a pending employee profile update
+     */
+    public function approvePendingUpdate(HostLog $log_id)
+    {
+    //     $user = User::where('user_id', $user_id->user_id)
+    //             ->update(['is_approved' => 1]);
+
+    //     $employee = Employee::where('user_id', $user_id->user_id)
+    //                 ->update(['status' => 1]);
+
+    //     $employees = Employee::where('user_id', $user_id->user_id)
+    //                 ->first();
+
+    //     if($employees->email != NULL){
+    //         mail::to($employees->email)->send(new EmployeeApprovedMail($employees));
+    //     }
+
+    //     Session()->flash('success', 'Host Account Approved Successfully.');
+    //     return redirect()->back();
+    }
+
+    /**
+     * decline a pending employee profile update
+     */
+    public function declinePendingUpdate(HostLog $log_id)
+    {
+        // $user = User::where('user_id', $user_id->user_id)
+        //         ->update(['is_approved' => 0]);
+
+        // $employee = Employee::where('user_id', $user_id->user_id)
+        //             ->update(['status' => 2]);
+
+        // $employees = Employee::where('user_id', $user_id->user_id)
+        //             ->first();
+
+        // if($employees->email != NULL){
+        //     mail::to($employees->email)->send(new EmployeeDeclinedMail($employees));
+        // }
+
+        // Session()->flash('success', 'Host Account Declined Successfully.');
+        // return redirect()->back();
     }
 }

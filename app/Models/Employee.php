@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 /* Included Models */
+use App\Models\User;
+use App\Models\UserType;
 use App\Models\Department;
 use App\Models\Designation;
 
@@ -40,11 +42,19 @@ class Employee extends Model
     }
 
     /**
-     * a single employee has one user account
+     * a single employee belongs to user account
      */
     public function user()
     {
         return $this->belongsTo(User::class,'user_id', 'user_id');
+    }
+
+    /**
+     * a single employee has one user type
+     */
+    public function user_type()
+    {
+        return $this->hasOne(UserType::class,'user_id', 'user_id');
     }
 
     protected $rules = [

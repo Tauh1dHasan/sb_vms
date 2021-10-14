@@ -158,6 +158,8 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
         Route::get('/host/editPassword/{id}', [EmployeeManageController::class, 'editPassword'])->name('employee.editPassword');
         Route::patch('/host/update/{employee}', [EmployeeManageController::class, 'update'])->name('employee.update');
         Route::patch('/host/updatePassword/{id}', [EmployeeManageController::class, 'updatePassword'])->name('employee.updatePassword');
+        Route::get('/host/pendingUpdate', [EmployeeManageController::class, 'pendingUpdate'])->name('employee.pendingUpdate');
+        Route::get('/host/pendingUpdateShow', [EmployeeManageController::class, 'pendingUpdateShow'])->name('employee.pendingUpdateShow');
         Route::get('/host/destroy/{id}', [EmployeeManageController::class, 'destroy'])->name('employee.destroy');
 
         Route::get('/pending-host', [EmployeeManageController::class, 'pending'])->name('pending.employees');
@@ -166,6 +168,8 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
 
         Route::get('/approve-host/{user_id}', [EmployeeManageController::class, 'approve'])->name('approve.employee');
         Route::get('/decline-host/{user_id}', [EmployeeManageController::class, 'decline'])->name('decline.employee');
+        Route::get('/approve-pendingUpdate/{log_id}', [EmployeeManageController::class, 'approvePendingUpdate'])->name('approve.pendingUpdate');
+        Route::get('/decline-pendingUpdate/{log_id}', [EmployeeManageController::class, 'declinePendingUpdate'])->name('decline.pendingUpdate');
 
         /* Admin Panel Receptionist Routes */
         Route::get('/reception', [ReceptionManageController::class, 'index'])->name('receptionist.index');

@@ -18,8 +18,7 @@
                             <div class="widget-content widget-content-area">
 
                                 <div class="d-flex justify-content-between">
-                                    <h3 class="">{{ $employee->first_name }} {{ $employee->last_name }} Details</h3>
-                                    <a href="{{ route('admin.employee.edit', $employee->employee_id) }}" class="mt-2 edit-profile"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-3"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg></a>
+                                    <h3 class="">Profile Update Request Details</h3>
                                 </div>
 
                                 <div class="user-info-list">
@@ -247,30 +246,6 @@
                                                 </div>
                                             </li>
                                             @endif
-
-                                            <li class="contacts-block__item" style="margin: 5px 0;">
-                                                <div class="form-group row mb-4">
-                                                    <label for="employee_status" class="col-lg-4 col-form-label text-right"><span style="font-weight: 800; font-size: 1.25rem; color: #3b3f5c;">Employee Status: </span></label>
-                                                    <div class="col-lg-8" style="padding-left: 0">
-                                                        <label for="employee_status" class="col-form-label" style="font-size: 1.25rem;">
-                                                            @if($employee->status == 1)
-                                                                <span style="font-weight: 400">Approved</span>
-                                                            @else
-                                                                <span style="font-weight: 400">Declined</span>
-                                                            @endif
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </li>
-
-                                            <li class="contacts-block__item" style="margin: 5px 0;">
-                                                <div class="form-group row mb-4">
-                                                    <label for="entry_datetime" class="col-lg-4 col-form-label text-right"><span style="font-weight: 800; font-size: 1.25rem; color: #3b3f5c;">Register Date: </span></label>
-                                                    <div class="col-lg-8" style="padding-left: 0">
-                                                        <label for="entry_datetime" class="col-form-label" style="font-size: 1.25rem; font-weight: 400">{{ date('d M, Y', strtotime($employee->entry_datetime)) }} </label>
-                                                    </div>
-                                                </div>
-                                            </li>
                                         </ul>
                                     </div>                                    
                                 </div>
