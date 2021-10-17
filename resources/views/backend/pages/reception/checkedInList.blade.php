@@ -37,6 +37,7 @@
                                     <thead>
                                         <tr>
                                             <th class="text-center">Meeting ID</th>
+                                            <th class="text-center">Card No</th>
                                             <th class="text-center">Visitor Name</th>
                                             <th class="text-center">Visitor Mobile</th>
                                             <th class="text-center">Visitor Organization</th>
@@ -54,6 +55,7 @@
                                         @foreach($meetings as $meeting)
                                             <tr>
                                                 <td class="text-center"> {{ $meeting->meeting_id }} </td>
+                                                <td class="text-center"> {{ $meeting->card_no }} </td>
                                                 <td class="text-center"> {{ $meeting->vfname }} {{ $meeting->vlname }} </td>
                                                 <td class="text-center"> {{ $meeting->vmobile }} </td>
                                                 <td class="text-center"> {{ $meeting->organization }} </td>

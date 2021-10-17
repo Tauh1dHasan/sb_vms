@@ -24,6 +24,9 @@
                                 <div class="widget-content widget-content-area" style="padding: 40px">
                                     <div class="col-lg-12 col-12 layout-spacing">
                                         <div class="statbox widget box box-shadow">
+
+                                            @include('backend.partials.message')
+                                            
                                             <div class="widget-header">                                
                                                 <div class="row">
                                                     <div class="col-xl-12 col-md-12 col-sm-12 col-12">
@@ -104,11 +107,6 @@
                                                     </div>
 
                                                     <div class="form-group mb-4">
-                                                        <label for="eid_no">EID Number</label>
-                                                        <input name="eid_no" type="number" class="form-control" id="eid" value="{{ $employee->eid_no }}" required>
-                                                    </div>
-
-                                                    <div class="form-group mb-4">
                                                         <label for="start_hour">Starting Office Hour</label>
                                                         <input name="start_hour" type="time" class="form-control" id="start_hour" value="{{ $employee->start_hour }}" required>
                                                     </div>
@@ -172,7 +170,8 @@
                                                         <label for="driving_license_no">Driving License Number</label>
                                                         <input name="driving_license_no" type="number" class="form-control" id="driving_license_no" value="{{ $employee->driving_license_no }}">
                                                     </div>
-                                                    
+                                                    {{-- hidden data --}}
+                                                    <input type="hidden" name="employee_id" value="{{ $employee->employee_id }}">
                                                     <input type="submit" name="submit" class="mt-4 mb-4 btn btn-primary">
                                                 </form>
                                             </div>

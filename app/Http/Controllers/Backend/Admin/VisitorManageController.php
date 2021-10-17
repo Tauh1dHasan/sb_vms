@@ -218,7 +218,6 @@ class VisitorManageController extends Controller
         if ($mobileCheck || $emailCheck)
         {
             return redirect()->route('admin.visitor.create')->with('sticky_error', 'Email address or Mobile number already exist');
-            // dd($request);
         }
         $this->validation($request);
 
