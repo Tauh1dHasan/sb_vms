@@ -61,9 +61,9 @@
                                                     <span class="shadow-none badge badge-primary">Pending</span>
                                                 </td>
                                                 <td class="text-center">
-                                                    <a href="{{route('admin.employee.pendingUpdateShow', $employee->log_id)}}" class="btn btn-info btn-sm d-block">Detail</a>
-                                                    <a href="{{route('admin.approve.pendingUpdate', $employee->log_id)}}" class="btn btn-success btn-sm mt-2 d-block">Accept</a>
-                                                    <a href="{{route('admin.decline.pendingUpdate', $employee->log_id)}}" class="btn btn-danger btn-sm mt-2 d-block">Decline</a>
+                                                    <a href="{{route('admin.employee.pendingUpdateShow', $employee->employee_id)}}" class="btn btn-info btn-sm d-block">Detail</a>
+                                                    {{-- <a href="{{route('admin.approve.pendingUpdate', $employee->log_id)}}" class="btn btn-success btn-sm mt-2 d-block">Accept</a>
+                                                    <a href="{{route('admin.decline.pendingUpdate', $employee->log_id)}}" class="btn btn-danger btn-sm mt-2 d-block">Decline</a> --}}
                                                 </td>
                                             </tr>
                                         @endforeach

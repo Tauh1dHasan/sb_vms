@@ -202,7 +202,7 @@ class ReceptionManageController extends Controller
     {
         $user =  $employee->user;
 
-        if(($request->email == $user->email) and ($request->mobile_no == $employee->mobile_no)) {
+        if(($request->email == $user->email) and ($request->mobile_no == $user->mobile_no)) {
             $request->validate([
                 'first_name' => 'required|max:255',
                 'last_name' => 'required|max:255',

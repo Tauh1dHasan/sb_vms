@@ -203,7 +203,7 @@ class EmployeeManageController extends Controller
     {
         $user =  $employee->user;
 
-        if(($request->email == $user->email) and ($request->mobile_no == $employee->mobile_no)) {
+        if(($request->email == $user->email) and ($request->mobile_no == $user->mobile_no)) {
             $request->validate([
                 'first_name' => 'required|max:255',
                 'last_name' => 'required|max:255',
@@ -351,13 +351,20 @@ class EmployeeManageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function pendingUpdateShow($id)
+    public function pendingUpdateShow($employee_id)
     {
-        $employee = HostLog::with('department', 'designation')
-                            ->where('employee_id', $id)
+        $new_info = HostLog::with('department', 'designation')
+                            ->where('employee_id', $employee_id)
+                            ->where('user_type_id', 2)
+                            ->where('log_type', 2)
                             ->first();
 
-        return view('backend.pages.admin.employee.show', compact('employee'));
+        $old_info = Employee::with('department', 'designation')
+                            ->where('employee_id', $employee_id)
+                            ->where('user_type_id', 2)
+                            ->first();
+
+        return view('backend.pages.admin.employee.pendingUpdateShow', compact('new_info', 'old_info'));
     }
 
     
@@ -481,27 +488,25 @@ class EmployeeManageController extends Controller
         return redirect()->back();
     }
 
+
     /**
      * approve a pending employee profile update
      */
-    public function approvePendingUpdate(HostLog $log_id)
+    public function approvePendingUpdate($employee_id)
     {
-    //     $user = User::where('user_id', $user_id->user_id)
-    //             ->update(['is_approved' => 1]);
+        $hostlog = HostLog::where('user_id', $user_id->user_id)
+                ->update(['is_approved' => 1]);
 
-    //     $employee = Employee::where('user_id', $user_id->user_id)
-    //                 ->update(['status' => 1]);
+        $employee = Employee::where('user_id', $user_id->user_id)
+                    ->update(['status' => 1]);
 
-    //     $employees = Employee::where('user_id', $user_id->user_id)
-    //                 ->first();
+        $employees = Employee::where('user_id', $user_id->user_id)
+                    ->first();
 
-    //     if($employees->email != NULL){
-    //         mail::to($employees->email)->send(new EmployeeApprovedMail($employees));
-    //     }
-
-    //     Session()->flash('success', 'Host Account Approved Successfully.');
-    //     return redirect()->back();
+        Session()->flash('success', 'Host Profile Updates Approved Successfully.');
+        return view('backend.pages.admin.employee.pendingUpdate');
     }
+
 
     /**
      * decline a pending employee profile update
