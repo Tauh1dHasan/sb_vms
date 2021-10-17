@@ -24,6 +24,9 @@
                                 <div class="widget-content widget-content-area" style="padding: 40px">
                                     <div class="col-lg-12 col-12 layout-spacing">
                                         <div class="statbox widget box box-shadow">
+
+                                            @include('backend.partials.message')
+
                                             <div class="widget-header">                                
                                                 <div class="row">
                                                     <div class="col-xl-12 col-md-12 col-sm-12 col-12">
@@ -122,7 +125,7 @@
                                                         <input name="driving_license_no" type="number" class="form-control" id="driving_license_no" value="{{ $visitor->driving_license_no }}">
                                                     </div>
                                                     
-                                                    {{-- hidden user_id --}}
+                                                    {{-- hidden data --}}
                                                     <input name="visitor_id" type="hidden" value="{{ $visitor->visitor_id }}">
                                                     <input type="submit" name="submit" class="mt-4 mb-4 btn btn-primary">
                                                 </form>

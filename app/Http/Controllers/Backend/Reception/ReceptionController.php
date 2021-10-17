@@ -113,10 +113,20 @@ class ReceptionController extends Controller
     // Update and store new profile information
     public function updateProfile(Request $req)
     {
+        // check for unique mobile, email address and previous active request
+        $checkMobile = User::where('mobile_no', $req->mobile_no)->first();
+        $checkEmail = User::where('email', $req->email)->first();
+        $receptionLogCheck = ReceptionLog::where('employee_id', $req->employee_id)->where('log_type', '2')->first();
+        if ($checkMobile || $checkEmail)
+        {
+            return redirect()->back()->with('sticky_error', 'Mobile number and Email must be unique....');
+        } elseif ($receptionLogCheck)
+        {
+            return redirect()->back()->with('sticky_error', 'Your previous request still pending....');
+        }
         // get employee old data
         $user_id = session('loggedUser');
         $employee_old_data_query = Employee::where('user_id', $user_id)->first();
-        $employee_old_photo = $employee_old_data_query->photo;
 
         // insert new/updated data into reception_logs table
         $receptionlog = new ReceptionLog;
@@ -127,7 +137,6 @@ class ReceptionController extends Controller
         $receptionlog->last_name = $req->last_name;
         $receptionlog->gender = $req->gender;
         $receptionlog->dob = $req->dob;
-        $receptionlog->eid_no = $req->eid_no;
         $receptionlog->dept_id = $req->dept_id;
         $receptionlog->designation_id = $req->designation_id;
         $receptionlog->mobile_no = $req->mobile_no;
@@ -156,7 +165,7 @@ class ReceptionController extends Controller
             Image::make($new_photo)->save($location);
             $receptionlog->photo = $imgName;
         } else {
-            $receptionlog->photo = $employee_old_photo;
+            $receptionlog->photo = $employee_old_data_query->photo;
         }
 
         $done = $receptionlog->save();
@@ -250,8 +259,10 @@ class ReceptionController extends Controller
                            ->join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
                            ->join('employees', 'meetings.employee_id', '=', 'employees.employee_id')
                            ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
-                           ->select('meeting_id', 'visitors.first_name as vfname', 'visitors.last_name as vlname', 'visitors.mobile_no as vmobile', 'organization', 'designation', 'employees.first_name as efname', 'employees.last_name as elname', 'employees.mobile_no as emobile', 'purpose_name', 'purpose_describe', 'meeting_datetime', 'meeting_status', 'checkin_status')
+                           ->join('visitor_pass', 'meetings.meeting_id', '=', 'visitor_pass.meeting_id')
+                           ->select('meetings.meeting_id', 'visitors.first_name as vfname', 'visitors.last_name as vlname', 'visitors.mobile_no as vmobile', 'organization', 'designation', 'employees.first_name as efname', 'employees.last_name as elname', 'employees.mobile_no as emobile', 'purpose_name', 'purpose_describe', 'meeting_datetime', 'meeting_status', 'checkin_status', 'card_no','visitor_photo')
                            ->get();
+                           
 
         return view('backend.pages.reception.checkedInList', compact('meetings'));
     }
@@ -292,7 +303,7 @@ class ReceptionController extends Controller
 
         if ($mobileCheck || $emailCheck)
         {
-            return redirect()->back()->with('fail', 'Email address or Mobile number already exist');
+            return redirect()->back()->with('sticky_error', 'Email address or Mobile number already exist');
         }
         $this->validation($request);
 

@@ -95,6 +95,13 @@ class VisitorController extends Controller
      */
     public function update(Request $req)
     {
+        // check for unique mobile and email address
+        $checkMobile = User::where('mobile_no', $req->mobile_no)->first();
+        $checkEmail = User::where('email', $req->email)->first();
+        if ($checkMobile || $checkEmail)
+        {
+            return redirect()->back()->with('sticky_error', 'Mobile number and Email must be unique....');
+        }
         // send old data into visitor_logs table
         $visitor_old_data = Visitor::where('visitor_id', $req->visitor_id)->first();
         $visitorLog = new VisitorLog;

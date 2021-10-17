@@ -470,23 +470,30 @@ class EmployeeController extends Controller
      */
     public function updateProfile(Request $req)
     {   
+        // check for unique mobile, email address and previous active request
+        $checkMobile = User::where('mobile_no', $req->mobile_no)->first();
+        $checkEmail = User::where('email', $req->email)->first();
+        $hostLogCheck = HostLog::where('employee_id', $req->employee_id)->where('log_type', '2')->first();
+        if ($checkMobile || $checkEmail)
+        {
+            return redirect()->back()->with('sticky_error', 'Mobile number and Email must be unique....');
+        } elseif ($hostLogCheck)
+        {
+            return redirect()->back()->with('sticky_error', 'Your previous request still pending....');
+        }
         // get employee old data
         $user_id = session('loggedUser');
         $employee_old_data_query = Employee::where('user_id', '=', $user_id)->first();
-        $employee_id = $employee_old_data_query->employee_id;
-        $user_type_id = $employee_old_data_query->user_type_id;
-        $employee_old_photo = $employee_old_data_query->photo;
 
         // insert new/updated data into host_logs table
         $hostLog = new HostLog;
-        $hostLog->employee_id = $employee_id;
+        $hostLog->employee_id = $req->employee_id;
         $hostLog->user_id = $user_id;
-        $hostLog->user_type_id = $user_type_id;
+        $hostLog->user_type_id = $employee_old_data_query->user_type_id;
         $hostLog->first_name = $req->first_name;
         $hostLog->last_name = $req->last_name;
         $hostLog->gender = $req->gender;
         $hostLog->dob = $req->dob;
-        $hostLog->eid_no = $req->eid_no;
         $hostLog->dept_id = $req->dept_id;
         $hostLog->designation_id = $req->designation_id;
         $hostLog->mobile_no = $req->mobile_no;
@@ -516,7 +523,7 @@ class EmployeeController extends Controller
             Image::make($new_photo)->save($location);
             $hostLog->photo = $imgName;
         } else {
-            $hostLog->photo = $employee_old_photo;
+            $hostLog->photo = $employee_old_data_query->photo;
         }
 
         $done = $hostLog->save();
