@@ -260,7 +260,7 @@ class ReceptionController extends Controller
                            ->join('employees', 'meetings.employee_id', '=', 'employees.employee_id')
                            ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
                            ->join('visitor_pass', 'meetings.meeting_id', '=', 'visitor_pass.meeting_id')
-                           ->select('meetings.meeting_id', 'visitors.first_name as vfname', 'visitors.last_name as vlname', 'visitors.mobile_no as vmobile', 'organization', 'designation', 'employees.first_name as efname', 'employees.last_name as elname', 'employees.mobile_no as emobile', 'purpose_name', 'purpose_describe', 'meeting_datetime', 'meeting_status', 'checkin_status', 'card_no')
+                           ->select('meetings.meeting_id', 'visitors.first_name as vfname', 'visitors.last_name as vlname', 'visitors.mobile_no as vmobile', 'organization', 'designation', 'employees.first_name as efname', 'employees.last_name as elname', 'employees.mobile_no as emobile', 'purpose_name', 'purpose_describe', 'meeting_datetime', 'meeting_status', 'checkin_status', 'card_no','visitor_photo')
                            ->get();
                            
 
