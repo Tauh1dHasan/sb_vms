@@ -50,6 +50,11 @@
                                             <input id="meeting_datetime" name="meeting_datetime" class="form-control" placeholder="Select Datetime" autocomplete="off" required>
                                         </div>
 
+                                        <div class="form-group mb-4">
+                                            <label for="attendees_no">Number of Attendees</label>
+                                            <input type="number" id="attendees_no" name="attendees_no" class="form-control" placeholder="Total number of attendees" autocomplete="off" required>
+                                        </div>
+
                                         <div class="form-group mbhas_vehicle-4">
                                             <label for="has_vehicle">Do you have a vehicle ?</label>
                                             <select name="has_vehicle" class="form-control" id="has_vehicle" required>

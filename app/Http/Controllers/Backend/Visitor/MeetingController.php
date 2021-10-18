@@ -22,6 +22,22 @@ use App\Mail\VisitorMeetingCancel;
 class MeetingController extends Controller
 {
     /**
+     * Display make an appointment form.
+     */
+    public function create()
+    {
+        $user_id = session('loggedUser');
+
+        $purpose = MeetingPurpose::where('purpose_status', '=', 1)->get();
+
+        $visitor = Visitor::where('visitors.user_id', '=', $user_id)
+                            ->first();
+
+        return view('backend.pages.visitor.make_appointment', compact('purpose', 'visitor'));
+    }
+
+
+    /**
      * Store new meeting information from visitor.
      */
     public function store(Request $req)
@@ -35,6 +51,7 @@ class MeetingController extends Controller
         $meeting->meeting_purpose_id = $req->meeting_purpose_id;
         $meeting->purpose_describe = $req->meeting_purpose_describe;
         $meeting->meeting_datetime = $req->meeting_datetime;
+        $meeting->attendees_no = $req->attendees_no;
         $meeting->entry_user_id = session('loggedUser');
         $meeting->entry_datetime = now();
         $meeting->meeting_status = 0;
@@ -52,6 +69,7 @@ class MeetingController extends Controller
         $meetingLog->meeting_purpose_id = $req->meeting_purpose_id;
         $meetingLog->purpose_describe = $req->meeting_purpose_describe;
         $meetingLog->meeting_datetime = $req->meeting_datetime;
+        $meetingLog->attendees_no = $req->attendees_no;
         $meetingLog->meeting_status = 0;
         $meetingLog->entry_user_id = session('loggedUser');
         $meetingLog->entry_datetime = now();
@@ -77,21 +95,6 @@ class MeetingController extends Controller
         }
     }
 
-
-    /**
-     * Display make an appointment form.
-     */
-    public function create()
-    {
-        $user_id = session('loggedUser');
-
-        $purpose = MeetingPurpose::where('purpose_status', '=', 1)->get();
-
-        $visitor = Visitor::where('visitors.user_id', '=', $user_id)
-                            ->first();
-
-        return view('backend.pages.visitor.make_appointment', compact('purpose', 'visitor'));
-    }
 
     /**
      * Display all-Appointment status.

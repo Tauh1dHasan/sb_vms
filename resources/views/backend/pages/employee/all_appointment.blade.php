@@ -52,8 +52,8 @@
                                             <th class="text-center">Organization</th>
                                             <th class="text-center">Meeting Purpose</th>
                                             <th class="text-center">Purpose Description</th>
-                                            <th class="text-center">Meeting Date</th>
-                                            <th class="text-center">Meeting Time</th>
+                                            <th class="text-center">Meeting Datetime</th>
+                                            <th class="text-center">Attendees</th>
                                             <th class="text-center">Has Vehicle</th>
                                             <th class="text-center">Status</th>
                                         </tr>
@@ -66,8 +66,8 @@
                                                 <td class="text-center"> {{$meeting->organization}} </td>
                                                 <td class="text-center"> {{$meeting->purpose_name}} </td>
                                                 <td class="text-center"> {{$meeting->purpose_describe}} </td>
-                                                <td class="text-center"> <?php echo date("d M, Y", strtotime($meeting->meeting_datetime)); ?> </td>
-                                                <td class="text-center"> <?php echo date("h:i a", strtotime($meeting->meeting_datetime)); ?> </td>
+                                                <td class="text-center"> {{ date("d M, Y - h:i a", strtotime($meeting->meeting_datetime)) }} </td>
+                                                <td class="text-center"> {{$meeting->attendees_no}} </td>
                                                 <td class="text-center"> 
                                                     @if($meeting->has_vehicle == 1)
                                                         <?php echo 'Yes'?>
