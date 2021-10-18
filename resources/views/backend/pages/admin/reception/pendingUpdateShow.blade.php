@@ -8,7 +8,7 @@
                     <nav class="breadcrumb-one" aria-label="breadcrumb">
                         <ol class="breadcrumb" style="background: none; padding: 0;">
                             <li class="breadcrumb-item"><a href="{{ route('admin.index') }}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('admin.employee.index') }}">Manage Hosts</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.receptionist.index') }}">Manage Receptionist</a></li>
                             <li class="breadcrumb-item active" aria-current="page"><span>{{ $old_info->first_name }} {{ $old_info->last_name }}</span></li>
                         </ol>
                     </nav>
@@ -496,8 +496,8 @@
 
                                 <div class="col-lg-12"> 
                                     <div class="widget-content widget-content-area text-center split-buttons"> 
-                                        <a href="{{route('admin.approve.employee.pendingUpdate', $new_info->employee_id)}}" class="btn btn-lg btn-primary" onclick="return confirm('Are you sure want to approve?')">Approve</a>
-                                        <a href="{{route('admin.decline.employee.pendingUpdate', $new_info->employee_id)}}" class="btn btn-lg btn-danger ml-4" onclick="return confirm('Are you sure want to decline?')">Decline</a>
+                                        <a href="{{route('admin.approve.receptionist.pendingUpdate', $new_info->employee_id)}}" class="btn btn-lg btn-primary" onclick="return confirm('Are you sure want to approve?')">Approve</a>
+                                        <a href="{{route('admin.decline.receptionist.pendingUpdate', $new_info->employee_id)}}" class="btn btn-lg btn-danger ml-4" onclick="return confirm('Are you sure want to decline?')">Decline</a>
                                     </div>
                                 </div>
                             </div>

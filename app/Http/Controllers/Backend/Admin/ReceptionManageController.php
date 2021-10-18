@@ -20,6 +20,7 @@ use App\Models\UserType;
 use App\Models\Employee;
 use App\Models\Department;
 use App\Models\Designation;
+use App\Models\ReceptionLog;
 
 class ReceptionManageController extends Controller
 {
@@ -357,6 +358,46 @@ class ReceptionManageController extends Controller
 
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function pendingUpdate()
+    {
+        $employees = ReceptionLog::with('department', 'designation')
+                            ->where('log_type', 2)
+                            ->where('status', 1)
+                            ->get();
+
+        return view('backend.pages.admin.reception.pendingUpdate', compact('employees'));
+    }
+
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function pendingUpdateShow($employee_id)
+    {
+        $new_info = ReceptionLog::with('department', 'designation')
+                            ->where('employee_id', $employee_id)
+                            ->where('user_type_id', 3)
+                            ->where('log_type', 2)
+                            ->first();
+
+        $old_info = Employee::with('department', 'designation')
+                            ->where('employee_id', $employee_id)
+                            ->where('user_type_id', 3)
+                            ->first();
+
+        return view('backend.pages.admin.reception.pendingUpdateShow', compact('new_info', 'old_info'));
+    }
+
+
+    /**
      * Display list of all pending employees.
      */
     public function pending()
@@ -450,5 +491,87 @@ class ReceptionManageController extends Controller
 
         Session()->flash('success', 'Receptionist Account Declined Succesfully.');
         return redirect()->back();
+    }
+
+
+    /**
+     * approve a pending employee profile update
+     */
+    public function approvePendingUpdate($employee_id)
+    {
+        $user_id = session('loggedUser');
+
+        $update_data = ReceptionLog::where('employee_id', $employee_id)
+                                ->where('log_type', 2)
+                                ->first();
+
+        $hostlog = ReceptionLog::where('employee_id', $employee_id)
+                            ->where('log_type', 2)
+                            ->update([
+                                'log_type' => 4,
+                                'description' => "Profile Update Request Approved",
+                                'modified_user_id' => $user_id,
+                                'modified_datetime' => now(),
+                            ]);
+                    
+        $user = User::where('user_id', $update_data->user_id)
+                    ->update([
+                        'mobile_no'=>$update_data->mobile_no,
+                        'email'=>$update_data->email,
+                        'modified_datetime'=>now()
+                    ]);
+                    
+
+        $employee = Employee::where('employee_id', $employee_id)
+                            ->where('user_type_id', 3)  
+                            ->update([
+                                'first_name' => $update_data->first_name,
+                                'last_name' => $update_data->last_name,
+                                'slug'=>Str::slug($update_data->first_name.' '.$update_data->last_name),
+                                'gender' => $update_data->gender,
+                                'dob' => $update_data->dob,
+                                'dept_id' => $update_data->dept_id,
+                                'designation_id' => $update_data->designation_id,
+                                'mobile_no' => $update_data->mobile_no,
+                                'email' => $update_data->email,
+                                'address' => $update_data->address,
+                                'photo' => $update_data->photo,
+                                'nid_no' => $update_data->nid_no,
+                                'passport_no' => $update_data->passport_no,
+                                'driving_license_no' => $update_data->driving_license_no,
+                                'start_hour' => $update_data->start_hour,
+                                'end_hour' => $update_data->end_hour,
+                                'building_no' => $update_data->building_no,
+                                'gate_no' => $update_data->gate_no,
+                                'floor_no' => $update_data->floor_no,
+                                'elevator_no' => $update_data->elevator_no,
+                                'room_no' => $update_data->room_no,
+                                'modified_user_id' => $update_data->entry_user_id,
+                                'modified_datetime' => $update_data->entry_datetime,
+                            ]);
+
+        Session()->flash('success', 'Receptionist Profile Updates Approved Successfully.');
+        return redirect()->route('admin.receptionist.pendingUpdate');
+    }
+
+
+    /**
+     * decline a pending employee profile update
+     */
+    public function declinePendingUpdate($employee_id)
+    {
+        $user_id = session('loggedUser');
+        
+        $hostlog = ReceptionLog::where('employee_id', $employee_id)
+                            ->where('log_type', 2)
+                            ->update([
+                                'log_type' => 5,
+                                'description' => "Profile Update Request Declined",
+                                'modified_user_id' => $user_id,
+                                'modified_datetime' => now(),
+                            ]);
+
+        Session()->flash('success', 'Receptionist Profile Updates Declined Successfully.');
+        return redirect()->route('admin.receptionist.pendingUpdate');
     }
 }

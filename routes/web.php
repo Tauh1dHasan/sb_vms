@@ -169,8 +169,8 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
 
         Route::get('/approve-host/{user_id}', [EmployeeManageController::class, 'approve'])->name('approve.employee');
         Route::get('/decline-host/{user_id}', [EmployeeManageController::class, 'decline'])->name('decline.employee');
-        Route::get('/approve-pendingUpdate/{employee_id}', [EmployeeManageController::class, 'approvePendingUpdate'])->name('approve.pendingUpdate');
-        Route::get('/decline-pendingUpdate/{employee_id}', [EmployeeManageController::class, 'declinePendingUpdate'])->name('decline.pendingUpdate');
+        Route::get('/approve-hostPendingUpdate/{employee_id}', [EmployeeManageController::class, 'approvePendingUpdate'])->name('approve.employee.pendingUpdate');
+        Route::get('/decline-hostPendingUpdate/{employee_id}', [EmployeeManageController::class, 'declinePendingUpdate'])->name('decline.employee.pendingUpdate');
 
         /* Admin Panel Receptionist Routes */
         Route::get('/reception', [ReceptionManageController::class, 'index'])->name('receptionist.index');
@@ -181,6 +181,8 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
         Route::get('/reception/editPassword/{id}', [ReceptionManageController::class, 'editPassword'])->name('receptionist.editPassword');
         Route::patch('/reception/update/{employee}', [ReceptionManageController::class, 'update'])->name('receptionist.update');
         Route::patch('/reception/updatePassword/{id}', [ReceptionManageController::class, 'updatePassword'])->name('receptionist.updatePassword');
+        Route::get('/reception/pendingUpdate', [ReceptionManageController::class, 'pendingUpdate'])->name('receptionist.pendingUpdate');
+        Route::get('/reception/pendingUpdateShow/{employee_id}', [ReceptionManageController::class, 'pendingUpdateShow'])->name('receptionist.pendingUpdateShow');
         Route::get('/reception/destroy/{id}', [ReceptionManageController::class, 'destroy'])->name('receptionist.destroy');
 
         Route::get('/pending-reception', [ReceptionManageController::class, 'pending'])->name('pending.receptionists');
@@ -189,6 +191,8 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
 
         Route::get('/approve-reception/{user_id}', [ReceptionManageController::class, 'approve'])->name('approve.receptionist');
         Route::get('/decline-reception/{user_id}', [ReceptionManageController::class, 'decline'])->name('decline.receptionist');
+        Route::get('/approve-receptionPendingUpdate/{employee_id}', [ReceptionManageController::class, 'approvePendingUpdate'])->name('approve.receptionist.pendingUpdate');
+        Route::get('/decline-receptionPendingUpdate/{employee_id}', [ReceptionManageController::class, 'declinePendingUpdate'])->name('decline.receptionist.pendingUpdate');
 
         /* Admin Panel Visitor Routes */
         Route::get('/visitor', [VisitorManageController::class, 'index'])->name('visitor.index');

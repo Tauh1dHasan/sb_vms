@@ -546,29 +546,27 @@ class EmployeeManageController extends Controller
                             ]);
 
         Session()->flash('success', 'Host Profile Updates Approved Successfully.');
-        return view('backend.pages.admin.employee.pendingUpdate');
+        return redirect()->route('admin.employee.pendingUpdate');
     }
 
 
     /**
      * decline a pending employee profile update
      */
-    public function declinePendingUpdate(HostLog $log_id)
+    public function declinePendingUpdate($employee_id)
     {
-        // $user = User::where('user_id', $user_id->user_id)
-        //         ->update(['is_approved' => 0]);
+        $user_id = session('loggedUser');
 
-        // $employee = Employee::where('user_id', $user_id->user_id)
-        //             ->update(['status' => 2]);
+        $hostlog = HostLog::where('employee_id', $employee_id)
+                            ->where('log_type', 2)
+                            ->update([
+                                'log_type' => 5,
+                                'description' => "Profile Update Request Declined",
+                                'modified_user_id' => $user_id,
+                                'modified_datetime' => now(),
+                            ]);
 
-        // $employees = Employee::where('user_id', $user_id->user_id)
-        //             ->first();
-
-        // if($employees->email != NULL){
-        //     mail::to($employees->email)->send(new EmployeeDeclinedMail($employees));
-        // }
-
-        // Session()->flash('success', 'Host Account Declined Successfully.');
-        // return redirect()->back();
+        Session()->flash('success', 'Host Profile Updates Declined Successfully.');
+        return redirect()->route('admin.employee.pendingUpdate');
     }
 }

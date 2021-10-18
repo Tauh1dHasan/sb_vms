@@ -8,7 +8,7 @@
                     <nav class="breadcrumb-one" aria-label="breadcrumb">
                         <ol class="breadcrumb" style="background: none; padding: 0;">
                             <li class="breadcrumb-item"><a href="{{ route('admin.index') }}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('admin.employee.index') }}">Manage Hosts</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.receptionist.index') }}">Manage Receptionist</a></li>
                             <li class="breadcrumb-item active" aria-current="page"><span>Pending Profile Updates</span></li>
                         </ol>
                     </nav>
@@ -30,7 +30,7 @@
                                         <tr>
                                             <th class="text-center">EID </th>
                                             <th class="text-center">Profile Photo </th>
-                                            <th class="text-center">Host Name </th>
+                                            <th class="text-center">Receptionist Name </th>
                                             <th class="text-center">Gender</th>
                                             <th class="text-center">Dept. & Designation</th>
                                             <th class="text-center">Mobile Number</th>
@@ -62,7 +62,7 @@
                                                         <span class="shadow-none badge badge-primary">Pending</span>
                                                     </td>
                                                     <td class="text-center">
-                                                        <a href="{{route('admin.employee.pendingUpdateShow', $employee->employee_id)}}" class="btn btn-info btn-sm d-block">Detail</a>
+                                                        <a href="{{route('admin.receptionist.pendingUpdateShow', $employee->employee_id)}}" class="btn btn-info btn-sm d-block">Detail</a>
                                                     </td>
                                                 </tr>
                                             @endforeach
