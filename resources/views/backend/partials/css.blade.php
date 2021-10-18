@@ -23,6 +23,11 @@
     <!-- END GLOBAL MANDATORY STYLES -->
     <link rel="stylesheet" type="text/css" href="{{asset('backend/assets/css/forms/theme-checkbox-radio.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('backend/assets/css/forms/switches.css')}}">
+    <link href="{{asset('backend/assets/css/scrollspyNav.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('backend/plugins/animate/animate.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('backend/plugins/sweetalerts/sweetalert2.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('backend/plugins/sweetalerts/sweetalert.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('backend/assets/css/components/custom-sweetalert.css')}}" rel="stylesheet" type="text/css" />
 
     {{-- Datetime picker plugin --}}
     <link rel="stylesheet" href="{{asset('backend/datetimepicker/jquery.datetimepicker.min.css')}}">

@@ -496,7 +496,7 @@
 
                                 <div class="col-lg-12"> 
                                     <div class="widget-content widget-content-area text-center split-buttons"> 
-                                        <a href="{{route('admin.approve.pendingUpdate', $new_info->employee_id)}}" class="btn btn-lg btn-primary">Approve</a>
+                                        <a href="{{route('admin.approve.pendingUpdate', $new_info->employee_id)}}" class="btn btn-lg btn-primary" onclick="return confirm('Are you sure want to approve?')" >Approve</a>
                                         <a href="{{route('admin.decline.pendingUpdate', $new_info->employee_id)}}" class="btn btn-lg btn-danger ml-4">Decline</a>
                                     </div>
                                 </div>

@@ -26,7 +26,40 @@
     <script src="{{asset('backend/plugins/table/datatable/button-ext/jszip.min.js')}}"></script>    
     <script src="{{asset('backend/plugins/table/datatable/button-ext/buttons.html5.min.js')}}"></script>
     <script src="{{asset('backend/plugins/table/datatable/button-ext/buttons.print.min.js')}}"></script>
+    <script src="{{asset('backend/plugins/sweetalerts/promise-polyfill.js')}}"></script>
+    <script src="{{asset('backend/assets/js/scrollspyNav.js')}}"></script>
+    <script src="{{asset('backend/plugins/sweetalerts/sweetalert2.min.js')}}"></script>
+    <script src="{{asset('backend/plugins/sweetalerts/custom-sweetalert.js')}}"></script>
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
+    {{-- <script> 
+        $('#approveEmployee').on('click', function () {
+            swal({
+                title: 'Are you sure?',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Approve',
+                padding: '2em'
+            }),function () {
+                $.ajax({
+                        type: "post",
+                        url: window.location.origin + `/approve-host/${user_id}`,
+                        data: "data",
+                        success: function (data) { }
+                    }).done(function (data) {
+                        swal("Host Approved Successfully", data, "success");
+                    }).error(function (data) {
+                    swal("Canceled", "Operation Canceled!", "error");
+                })
+            }
+        })
+    </script> --}}
+
+    <script>
+        function availabilityFunc(id){
+            var employee_id = id.getAttribute("data-id");
+            document.getElementById("this_employee_id").value = employee_id;
+        }
+    </script>
 
     {{-- Datetime picker --}}
     <script src="{{asset('backend/datetimepicker/jquery.datetimepicker.full.js')}}"></script>

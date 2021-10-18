@@ -494,14 +494,56 @@ class EmployeeManageController extends Controller
      */
     public function approvePendingUpdate($employee_id)
     {
-        $hostlog = HostLog::where('user_id', $user_id->user_id)
-                ->update(['is_approved' => 1]);
+        $user_id = session('loggedUser');
 
-        $employee = Employee::where('user_id', $user_id->user_id)
-                    ->update(['status' => 1]);
+        $update_data = HostLog::where('employee_id', $employee_id)
+                                ->where('log_type', 2)
+                                ->first();
 
-        $employees = Employee::where('user_id', $user_id->user_id)
-                    ->first();
+        $hostlog = HostLog::where('employee_id', $employee_id)
+                            ->where('log_type', 2)
+                            ->update([
+                                'log_type' => 4,
+                                'description' => "Profile Update Request Approved",
+                                'modified_user_id' => $user_id,
+                                'modified_datetime' => now(),
+                            ]);
+                    
+        $user = User::where('user_id', $update_data->user_id)
+                    ->update([
+                        'mobile_no'=>$update_data->mobile_no,
+                        'email'=>$update_data->email,
+                        'modified_datetime'=>now()
+                    ]);
+                    
+
+        $employee = Employee::where('employee_id', $employee_id)
+                            ->where('user_type_id', 2)  
+                            ->update([
+                                'first_name' => $update_data->first_name,
+                                'last_name' => $update_data->last_name,
+                                'slug'=>Str::slug($update_data->first_name.' '.$update_data->last_name),
+                                'gender' => $update_data->gender,
+                                'dob' => $update_data->dob,
+                                'dept_id' => $update_data->dept_id,
+                                'designation_id' => $update_data->designation_id,
+                                'mobile_no' => $update_data->mobile_no,
+                                'email' => $update_data->email,
+                                'address' => $update_data->address,
+                                'photo' => $update_data->photo,
+                                'nid_no' => $update_data->nid_no,
+                                'passport_no' => $update_data->passport_no,
+                                'driving_license_no' => $update_data->driving_license_no,
+                                'start_hour' => $update_data->start_hour,
+                                'end_hour' => $update_data->end_hour,
+                                'building_no' => $update_data->building_no,
+                                'gate_no' => $update_data->gate_no,
+                                'floor_no' => $update_data->floor_no,
+                                'elevator_no' => $update_data->elevator_no,
+                                'room_no' => $update_data->room_no,
+                                'modified_user_id' => $update_data->entry_user_id,
+                                'modified_datetime' => $update_data->entry_datetime,
+                            ]);
 
         Session()->flash('success', 'Host Profile Updates Approved Successfully.');
         return view('backend.pages.admin.employee.pendingUpdate');

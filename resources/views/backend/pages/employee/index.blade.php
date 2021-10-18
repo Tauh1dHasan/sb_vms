@@ -121,10 +121,3 @@
         </div>
     </div>
     @endsection
-
-    <script>
-        function availabilityFunc(id){
-            var employee_id = id.getAttribute("data-id");
-            document.getElementById("this_employee_id").value = employee_id;
-        }
-    </script>
