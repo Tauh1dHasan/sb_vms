@@ -10,6 +10,7 @@ use App\Models\VisitorType;
 use App\Models\UserType;
 use App\Models\Department;
 use App\Models\Designation;
+use App\Models\User;
 
 class IndexController extends Controller
 {
@@ -70,5 +71,22 @@ class IndexController extends Controller
                                     ->get();
 
         return view('frontend.pages.employee-register', compact('user_types', 'departments', 'designations'));
+    }
+
+    /**
+     * Display Forgot password form
+     */
+    public function forgotPassword()
+    {
+        return view('frontend.pages.forgot_password');
+    }
+
+    public function resetPassword(Request $req)
+    {
+        $mobile_email = $req->mobile_email;
+        $user = User::where('mobile_no', $mobile_email)
+                    ->orWhere('email', $mobile_email)
+                    ->first();
+        dd($user);
     }
 }

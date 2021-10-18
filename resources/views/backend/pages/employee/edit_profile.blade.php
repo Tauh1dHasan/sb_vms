@@ -159,6 +159,7 @@
 
                                                     {{-- hidden data --}}
                                                     <input type="hidden" name="employee_id" value="{{ $employee->employee_id }}">
+                                                    <input type="hidden" name="availability" value="{{ $employee->availability }}">
                                                     <input type="submit" name="submit" class="mt-4 mb-4 btn btn-primary">
                                                 </form>
                                             </div>
