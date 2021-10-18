@@ -113,21 +113,26 @@ class ReceptionController extends Controller
     // Update and store new profile information
     public function updateProfile(Request $req)
     {
-        // check for unique mobile, email address and previous active request
-        $checkMobile = User::where('mobile_no', $req->mobile_no)->first();
-        $checkEmail = User::where('email', $req->email)->first();
-        $receptionLogCheck = ReceptionLog::where('employee_id', $req->employee_id)->where('log_type', '2')->first();
-        if ($checkMobile || $checkEmail)
-        {
-            return redirect()->back()->with('sticky_error', 'Mobile number and Email must be unique....');
-        } elseif ($receptionLogCheck)
-        {
-            return redirect()->back()->with('sticky_error', 'Your previous request still pending....');
-        }
         // get employee old data
         $user_id = session('loggedUser');
         $employee_old_data_query = Employee::where('user_id', $user_id)->first();
 
+        // check for unique mobile, email address and previous active request
+        $checkMobile = User::where('mobile_no', $req->mobile_no)->first();
+        $checkEmail = User::where('email', $req->email)->first();
+        $receptionLogCheck = ReceptionLog::where('employee_id', $req->employee_id)->where('log_type', '2')->first();
+
+        if ($checkMobile->user_id != $user_id)
+        {
+            return redirect()->back()->with('sticky_error', 'Mobile number must be unique....');
+        } elseif ($checkEmail->user_id != $user_id)
+        {
+            return redirect()->back()->with('sticky_error', 'Email address must be unique....');
+        } elseif ($receptionLogCheck)
+        {
+            return redirect()->back()->with('sticky_error', 'Your previous request still pending....');
+        }
+        
         // insert new/updated data into reception_logs table
         $receptionlog = new ReceptionLog;
         $receptionlog->employee_id = $employee_old_data_query->employee_id;
@@ -174,7 +179,7 @@ class ReceptionController extends Controller
         {
             return redirect(route('reception.index'))->with('success', 'Profile update request send to admin...');
         } else {
-            return redirect(route('reception.index'))->with('fail', 'Something went wrong, Please try agrain.');
+            return redirect(route('reception.index'))->with('sticky_error', 'Something went wrong, Please try agrain.');
         }
 
     }
