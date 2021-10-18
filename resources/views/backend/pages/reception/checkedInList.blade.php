@@ -46,6 +46,7 @@
                                             <th class="text-center">Host mobile</th>
                                             <th class="text-center">Meeting Purpose</th>
                                             <th class="text-center">Meeting Datetime</th>
+                                            <th class="text-center">Attendees</th>
                                             <th class="text-center">Status</th>
                                             <th class="text-center">Action</th>
                                         </tr>
@@ -65,6 +66,7 @@
                                                 <td class="text-center"> {{ $meeting->emobile }}</td>
                                                 <td class="text-center"> {{ $meeting->purpose_name }}</td>
                                                 <td class="text-center"> {{ $meeting->meeting_datetime }}</td>
+                                                <td class="text-center"> {{ $meeting->attendees_no }}</td>
                                                 <td class="text-center">
                                                     @if($meeting->meeting_status == 0)
                                                         <span class="shadow-none badge badge-primary">Pending</span>

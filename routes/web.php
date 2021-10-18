@@ -67,6 +67,7 @@ Route::group(['prefix' => '/', 'as' => 'frontend.'], function() {
 
 /* Backend Visitor Routes */
 Route::group(['middleware' => ['UserMiddleware'], 'prefix' => '/visitor', 'as' => 'visitor.'], function() {
+
     Route::get('/', [VisitorController::class, 'dashboard'])->name('index');
     Route::get('/profile', [VisitorController::class, 'profile'])->name('profile');
     Route::get('/edit-profile/{user_id}', [VisitorController::class, 'edit'])->name('editProfile');
@@ -91,6 +92,7 @@ Route::group(['middleware' => ['UserMiddleware'], 'prefix' => '/visitor', 'as' =
 
 /* Backend Employee Routes */
 Route::group(['middleware' => ['EmployeeMiddleware'], 'prefix' => '/employee', 'as' => 'employee.'], function() {
+
     Route::get('/', [EmployeeController::class, 'dashboard'])->name('index');
     Route::post('/availability-status', [EmployeeController::class, 'availabilityStatus'])->name('availabilityStatus');
     Route::get('/all-meetings', [EmployeeController::class, 'allMeetings'])->name('allMeetings');
@@ -113,6 +115,7 @@ Route::group(['middleware' => ['EmployeeMiddleware'], 'prefix' => '/employee', '
 
 /* Backend Reception Routes */
 Route::group(['middleware' => ['ReceptionMiddleware'], 'prefix' => '/reception', 'as' => 'reception.'], function() {
+
     Route::get('/', [ReceptionController::class, 'dashboard'])->name('index');
     Route::get('/profile', [ReceptionController::class, 'profile'])->name('profile');
     Route::get('/edit-profile/{user_id}', [ReceptionController::class, 'edit'])->name('editProfile');
@@ -131,7 +134,6 @@ Route::group(['middleware' => ['ReceptionMiddleware'], 'prefix' => '/reception',
     Route::get('/search-employees', [ReceptionController::class, 'searchEmployees'])->name('search-employees');
     Route::post('/place-an-appointment', [ReceptionController::class, 'placeAnAppointment'])->name('placeAnAppointment');
     Route::get('/visitor-profile/{visitor_id}', [ReceptionController::class, 'visitorProfile'])->name('visitorProfile');
-
     // Gate pass
     Route::post('/check-in', [ReceptionController::class, 'checkIn'])->name('checkIn');
     Route::get('/check-out/{meeting_id}', [ReceptionController::class, 'checkOut'])->name('checkOut');
@@ -148,7 +150,6 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
     Route::group(['middleware' => ['AdminMiddleware']], function() {
         /* Admin Panel Dashboard Route */
         Route::get('/dashboard', [AdminIndexController::class, 'index'])->name('index');
-
         /* Admin Panel Host Routes */
         Route::get('/host', [EmployeeManageController::class, 'index'])->name('employee.index');
         Route::get('/host/create', [EmployeeManageController::class, 'create'])->name('employee.create');

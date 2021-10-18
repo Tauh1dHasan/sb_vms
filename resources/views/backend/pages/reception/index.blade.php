@@ -6,20 +6,9 @@
             
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
 
-                    @if (session('success'))
-                        <div class="alert alert-light-success border-0 mb-4" role="alert"> 
-                            <p class="text-success">{{ session('success') }}</p> 
-                        </div>
-                    @endif
-                    @if (session('fail'))
-                        <div class="alert alert-light-success border-0 mb-4" role="alert"> 
-                            <p class="text-danger">{{ session('fail') }}</p> 
-                        </div>
-                    @endif
-
-
                 <div class="widget widget-one">
                     <div class="widget-heading">
+                        @include('backend.partials.message')
                         <h1 class="text-center pb-4">Welcome to VMS Reception Panel</h1>
                         {{-- <h4 class="text-center pb-4">{{ $user_name->first_name }} {{ $user_name->last_name }}</h4> --}}
                     </div>

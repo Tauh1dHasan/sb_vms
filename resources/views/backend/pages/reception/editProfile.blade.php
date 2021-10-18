@@ -56,19 +56,6 @@
                                                     </div>
 
                                                     <div class="form-group mb-4">
-                                                        <label for="availability">Availability</label>
-                                                        <select name="availability" class="form-control" id="availability" required>
-                                                            @if ($employee->availability == 1)
-                                                                <option value="1">Available</option>
-                                                                <option value="0">Not Available</option> 
-                                                            @elseif ($employee->availability == 0)
-                                                                <option value="0">Not Available</option>
-                                                                <option value="1">Available</option>
-                                                            @endif
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="form-group mb-4">
                                                         <label for="dept_id">Department</label>
                                                         <select name="dept_id" class="form-control" id="dept_id" required>
                                                             @foreach ($departments as $department)
@@ -79,7 +66,7 @@
 
                                                     <div class="form-group mb-4">
                                                         <label for="dept_id">Designation</label>
-                                                        <select class="form-control" name="designation_id" id="designation_id" required="">
+                                                        <select class="form-control" name="designation_id" id="designation_id" required>
                                                             <option value="{{ $employee->designation_id }}">{{ $employee->designation }}</option> 
                                                         </select>
                                                     </div>
