@@ -47,8 +47,11 @@ use App\Http\Controllers\Backend\AjaxController;
 Route::get('/', [IndexController::class, 'index'])->name('index');
 
 Route::group(['prefix' => '/', 'as' => 'frontend.'], function() {
+
     Route::get('about', [IndexController::class, 'about'])->name('about');
     Route::get('contact', [IndexController::class, 'contact'])->name('contact');
+    Route::get('forgot-password', [IndexController::class, 'forgotPassword'])->name('forgotPassword');
+    Route::post('reset-password', [IndexController::class, 'resetPassword'])->name('resetPassword');
 
     // Visitor routes
     Route::get('register', [IndexController::class, 'register'])->name('register');
