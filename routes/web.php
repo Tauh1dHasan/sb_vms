@@ -53,7 +53,9 @@ Route::group(['prefix' => '/', 'as' => 'frontend.'], function() {
     Route::get('about', [IndexController::class, 'about'])->name('about');
     Route::get('contact', [IndexController::class, 'contact'])->name('contact');
     Route::get('forgot-password', [IndexController::class, 'forgotPassword'])->name('forgotPassword');
-    Route::post('reset-password', [IndexController::class, 'resetPassword'])->name('resetPassword');
+    Route::post('generate-token', [IndexController::class, 'generateToken'])->name('generateToken');
+    Route::get('reset-password/{user_id}/{token}', [IndexController::class, 'resetPassword'])->name('resetPassword');
+    Route::post('reset-password', [IndexController::class, 'resetPasswordStore'])->name('resetPasswordStore');
 
     // Visitor routes
     Route::get('register', [IndexController::class, 'register'])->name('register');
