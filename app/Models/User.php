@@ -8,6 +8,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/* Included Models */
+use App\Models\UserType;
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -15,6 +18,14 @@ class User extends Authenticatable
     public $timestamps = false;
 
     protected $primaryKey = 'user_id';
+
+    /**
+     * a single user has one user type
+     */
+    public function user_type()
+    {
+        return $this->hasOne(UserType::class, 'user_type_id', 'user_type_id');
+    }
 
     /**
      * The attributes that are mass assignable.

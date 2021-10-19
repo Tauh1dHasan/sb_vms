@@ -56,11 +56,9 @@ class UserAuthController extends Controller
 
         $user->save();
 
-        $user_id = User::orderBy('user_id', 'desc')->first();
-
         $visitor = new Visitor;
 
-        $visitor->user_id = $user_id->user_id;
+        $visitor->user_id = $user->user_id;
         $visitor->visitor_type = $request->visitor_type;
         $visitor->first_name = $request->first_name;
         $visitor->last_name = $request->last_name;
@@ -108,31 +106,38 @@ class UserAuthController extends Controller
             'password' => 'required',
         ]);
 
-        $user = User::where('mobile_no', '=', $request->username)
+        $user = User::with('user_type')
+                    ->where('mobile_no', '=', $request->username)
                     ->orWhere('email', '=', $request->username)
                     ->first();
         
         if (!empty($user)) {
             if ($user->is_approved == 1) {
-                $password = Hash::check($request->password, $user->password);
+                if ($user->user_type->user_type_status == 1) {
 
-                if ($password) {
-                    Session::put(['loggedUser' => $user->user_id, 'loggedUserType' => $user->user_type_id]);
-                    
-                    if ($user->user_type_id == 1) {
-                        return redirect(route('admin.index'));
-                    }
-                    if ($user->user_type_id == 2) {
-                        return redirect(route('employee.index'));
-                    }
-                    if ($user->user_type_id == 3) {
-                        return redirect(route('reception.index'));
-                    }
-                    if($user->user_type_id == 4) {
-                        return redirect(route('visitor.index'));
+                    $password = Hash::check($request->password, $user->password);
+
+                    if ($password) {
+                        Session::put(['loggedUser' => $user->user_id, 'loggedUserType' => $user->user_type_id]);
+                        
+                        if ($user->user_type_id == 1) {
+                            return redirect(route('admin.index'));
+                        }
+                        if ($user->user_type_id == 2) {
+                            return redirect(route('employee.index'));
+                        }
+                        if ($user->user_type_id == 3) {
+                            return redirect(route('reception.index'));
+                        }
+                        if($user->user_type_id == 4) {
+                            return redirect(route('visitor.index'));
+                        }
+                    } else {
+                        Session()->flash('sticky_error' , 'Login Credentials didnot matched!');
+                        return redirect()->back();
                     }
                 } else {
-                    Session()->flash('sticky_error' , 'Login Credentials didnot matched!');
+                    Session()->flash('sticky_error' , 'Website is currently under construction!');
                     return redirect()->back();
                 }
             } else {

@@ -63,11 +63,9 @@ class EmployeeAuthController extends Controller
 
         $user->save();
 
-        $user_id = User::orderBy('user_id', 'desc')->first();
-
         $employee = new Employee;
 
-        $employee->user_id = $user_id->user_id;
+        $employee->user_id = $user->user_id;
         $employee->user_type_id = $request->user_type_id;
         $employee->first_name = $request->first_name;
         $employee->last_name = $request->last_name;

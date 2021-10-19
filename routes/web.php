@@ -26,6 +26,8 @@ use App\Http\Controllers\Backend\Admin\DepartmentController;
 use App\Http\Controllers\Backend\Admin\DesignationController;
 use App\Http\Controllers\Backend\Admin\VisitorManageController;
 use App\Http\Controllers\Backend\Admin\AppointmentController;
+use App\Http\Controllers\Backend\Admin\RoleController;
+use App\Http\Controllers\Backend\Admin\PermissionController;
 
 /* Backend Ajax Controller */
 use App\Http\Controllers\Backend\AjaxController;
@@ -175,6 +177,7 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
         Route::get('/approve-hostPendingUpdate/{employee_id}', [EmployeeManageController::class, 'approvePendingUpdate'])->name('approve.employee.pendingUpdate');
         Route::get('/decline-hostPendingUpdate/{employee_id}', [EmployeeManageController::class, 'declinePendingUpdate'])->name('decline.employee.pendingUpdate');
 
+
         /* Admin Panel Receptionist Routes */
         Route::get('/reception', [ReceptionManageController::class, 'index'])->name('receptionist.index');
         Route::get('/reception/create', [ReceptionManageController::class, 'create'])->name('receptionist.create');
@@ -197,6 +200,7 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
         Route::get('/approve-receptionPendingUpdate/{employee_id}', [ReceptionManageController::class, 'approvePendingUpdate'])->name('approve.receptionist.pendingUpdate');
         Route::get('/decline-receptionPendingUpdate/{employee_id}', [ReceptionManageController::class, 'declinePendingUpdate'])->name('decline.receptionist.pendingUpdate');
 
+
         /* Admin Panel Visitor Routes */
         Route::get('/visitor', [VisitorManageController::class, 'index'])->name('visitor.index');
         Route::get('/visitor/show/{visitor_id}', [VisitorManageController::class, 'show'])->name('visitor.show');
@@ -210,6 +214,7 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
         Route::get('/visitor/create', [VisitorManageController::class, 'create'])->name('visitor.create');
         Route::post('/visitor/visitorRegister', [VisitorManageController::class, 'visitorRegister'])->name('visitor.visitorRegister');
         
+
         // Admin panel Appointment Management routes
         Route::get('/appointment', [AppointmentController::class, 'index'])->name('appointment.index');
         Route::get('/appointment/approve/{meeting_id}', [AppointmentController::class, 'approve'])->name('approve.appointment');
@@ -230,6 +235,7 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
         Route::get('/search-employees', [AppointmentController::class, 'searchEmployees'])->name('search-employees');
         Route::post('/appointment/place-an-appointment', [AppointmentController::class, 'placeAnAppointment'])->name('appointment.placeAnAppointment');
 
+
         /* Admin Panel Visitor Type Routes */
         Route::get('/visitorType/index', [VisitorTypeController::class, 'index'])->name('visitorType.index');
         Route::get('/visitorType/create', [VisitorTypeController::class, 'create'])->name('visitorType.create');
@@ -238,6 +244,7 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
         Route::get('/visitorType/edit/{id}', [VisitorTypeController::class, 'edit'])->name('visitorType.edit');
         Route::patch('/visitorType/update/{id}', [VisitorTypeController::class, 'update'])->name('visitorType.update');
         Route::get('/visitorType/destroy/{id}', [VisitorTypeController::class, 'destroy'])->name('visitorType.destroy');
+
 
         /* Admin Panel Department Routes */
         Route::get('/department/index', [DepartmentController::class, 'index'])->name('department.index');
@@ -248,6 +255,7 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
         Route::patch('/department/update/{id}', [DepartmentController::class, 'update'])->name('department.update');
         Route::get('/department/destroy/{id}', [DepartmentController::class, 'destroy'])->name('department.destroy');
 
+
         /* Admin Panel Designation Routes */
         Route::get('/designation/index', [DesignationController::class, 'index'])->name('designation.index');
         Route::get('/designation/create', [DesignationController::class, 'create'])->name('designation.create');
@@ -256,6 +264,18 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
         Route::get('/designation/edit/{id}', [DesignationController::class, 'edit'])->name('designation.edit');
         Route::patch('/designation/update/{id}', [DesignationController::class, 'update'])->name('designation.update');
         Route::get('/designation/destroy/{id}', [DesignationController::class, 'destroy'])->name('designation.destroy');
+
+
+        /* Admin Panel Role Routes */
+        Route::get('/role/index', [RoleController::class, 'index'])->name('role.index');
+        Route::get('/role/create', [RoleController::class, 'create'])->name('role.create');
+        Route::post('/role/store', [RoleController::class, 'store'])->name('role.store');
+        Route::get('/role/show/{id}', [RoleController::class, 'show'])->name('role.show');
+        Route::get('/role/edit/{id}', [RoleController::class, 'edit'])->name('role.edit');
+        Route::patch('/role/update/{id}', [RoleController::class, 'update'])->name('role.update');
+
+        /* Admin Panel Permission Routes */
+        Route::get('/permission/index', [PermissionController::class, 'index'])->name('permission.index');
     }); 
 }); 
 

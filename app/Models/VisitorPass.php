@@ -10,6 +10,8 @@ class VisitorPass extends Model
     use HasFactory;
 
     public $timestamps = false;
+
     protected $table = 'visitor_pass';
+    
     protected $primaryKey = 'visitor_pass_id';
 }
