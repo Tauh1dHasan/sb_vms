@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
-    <title>Forgot Password</title>
+    <title>Reset Password</title>
     <link rel="icon" type="image/x-icon" href="{{asset('frontend/img/favicon.png')}}"/>
     <link href="{{asset('backend/assets/css/loader.css')}}" rel="stylesheet" type="text/css" />
     <script src="{{asset('backend/assets/js/loader.js')}}"></script>
@@ -28,23 +28,35 @@
                 <div class="form-container">
                     <div class="form-content">
 
-                        <h1 class="">Forgot Password</h1>
+                        <h1 class="">Reset Password</h1>
 
                         @include('backend.partials.message')
                         
-                        <form class="text-left" action="{{route('frontend.generateToken')}}" method="post">
+                        <form class="text-left" action="{{route('frontend.resetPasswordStore')}}" method="post">
                             @csrf
                             <div class="form">
+                    
+                                <div id="username-field" class="field-wrapper input">
+                                    <label for="password">New Password</label>
+                                    <input name="password" type="password" class="form-control @error('password') is-invalid @enderror" id="password" placeholder="Min 1 upper 1 lower & 8 character" autocomplete="off" required>
+                                    @error('password')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
 
                                 <div id="username-field" class="field-wrapper input">
-                                    <label for="username">Mobile or Email</label>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                                    <input id="mobile_email" name="mobile_email" type="text" class="form-control" placeholder="Type Account Email or Mobile Number" autocomplete="off">
+                                    <label for="password">Confirm Password</label>
+                                    <input name="password_confirmation" type="password" class="form-control @error('password') is-invalid @enderror" id="password" placeholder="Confirm your new password" autocomplete="off" required>
                                 </div>
+                                {{-- hidden data --}}
+                                <input type="hidden" name="user_id" value="{{$user_id}}">
+                                <input type="hidden" name="token" value="{{$token}}">
 
                                 <div class="d-sm-flex justify-content-between">
                                     <div class="field-wrapper">
-                                        <button type="submit" class="btn btn-primary" value="">Submit</button>
+                                        <button type="submit" class="btn btn-primary" value="">Reset Password</button>
                                     </div>
                                 </div>
 
