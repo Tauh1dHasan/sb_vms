@@ -70,4 +70,31 @@
             margin-left: 25%;
             margin-bottom: 10px;
         }
+
+        /* style for make an appointment from reception panel */
+        div.visitor_type_div {
+            margin-top: 10%; 
+            margin-left: 5%;
+        }
+
+        a.visitor_type_card_body_one {
+            width: 18rem; 
+            height: 20rem; 
+            cursor: pointer; 
+            background: rgb(241, 241, 241);
+        }
+
+        a.visitor_type_card_body_two {
+            width: 18rem; 
+            height: 20rem; 
+            cursor: pointer; 
+            background: rgb(241, 241, 241);
+        }
+
+        a.visitor_type_card_body_one:hover, a.visitor_type_card_body_two:hover, h5:hover {
+            background: #009688;
+            color: #fff;
+        }
+
+
     </style>

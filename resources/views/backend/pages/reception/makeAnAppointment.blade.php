@@ -35,7 +35,7 @@
                                         <div class="form-group mb-4">
                                             <label for="meeting_purpose_id">Select Meeting Purpose</label>
                                             <select name="meeting_purpose_id" class="form-control" id="meeting_purpose_id" required>
-                                                    <option value="">Select</option>
+                                                    <option value="">--Select Meeting Purpose--</option>
                                                     @foreach ($purpose as $item)
                                                         <option value="{{ $item->purpose_id }}">{{ $item->purpose_name }}</option>    
                                                     @endforeach
