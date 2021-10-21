@@ -44,6 +44,7 @@
                                             <th class="text-center">Meeting Purpose</th>
                                             <th class="text-center">Description</th>
                                             <th class="text-center">Meeting Datetime</th>
+                                            <th class="text-center">Attendees</th>
                                             <th class="text-center">Status</th>
                                             <th class="text-center">Action</th>
                                         </tr>
@@ -61,6 +62,7 @@
                                                 <td class="text-center"> {{ $meeting->purpose_name }}</td>
                                                 <td class="text-center"> {{ $meeting->purpose_describe }}</td>
                                                 <td class="text-center"> {{ $meeting->meeting_datetime }}</td>
+                                                <td class="text-center"> {{ $meeting->attendees_no }}</td>
                                                 <td class="text-center">
                                                     @if($meeting->meeting_status == 0)
                                                         <span class="shadow-none badge badge-primary">Pending</span>
@@ -110,7 +112,7 @@
                                                                 </svg>
                                                             </a>
                                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink2" style="will-change: transform; margin-top:90px; margin-right: 50px;">
-                                                                <a class="dropdown-item action-delete" href="{{ route('reception.checkOut', $meeting->meeting_id) }}">
+                                                                <a style="cursor: pointer;" class="dropdown-item action-delete" href="{{ route('reception.checkOut', $meeting->meeting_id) }}">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash">
                                                                         <polyline points="3 6 5 6 21 6"></polyline>
                                                                         <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>

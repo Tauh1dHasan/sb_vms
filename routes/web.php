@@ -138,6 +138,8 @@ Route::group(['middleware' => ['ReceptionMiddleware'], 'prefix' => '/reception',
     Route::get('/create-visitor-account', [ReceptionController::class, 'createVisitorAccount'])->name('createVisitorAccount');
     Route::post('/create-visitor-account', [ReceptionController::class, 'visitorRegister'])->name('visitorRegister');
     Route::get('/appoint-visitor', [ReceptionController::class, 'appointVisitor'])->name('appointVisitor');
+    Route::get('/visitor-and-appointment', [ReceptionController::class, 'visitorAndAppointment'])->name('visitorAndAppointment');
+    Route::post('/visitor-and-appointment', [ReceptionController::class, 'visitorAndAppointmentStore'])->name('visitorAndAppointmentStore');
     Route::get('/make-an-appointment/{visitor_id}', [ReceptionController::class, 'makeAnAppointment'])->name('makeAnAppointment');
     Route::get('/search-employees', [ReceptionController::class, 'searchEmployees'])->name('search-employees');
     Route::post('/place-an-appointment', [ReceptionController::class, 'placeAnAppointment'])->name('placeAnAppointment');

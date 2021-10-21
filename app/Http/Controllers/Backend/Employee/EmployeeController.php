@@ -298,6 +298,7 @@ class EmployeeController extends Controller
         $meetingLog->meeting_purpose_id = $meeting->meeting_purpose_id;
         $meetingLog->purpose_describe = $meeting->purpose_describe;
         $meetingLog->meeting_datetime = $meeting->meeting_datetime;
+        $meetingLog->attendees_no = $meeting->attendees_no;
         $meetingLog->meeting_start_time = $meeting->meeting_start_time;
         $meetingLog->meeting_end_time = $meeting->meeting_end_time;
         $meetingLog->cancel_reason = $meeting->cancel_reason;
@@ -348,6 +349,7 @@ class EmployeeController extends Controller
         $meetingLog->meeting_purpose_id = $meeting->meeting_purpose_id;
         $meetingLog->purpose_describe = $meeting->purpose_describe;
         $meetingLog->meeting_datetime = $meeting->meeting_datetime;
+        $meetingLog->attendees_no = $meeting->attendees_no;
         $meetingLog->meeting_start_time = $meeting->meeting_start_time;
         $meetingLog->meeting_end_time = $meeting->meeting_end_time;
         $meetingLog->cancel_reason = $meeting->cancel_reason;
@@ -398,6 +400,7 @@ class EmployeeController extends Controller
         $meetingLog->meeting_purpose_id = $meeting->meeting_purpose_id;
         $meetingLog->purpose_describe = $meeting->purpose_describe;
         $meetingLog->meeting_datetime = $request->meeting_datetime;
+        $meetingLog->attendees_no = $meeting->attendees_no;
         $meetingLog->meeting_start_time = $meeting->meeting_start_time;
         $meetingLog->meeting_end_time = $meeting->meeting_end_time;
         $meetingLog->cancel_reason = $meeting->cancel_reason;

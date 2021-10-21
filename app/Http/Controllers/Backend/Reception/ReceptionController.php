@@ -43,7 +43,6 @@ class ReceptionController extends Controller
             'email' => 'required|unique:users',
             'password' => 'required|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
             'profile_photo' => 'mimes:jpeg,png,jpg|max:2048',
-            '_answer'=>'required|simple_captcha',
         ]);
     }
 
@@ -352,9 +351,9 @@ class ReceptionController extends Controller
         $visitor->save();
 
         // Activation mail to visitor email
-        if ($visitor->email != NULL) 
+        if ($request->email != NULL) 
         {
-            mail::to($visitor->email)->send(new RegisterMail($visitor));
+            mail::to($request->email)->send(new RegisterMail($visitor));
         }
 
         // Visitor data into visitor_logs table
@@ -397,12 +396,153 @@ class ReceptionController extends Controller
         return view('backend.pages.reception.appointVisitor', compact('visitors'));
     }
 
+    // Display form for new visitor account and appointment
+    public function visitorAndAppointment()
+    {
+        $visitorTypes = VisitorType::all();
+        $purposes = MeetingPurpose::all();
+        return view('backend.pages.reception.visitorAndAppointment', compact('visitorTypes', 'purposes'));
+    }
+
+    // Store new visitor and appointment info
+    public function visitorAndAppointmentStore(Request $request)
+    {
+        // check if mobile number or email exist in users table
+        $mobileCheck = User::where('mobile_no', '=', $request->mobile_no)->first();
+        $emailCheck = User::where('email', '=', $request->email)->first();
+
+        if ($mobileCheck || $emailCheck)
+        {
+            return redirect()->back()->with('sticky_error', 'Email address or Mobile number already exist');
+        }
+        $this->validation($request);
+
+        // Login credentials into users table 
+        $user = new User;
+        $user->mobile_no = $request->mobile_no;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->user_type_id = '4';
+        $user->entry_datetime = now();
+        $userdone = $user->save();
+
+        // Visitor information into visitors table
+        $user_id = User::orderBy('user_id', 'desc')->first();
+        $visitor = new Visitor;
+        $visitor->user_id = $user_id->user_id;
+        $visitor->visitor_type = $request->visitor_type;
+        $visitor->first_name = $request->first_name;
+        $visitor->last_name = $request->last_name;
+        $visitor->organization = $request->organization;
+        $visitor->designation = $request->designation;
+        $visitor->gender = $request->gender;
+        $visitor->dob = $request->dob;
+        $visitor->mobile_no = $request->mobile_no;
+        $visitor->email = $request->email;
+        $visitor->address = $request->address;
+        $visitor->nid_no = $request->nid_no;
+        $visitor->passport_no = $request->passport_no;
+        $visitor->driving_license_no = $request->driving_license_no;
+        $visitor->entry_user_id = session('loggedUser');
+        $visitor->slug = strtolower($request->first_name.'-'.$request->last_name);
+        $visitor->entry_datetime = now();
+        if ($request->hasFile('profile_photo')) {
+            $image = $request->file('profile_photo');
+            $imgName = 'visitor'.time().'.'.$image->getClientOriginalExtension();
+            $location = public_path('backend/img/visitors/'.$imgName);
+            Image::make($image)->save($location);
+            $visitor->profile_photo = $imgName;
+        }
+        $visitordone = $visitor->save();
+
+        // Activation mail to visitor email
+        if ($request->email != NULL) 
+        {
+            mail::to($request->email)->send(new RegisterMail($visitor));
+        }
+        // Visitor data into visitor_logs table
+        $visitor_id = Visitor::orderBy('visitor_id', 'desc')->first();
+        $visitorLog = new VisitorLog;
+        $visitorLog->visitor_id = $visitor_id->visitor_id;
+        $visitorLog->user_id = $user_id->user_id;
+        $visitorLog->visitor_type = $request->visitor_type;
+        $visitorLog->first_name = $request->first_name;
+        $visitorLog->last_name = $request->last_name;
+        $visitorLog->organization = $request->organization;
+        $visitorLog->designation = $request->designation;
+        $visitorLog->gender = $request->gender;
+        $visitorLog->dob = $request->dob;
+        $visitorLog->mobile_no = $request->mobile_no;
+        $visitorLog->email = $request->email;
+        $visitorLog->address = $request->address;
+        $visitorLog->profile_photo = $imgName;
+        $visitorLog->nid_no = $request->nid_no;
+        $visitorLog->passport_no = $request->passport_no;
+        $visitorLog->driving_license_no = $request->driving_license_no;
+        $visitorLog->entry_user_id = session('loggedUser');
+        $visitorLog->entry_datetime = now();
+        $visitorLog->description = "Visitor account created form reception panel";
+        $visitorLog->log_type = 1;
+        $visitorLog->status = 1;
+        $visitorLog->save();
+
+        // Insert meeting info into meetings table
+        $meeting = new Meeting;
+        $meeting->user_id = $user_id->user_id;
+        $meeting->visitor_id = $visitor_id->visitor_id;
+        $meeting->employee_id = $request->employee_id;
+        $meeting->meeting_purpose_id = $request->meeting_purpose_id;
+        $meeting->purpose_describe = $request->meeting_purpose_describe;
+        $meeting->meeting_datetime = $request->meeting_datetime;
+        $meeting->attendees_no = $request->attendees_no;
+        $meeting->entry_user_id = session('loggedUser');
+        $meeting->entry_datetime = now();
+        $meeting->meeting_status = '0';
+        $meeting->has_vehicle = $request->has_vehicle;
+        $meetingdone = $meeting->save();
+
+        // Insert data into meeting_logs table
+        $meeting_id = Meeting::orderBy('meeting_id', 'desc')->first();
+        $meetingLog = new MeetingLog;
+        $meetingLog->meeting_id = $meeting_id->meeting_id;
+        $meetingLog->user_id = $user_id->user_id;
+        $meetingLog->visitor_id = $visitor_id->visitor_id;
+        $meetingLog->employee_id = $request->employee_id;
+        $meetingLog->meeting_purpose_id = $request->meeting_purpose_id;
+        $meetingLog->purpose_describe = $request->meeting_purpose_describe;
+        $meetingLog->meeting_datetime = $request->meeting_datetime;
+        $meetingLog->attendees_no = $request->attendees_no;
+        $meetingLog->meeting_status = '0';
+        $meetingLog->has_vehicle = $request->has_vehicle;
+        $meetingLog->entry_user_id = session('loggedUser');
+        $meetingLog->entry_datetime = now();
+        $meetingLog->description = "Appointment placed from reception panel";
+        $meetingLog->log_type = '5';
+        $meetingLog->status = '1';
+        $meetingLog->save();
+
+        $employee_mail = Meeting::join('visitors', 'visitors.visitor_id', '=', 'meetings.visitor_id')
+                                ->join('employees', 'employees.employee_id', '=', 'meetings.employee_id')
+                                ->select('meetings.*', 'visitors.first_name as vfname', 'visitors.last_name as vlname','employees.first_name as efname', 'employees.last_name as elname',  'employees.email')
+                                ->where('visitors.visitor_id', '=', $visitor_id->visitor_id)
+                                ->where('employees.employee_id', '=', $request->employee_id)
+                                ->first();
+        mail::to($employee_mail->email)->send(new AppointmentRequest($employee_mail));
+
+        if ($userdone && $visitordone && $meetingdone)
+        {
+            return redirect()->route('reception.index')->with('success', 'Account created successfully, Please check your Email to active account. Appointment placed successfully, Please wait for Host permission');
+        } else {
+            return redirect()->route('reception.index')->with('sticky_error', 'Something went wrong, Please try again...!');
+        }
+
+    }
+
     // Display make an appointment form
     public function makeAnAppointment($visitor_id)
     {
 
         $purpose = MeetingPurpose::where('purpose_status', '=', 1)->get();
-
         return view('backend.pages.reception.makeAnAppointment', compact('purpose', 'visitor_id'));
     }
 
