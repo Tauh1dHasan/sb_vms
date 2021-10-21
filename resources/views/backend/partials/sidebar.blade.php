@@ -37,6 +37,7 @@
 <!--------------------------------------------------  Admin Sidebar Start  ----------------------------------------------------->
         @if(session('loggedUserType') == 1)
 
+        @if($permission24)
         <li class="menu active menu-single">
             <a href="{{route('admin.index')}}" data-active="true" class="menu-toggle">
                 <div class="base-menu">
@@ -47,7 +48,9 @@
                 </div>
             </a>
         </li>
+        @endif
 
+        @if($permission)
         <li class="menu">
             <a href="#employee" data-active="false" class="menu-toggle">
                 <div class="base-menu">
@@ -58,7 +61,9 @@
                 </div>
             </a>
         </li>
+        @endif
 
+        @if($permission2)
         <li class="menu">
             <a href="#receptionist" data-active="false" class="menu-toggle">
                 <div class="base-menu">
@@ -69,7 +74,9 @@
                 </div>
             </a>
         </li>
+        @endif
 
+        @if($permission3)
         <li class="menu">
             <a href="#visitor" data-active="false" class="menu-toggle">
                 <div class="base-menu">
@@ -80,7 +87,9 @@
                 </div>
             </a>
         </li>
+        @endif
 
+        @if($permission4)
         <li class="menu">
             <a href="#appointment" data-active="false" class="menu-toggle">
                 <div class="base-menu">
@@ -91,7 +100,9 @@
                 </div>
             </a>
         </li>
+        @endif
 
+        @if($permission5)
         <li class="menu">
             <a href="#dept" data-active="false" class="menu-toggle">
                 <div class="base-menu">
@@ -102,7 +113,9 @@
                 </div>
             </a>
         </li>
+        @endif
 
+        @if($permission6)
         <li class="menu">
             <a href="#message" data-active="false" class="menu-toggle">
                 <div class="base-menu">
@@ -113,7 +126,9 @@
                 </div>
             </a>
         </li>
+        @endif
 
+        @if($permission7)
         <li class="menu">
             <a href="#role" data-active="false" class="menu-toggle">
                 <div class="base-menu">
@@ -124,7 +139,9 @@
                 </div>
             </a>
         </li>
+        @endif
 
+        @if($permission8)
         <li class="menu">
             <a href="#log" data-active="false" class="menu-toggle">
                 <div class="base-menu">
@@ -135,7 +152,9 @@
                 </div>
             </a>
         </li>
+        @endif
 
+        @if($permission9)
         <li class="menu menu-single">
             <a href="#settings" data-active="false" class="menu-toggle">
                 <div class="base-menu">
@@ -146,11 +165,13 @@
                 </div>
             </a>
         </li>
+        @endif
 <!--------------------------------------------------  Admin Sidebar END  ----------------------------------------------------->
 
 <!--------------------------------------------------  Employee Sidebar Start  ----------------------------------------------------->  
         @elseif(session('loggedUserType') == 2)
 
+        @if($permission24)
             <li class="menu active menu-single">
                 <a href="{{route('employee.index')}}" data-active="true" class="menu-toggle">
                     <div class="base-menu">
@@ -161,7 +182,9 @@
                     </div>
                 </a>
             </li>
+            @endif
 
+            @if($permission10)
             <li class="menu menu-single">
                 <a href="{{ route('employee.allMeetings') }}"  data-active="false" class="menu-toggle">
                     <div class="base-menu">
@@ -172,7 +195,9 @@
                     </div>
                 </a>
             </li>
+            @endif
 
+            @if($permission11)
             <li class="menu menu-single">
                 <a href="{{ route('employee.todayMeetings') }}"  data-active="false" class="menu-toggle">
                     <div class="base-menu">
@@ -183,7 +208,9 @@
                     </div>
                 </a>
             </li>
+            @endif
 
+            @if($permission12)
             <li class="menu menu-single">
                 <a href="{{ route('employee.approvedMeetings') }}" data-active="false" class="menu-toggle">
                     <div class="base-menu">
@@ -194,7 +221,9 @@
                     </div>
                 </a>
             </li>
+            @endif
 
+            @if($permission13)
             <li class="menu menu-single">
                 <a href="{{ route('employee.pendingMeetings') }}" data-active="false" class="menu-toggle">
                     <div class="base-menu">
@@ -205,18 +234,22 @@
                     </div>
                 </a>
             </li>
+            @endif
 
+            @if($permission15)
             <li class="menu menu-single">
                 <a href="{{ route('employee.rescheduledMeetings') }}" data-active="false" class="menu-toggle">
                     <div class="base-menu">
                         <div class="base-icons">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
                         </div>
-                        <span>Re-schedule Appointments</span>
+                        <span>Rescheduled Appointments</span>
                     </div>
                 </a>
             </li>
+            @endif
 
+            @if($permission14)
             <li class="menu menu-single">
                 <a href="{{ route('employee.rejectedMeetings') }}" data-active="false" class="menu-toggle">
                     <div class="base-menu">
@@ -227,7 +260,9 @@
                     </div>
                 </a>
             </li>
+            @endif
 
+            @if($permission16)
             <li class="menu menu-single">
                 <a href="{{ route('employee.profile') }}" data-active="false" class="menu-toggle">
                     <div class="base-menu">
@@ -238,11 +273,13 @@
                     </div>
                 </a>
             </li>
+            @endif
 <!--------------------------------------------------  Employee Sidebar End  ----------------------------------------------------->   
 
 <!--------------------------------------------------  Reception Sidebar Start  ----------------------------------------------------->  
         @elseif(session('loggedUserType') == 3)
 
+        @if($permission24)
             <li class="menu active menu-single">
                 <a href="{{route('reception.index')}}" data-active="true" class="menu-toggle">
                     <div class="base-menu">
@@ -253,7 +290,9 @@
                     </div>
                 </a>
             </li>
+            @endif
 
+            @if($permission18)
             <li class="menu menu-single">
                 <a href="{{ route('reception.createVisitorAccount') }}"  data-active="false" class="menu-toggle">
                     <div class="base-menu">
@@ -264,7 +303,9 @@
                     </div>
                 </a>
             </li>
+            @endif
 
+            @if($permission17)
             <li class="menu menu-single">
                 <a href="{{ route('reception.appointVisitor') }}"  data-active="false" class="menu-toggle">
                     <div class="base-menu">
@@ -275,7 +316,9 @@
                     </div>
                 </a>
             </li>
+            @endif
 
+            @if($permission19)
             <li class="menu menu-single">
                 <a href="{{ route('reception.visitorList') }}" data-active="false" class="menu-toggle">
                     <div class="base-menu">
@@ -286,7 +329,9 @@
                     </div>
                 </a>
             </li>
+            @endif
 
+            @if($permission10)
             <li class="menu menu-single">
                 <a href="{{ route('reception.meetingList') }}" data-active="false" class="menu-toggle">
                     <div class="base-menu">
@@ -297,7 +342,9 @@
                     </div>
                 </a>
             </li>
+            @endif
 
+            @if($permission20)
             <li class="menu menu-single">
                 <a href="{{ route('reception.checkedInList') }}" data-active="false" class="menu-toggle">
                     <div class="base-menu">
@@ -308,7 +355,9 @@
                     </div>
                 </a>
             </li>
+            @endif
 
+            @if($permission16)
             <li class="menu menu-single">
                 <a href="{{ route('reception.profile') }}" data-active="false" class="menu-toggle">
                     <div class="base-menu">
@@ -319,11 +368,13 @@
                     </div>
                 </a>
             </li>
+            @endif
 <!--------------------------------------------------  Reception Sidebar End  ----------------------------------------------------->  
 
 <!--------------------------------------------------  Visitor Sidebar Start  ----------------------------------------------------->        
         @elseif(session('loggedUserType') == 4)
-        
+
+        @if($permission24)
             <li class="menu active menu-single">
                 <a href="{{route('visitor.index')}}" data-active="true" class="menu-toggle">
                     <div class="base-menu">
@@ -334,6 +385,9 @@
                     </div>
                 </a>
             </li>
+            @endif
+
+            @if($permission17)
             <li class="menu menu-single">
                 <a href="{{ route('visitor.create') }}"  data-active="false" class="menu-toggle">
                     <div class="base-menu">
@@ -344,7 +398,9 @@
                     </div>
                 </a>
             </li>
+            @endif
 
+            @if($permission10)
             <li class="menu menu-single">
                 <a href="{{ route('visitor.all_meetings') }}"  data-active="false" class="menu-toggle">
                     <div class="base-menu">
@@ -355,7 +411,9 @@
                     </div>
                 </a>
             </li>
+            @endif
 
+            @if($permission12)
             <li class="menu menu-single">
                 <a href="{{ route('visitor.approvedMeetings') }}" data-active="false" class="menu-toggle">
                     <div class="base-menu">
@@ -366,7 +424,9 @@
                     </div>
                 </a>
             </li>
+            @endif
 
+            @if($permission13)
             <li class="menu menu-single">
                 <a href="{{ route('visitor.pendingaMeetings') }}" data-active="false" class="menu-toggle">
                     <div class="base-menu">
@@ -377,18 +437,22 @@
                     </div>
                 </a>
             </li>
+            @endif
 
+            @if($permission15)
             <li class="menu menu-single">
                 <a href="{{ route('visitor.rescheduledMeetings') }}" data-active="false" class="menu-toggle">
                     <div class="base-menu">
                         <div class="base-icons">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
                         </div>
-                        <span>Re-schedule Appointments</span>
+                        <span>Rescheduled Appointments</span>
                     </div>
                 </a>
             </li>
+            @endif
 
+            @if($permission14)
             <li class="menu menu-single">
                 <a href="{{ route('visitor.rejectedMeetings') }}" data-active="false" class="menu-toggle">
                     <div class="base-menu">
@@ -399,7 +463,9 @@
                     </div>
                 </a>
             </li>
+            @endif
 
+            @if($permission16)
             <li class="menu menu-single">
                 <a href="{{ route('visitor.profile') }}" data-active="false" class="menu-toggle">
                     <div class="base-menu">
@@ -410,9 +476,10 @@
                     </div>
                 </a>
             </li>
-<!--------------------------------------------------  Visitor Sidebar End  ----------------------------------------------------->  
+            @endif  
         @endif
-
+<!--------------------------------------------------  Visitor Sidebar End  ----------------------------------------------------->
+        
         <li class="menu menu-single">
             <a href="{{route('frontend.user_logout')}}" data-active="false" class="menu-toggle">
                 <div class="base-menu">
@@ -583,7 +650,10 @@
             <a href="{{route('admin.permission.index')}}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg> Permission List </a>
         </li>
         <li class="menu-block">
-            <a href="{{route('admin.designation.create')}}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg> Assign Permission </a>
+            <a href="{{route('admin.rolePermission.create')}}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg> Assign Permission </a>
+        </li> 
+        <li class="menu-block">
+            <a href="{{route('admin.rolePermission.index')}}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg> Roles Permission </a>
         </li> 
     </ul>
 </div>

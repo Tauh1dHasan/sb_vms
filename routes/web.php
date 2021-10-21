@@ -28,6 +28,7 @@ use App\Http\Controllers\Backend\Admin\VisitorManageController;
 use App\Http\Controllers\Backend\Admin\AppointmentController;
 use App\Http\Controllers\Backend\Admin\RoleController;
 use App\Http\Controllers\Backend\Admin\PermissionController;
+use App\Http\Controllers\Backend\Admin\UserPermissionController;
 
 /* Backend Ajax Controller */
 use App\Http\Controllers\Backend\AjaxController;
@@ -278,6 +279,13 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
 
         /* Admin Panel Permission Routes */
         Route::get('/permission/index', [PermissionController::class, 'index'])->name('permission.index');
+
+        /* Admin Panel Role Permissions Routes */
+        Route::get('/rolePermission/index', [UserPermissionController::class, 'index'])->name('rolePermission.index');
+        Route::get('/rolePermission/create', [UserPermissionController::class, 'create'])->name('rolePermission.create');
+        Route::post('/rolePermission/store', [UserPermissionController::class, 'store'])->name('rolePermission.store');
+        Route::get('/rolePermission/edit/{id}', [UserPermissionController::class, 'edit'])->name('rolePermission.edit');
+        Route::patch('/rolePermission/update/{id}', [UserPermissionController::class, 'update'])->name('rolePermission.update');
     }); 
 }); 
 

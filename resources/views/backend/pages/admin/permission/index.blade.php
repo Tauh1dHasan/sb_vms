@@ -37,7 +37,7 @@
                                     <tbody>
                                         @foreach($permissions as $permission)
                                             <tr>
-                                                <td class="text-center"> #{{ $loop->index + 1 }} </td>
+                                                <td class="text-center"> {{ $loop->index + 1 }} </td>
                                                 <td class="text-center"> {{$permission->permission_title}}</td>
 
                                                 <td class="text-center"> 

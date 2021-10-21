@@ -80,7 +80,7 @@ class RoleController extends Controller
     {
         $role = UserType::where('user_type_id', $id)->first();
 
-        return view('backend.pages.admin.role.edit', compact('role'));
+        return view('backend.pages.admin.rolePermission.edit', compact('role'));
     }
 
     /**
