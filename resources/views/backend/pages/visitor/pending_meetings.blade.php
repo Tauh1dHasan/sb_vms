@@ -114,9 +114,11 @@
     </div>
         @endsection
 
-        <script>
-            function meeting_func(id){
-                var meeting_id = id.getAttribute("data-id");
-                document.getElementById("this_meeting_id").value = meeting_id;
-            }
-        </script>
+        @push('customJS')
+            <script>
+                function meeting_func(id){
+                    var meeting_id = id.getAttribute("data-id");
+                    document.getElementById("this_meeting_id").value = meeting_id;
+                }
+            </script>
+        @endpush

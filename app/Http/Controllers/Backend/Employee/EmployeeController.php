@@ -438,11 +438,16 @@ class EmployeeController extends Controller
     {
         $user_id = session('loggedUser');
 
-        $employee = Employee::join('departments', 'employees.dept_id', '=', 'departments.dept_id')
-                    ->join('designations', 'employees.designation_id', '=', 'designations.designation_id')
-                    ->where('user_id', $user_id)
-                    ->where('employees.status', '=', '1')
-                    ->first();
+        // $employee = Employee::join('departments', 'employees.dept_id', '=', 'departments.dept_id')
+        //             ->join('designations', 'employees.designation_id', '=', 'designations.designation_id')
+        //             ->where('employees.user_id', $user_id)
+        //             ->where('employees.status', '=', '1')
+        //             ->select('employees.entry_datetime')->first();
+
+        $employee = Employee::with('depart','desig')
+                            ->where('user_id', $user_id)
+                            ->where('status', '1')
+                            ->first();
 
         return view('backend.pages.employee.profile', compact('employee'));
     }

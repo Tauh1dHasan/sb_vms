@@ -32,6 +32,10 @@ class Employee extends Model
     {
         return $this->hasOne(Department::class, 'dept_id', 'dept_id');
     }
+    public function depart()
+    {
+        return $this->belongsTo(Department::class, 'dept_id', 'dept_id');
+    }
 
     /**
      * a single employee has one designation
@@ -39,6 +43,10 @@ class Employee extends Model
     public function designation()
     {
         return $this->hasOne(Designation::class, 'designation_id', 'designation_id');
+    }
+    public function desig()
+    {
+        return $this->belongsTo(Designation::class, 'designation_id', 'designation_id');
     }
 
     /**
