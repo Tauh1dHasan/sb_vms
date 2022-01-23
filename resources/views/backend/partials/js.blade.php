@@ -167,5 +167,7 @@
         }
     </script>
 
+    @stack('customJS')
+
     @include('backend.ajax.ajax')
 

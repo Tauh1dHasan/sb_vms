@@ -56,7 +56,7 @@
                                                 <div class="form-group row mb-4">
                                                     <label for="employee" class="col-lg-4 col-form-label text-right"><span style="font-weight: 800; font-size: 1.25rem; color: #3b3f5c;">Department: </span></label>
                                                     <div class="col-lg-8" style="padding-left: 0">
-                                                        <label for="employee" class="col-form-label" style="font-size: 1.25rem; font-weight: 400">{{ $employee->department_name }} </label>
+                                                        <label for="employee" class="col-form-label" style="font-size: 1.25rem; font-weight: 400">{{ $employee->depart->department_name }} </label>
                                                     </div>
                                                 </div>
                                             </li>
@@ -65,7 +65,7 @@
                                                 <div class="form-group row mb-4">
                                                     <label for="employee" class="col-lg-4 col-form-label text-right"><span style="font-weight: 800; font-size: 1.25rem; color: #3b3f5c;">Designation: </span></label>
                                                     <div class="col-lg-8" style="padding-left: 0">
-                                                        <label for="employee" class="col-form-label" style="font-size: 1.25rem; font-weight: 400">{{ $employee->designation }} </label>
+                                                        <label for="employee" class="col-form-label" style="font-size: 1.25rem; font-weight: 400">{{ $employee->desig->designation }} </label>
                                                     </div>
                                                 </div>
                                             </li>
