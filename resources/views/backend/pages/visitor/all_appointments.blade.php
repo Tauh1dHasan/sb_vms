@@ -70,9 +70,9 @@
                                                 <td class="text-center"> <?php echo date("h:i a", strtotime($meeting->meeting_datetime)); ?> </td>
                                                 <td class="text-center"> 
                                                     @if($meeting->has_vehicle == 1)
-                                                        <?php echo 'Yes'?>
+                                                        Yes
                                                     @else
-                                                        <?php echo 'No'?>
+                                                        No
                                                     @endif
                                                 </td>
                                                 <td class="text-center">

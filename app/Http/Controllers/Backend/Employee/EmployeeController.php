@@ -49,8 +49,8 @@ class EmployeeController extends Controller
         // Today's appointment count
         $meetings = Meeting::join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
                             ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
-                            ->whereBetween('meeting_datetime', [$currentDate . " 00:00:00", $currentDate . " 23:59:59"])
                             ->where('meetings.employee_id', '=', $employee_id)
+                            ->whereBetween('meeting_datetime', [$currentDate . " 00:00:00", $currentDate . " 23:59:59"])
                             ->get();
         $today_appointment = $meetings->count(); 
 
@@ -146,9 +146,10 @@ class EmployeeController extends Controller
         // Select all meeting for this employee
         $meetings = Meeting::join('visitors', 'meetings.visitor_id', '=', 'visitors.visitor_id')
                     ->join('meeting_purposes', 'meetings.meeting_purpose_id', '=', 'meeting_purposes.purpose_id')
-                    ->where('meetings.meeting_datetime', '>', $request->from_date)
-                    ->where('meetings.meeting_datetime', '<', $request->to_date)
+                    // ->where('meetings.meeting_datetime', '>=', $request->from_date)
+                    // ->where('meetings.meeting_datetime', '<=', $request->to_date)
                     ->where('meetings.employee_id', '=', $employee_id)
+                    ->whereBetween('meetings.meeting_datetime', [$request->from_date, $request->to_date])
                     ->get();
 
         return view('backend.pages.employee.custom_meeting_search', compact('meetings'));

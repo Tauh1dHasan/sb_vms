@@ -16,13 +16,13 @@
                         <div class="widget-content widget-content-area">
                             <div class="table-responsive mb-4">
                                 @if (session('success'))
-                                    <div class="alert alert-light-success border-0 mb-4" role="alert"> 
-                                        <p class="text-success">{{ session('success') }}</p> 
+                                    <div class="alert alert-success border-0 mb-4" role="alert"> 
+                                        <p style="font-size: 1.2em; font-weitht: bold">{{ session('success') }}</p> 
                                     </div>
                                 @endif
                                 @if (session('fail'))
-                                    <div class="alert alert-light-success border-0 mb-4" role="alert"> 
-                                        <p class="text-success">{{ session('success') }}</p> 
+                                    <div class="alert alert-danger border-0 mb-4" role="alert"> 
+                                        <p style="font-size: 1.2em; font-weitht: bold">{{ session('fail') }}</p> 
                                     </div>
                                 @endif
                                 
@@ -84,7 +84,7 @@
 
                                                     <div class="text-center">
                                                         <!-- Button trigger modal -->
-                                                        <button type="button" class="btn btn-warning mb-2 mr-2 btn-sm" data-toggle="modal" data-target="#exampleModalCenter" data-id="{{$meeting->meeting_id}}" onclick="meeting_func(this)">
+                                                        <button type="button" class="btn btn-warning mb-2 mr-2 btn-sm" data-toggle="modal" data-target="#meetingReschedule" data-id="{{$meeting->meeting_id}}" onclick="meeting_resc(this)">
                                                         Re-schedule
                                                         </button>
                                                     </div>
@@ -95,7 +95,7 @@
                                 </table>
 
                                 {{-- Modal --}}
-                                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal fade" id="meetingReschedule" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -115,7 +115,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Discard</button>
-                                                <button type="submit" class="btn btn-primary">Save</button>
+                                                <button type="submit" class="btn btn-success">Save</button>
 
                                                 </form>
                                             </div>
@@ -134,7 +134,7 @@
     @endsection
     
     <script>
-        function meeting_func(id)
+        function meeting_resc(id)
         {
             var meeting_id = id.getAttribute("data-id");
             document.getElementById("this_meeting_id").value = meeting_id;
