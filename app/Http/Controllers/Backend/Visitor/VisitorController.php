@@ -61,7 +61,7 @@ class VisitorController extends Controller
         
         $visitor = Visitor::join('visitor_types', 'visitors.visitor_type', '=', 'visitor_types.visitor_type_id')
                             ->where('user_id', $user_id)
-                            ->where('visitors.visitor_status', '=', '1')
+                            ->where('visitors.visitor_status', '1')
                             ->first();
 
         return view('backend.pages.visitor.profile', compact('visitor'));
