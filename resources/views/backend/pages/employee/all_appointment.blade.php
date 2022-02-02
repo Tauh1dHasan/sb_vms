@@ -33,14 +33,15 @@
                     <div class="statbox widget box box-shadow">
                         <div class="widget-content widget-content-area">
                             <div class="table-responsive mb-4">
+                                
                                 @if (session('success'))
-                                    <div class="alert alert-light-success border-0 mb-4" role="alert"> 
-                                        <p class="text-success">{{ session('success') }}</p> 
+                                    <div class="alert alert-success" role="alert"> 
+                                        <p style="font-size: 1.3em; font-weight: bold;">{{ session('success') }}</p> 
                                     </div>
                                 @endif
                                 @if (session('fail'))
-                                    <div class="alert alert-light-success border-0 mb-4" role="alert"> 
-                                        <p class="text-success">{{ session('success') }}</p> 
+                                    <div class="alert alert-danger" role="alert"> 
+                                        <p  style="font-size: 1.3em; font-weight: bold;">{{ session('success') }}</p> 
                                     </div>
                                 @endif
                                 

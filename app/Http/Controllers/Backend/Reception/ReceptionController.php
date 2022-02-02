@@ -87,7 +87,14 @@ class ReceptionController extends Controller
                     ->where('employees.status', '=', '1')
                     ->first();
 
-        return view('backend.pages.reception.profile', compact('employee'));
+        $receptionLog = ReceptionLog::where('user_id', $user_id)
+                    ->where([
+                        ['log_type', '!=', 4],
+                        ['log_type', '!=', 5],
+                    ])
+                    ->orderBy('log_id', 'DESC')->first();
+
+        return view('backend.pages.reception.profile', compact('employee', 'receptionLog'));
     }
 
     // Display reception edit profile form
@@ -121,10 +128,10 @@ class ReceptionController extends Controller
         $checkEmail = User::where('email', $req->email)->first();
         $receptionLogCheck = ReceptionLog::where('employee_id', $req->employee_id)->where('log_type', '2')->first();
 
-        if ($checkMobile->user_id != $user_id)
+        if (($checkMobile != NULL) && ($checkMobile->user_id != $user_id))
         {
             return redirect()->back()->with('sticky_error', 'Mobile number must be unique....');
-        } elseif ($checkEmail->user_id != $user_id)
+        } elseif (($checkEmail != NULL) && ($checkEmail->user_id != $user_id))
         {
             return redirect()->back()->with('sticky_error', 'Email address must be unique....');
         } elseif ($receptionLogCheck)

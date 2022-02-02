@@ -439,18 +439,19 @@ class EmployeeController extends Controller
     {
         $user_id = session('loggedUser');
 
-        // $employee = Employee::join('departments', 'employees.dept_id', '=', 'departments.dept_id')
-        //             ->join('designations', 'employees.designation_id', '=', 'designations.designation_id')
-        //             ->where('employees.user_id', $user_id)
-        //             ->where('employees.status', '=', '1')
-        //             ->select('employees.entry_datetime')->first();
-
         $employee = Employee::with('depart','desig')
                             ->where('user_id', $user_id)
                             ->where('status', '1')
                             ->first();
 
-        return view('backend.pages.employee.profile', compact('employee'));
+        $hostLog = HostLog::where('user_id', $user_id)
+                            ->where([
+                                ['log_type', '!=', 4],
+                                ['log_type', '!=', 5],
+                            ])
+                            ->orderBy('log_id', 'DESC')->first();
+
+        return view('backend.pages.employee.profile', compact('employee', 'hostLog'));
     }
 
     /**
@@ -481,17 +482,17 @@ class EmployeeController extends Controller
     {   
         // get employee old data
         $user_id = session('loggedUser');
-        $employee_old_data_query = Employee::where('user_id', '=', $user_id)->first();
-
+        $employee_old_data_query = Employee::where('user_id', $user_id)->first();
+        
         // check for unique mobile, email address and previous active request
         $checkMobile = User::where('mobile_no', $req->mobile_no)->first();
         $checkEmail = User::where('email', $req->email)->first();
         $hostLogCheck = HostLog::where('employee_id', $req->employee_id)->where('log_type', '2')->first();
-
-        if ($checkMobile->user_id != $user_id)
+        
+        if (($checkMobile != NULL) && ($checkMobile->user_id != $user_id))
         {
             return redirect()->back()->with('sticky_error', 'Mobile number must be unique....');
-        } elseif ($checkEmail->user_id != $user_id)
+        } elseif (($checkEmail != NULL) && ($checkEmail->user_id != $user_id))
         {
             return redirect()->back()->with('sticky_error', 'Email address must be unique....');
         } elseif ($hostLogCheck)

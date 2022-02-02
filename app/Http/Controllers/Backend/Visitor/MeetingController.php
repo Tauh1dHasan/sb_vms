@@ -89,7 +89,7 @@ class MeetingController extends Controller
 
         if ($meetingDone && $meetingLogDone) {
             mail::to($employee_mail->email)->send(new AppointmentRequest($employee_mail));
-            return redirect()->route('visitor.pendingaMeetings')->with('success', 'Your meeting placed successfully');
+            return redirect()->route('visitor.pendingaMeetings')->with('success', 'Your appointment placed successfully');
         } else {
             return redirect()->back()->with('fail', 'Sorry...! Something went wrong, Please try again');
         }

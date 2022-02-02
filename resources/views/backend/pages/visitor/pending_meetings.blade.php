@@ -14,6 +14,18 @@
             <div class="col-lg-12">
                 <div class="statbox widget box box-shadow">
                     <div class="widget-content widget-content-area">
+
+                        @if (session('success'))
+                            <div class="alert alert-success" role="alert"> 
+                                <p style="font-size: 1.3em; font-weight: bold;">{{ session('success') }}</p> 
+                            </div>
+                        @endif
+                        @if (session('fail'))
+                            <div class="alert alert-danger" role="alert"> 
+                                <p  style="font-size: 1.3em; font-weight: bold;">{{ session('success') }}</p> 
+                            </div>
+                        @endif
+
                         <div class="table-responsive mb-4">
                             <table id="style-3" class="table style-3  table-hover">
                                 <thead>
