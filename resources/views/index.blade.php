@@ -7,7 +7,7 @@
 				<section class="bg-color-light-scale-1" style="padding: 20px 0;">
 					<div class="container py-4">
 						<div class="row justify-content-center text-center" style="border-bottom: 5px solid #006F99;">
-							<h1 class="font-weight-bold" style="padding-bottom: 20px; font-size: 40px;margin-bottom: 0;">Welcome to VMS</h1>
+							<h1 class="font-weight-bold" style="padding-bottom: 20px; font-size: 40px;margin-bottom: 0;">Welcome to SB</h1>
 						</div>
 
 						<div class="row justify-content-center" style="padding-top: 30px;">

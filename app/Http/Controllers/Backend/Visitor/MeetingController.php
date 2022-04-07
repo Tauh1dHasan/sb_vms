@@ -30,8 +30,7 @@ class MeetingController extends Controller
 
         $purpose = MeetingPurpose::where('purpose_status', '=', 1)->get();
 
-        $visitor = Visitor::where('visitors.user_id', '=', $user_id)
-                            ->first();
+        $visitor = Visitor::where('visitors.user_id', '=', $user_id)->first();
 
         return view('backend.pages.visitor.make_appointment', compact('purpose', 'visitor'));
     }

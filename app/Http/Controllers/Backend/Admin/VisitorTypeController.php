@@ -51,6 +51,7 @@ class VisitorTypeController extends Controller
         $visitor_type->slug = strtolower($request->visitor_type);
         $visitor_type->entry_user_id = $user_id;
         $visitor_type->entry_datetime = now();
+        $visitor_type->visitor_type_status = 1;
 
         $visitor_type->save();
 
